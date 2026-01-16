@@ -62,7 +62,7 @@ const App = () => {
       <div className="md:hidden fixed bottom-0 left-0 right-0 glass border-t border-white/20 p-3 sm:p-4 z-40 flex justify-between items-center safe-area-bottom shadow-2xl">
         <div className="flex flex-col">
           <span className="text-[10px] uppercase font-bold text-secondary-600 tracking-wider">Une question ?</span>
-          <a href="tel:0100000000" className="tap-target font-black text-secondary-900 text-base sm:text-lg hover:text-primary-500 transition-colors">01 XX XX XX XX</a>
+          <a href="tel:0986713444" className="tap-target font-black text-secondary-900 text-base sm:text-lg hover:text-primary-500 transition-colors">09 86 71 34 44</a>
         </div>
         <button
           onClick={() => document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })}
