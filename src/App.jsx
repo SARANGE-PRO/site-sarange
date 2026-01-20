@@ -15,6 +15,7 @@ import EntranceDoorSection from './components/sections/EntranceDoorSection';
 import GarageAndVerandaSection from './components/sections/GarageAndVerandaSection';
 import ExpertiseSection from './components/sections/ExpertiseSection';
 import LocalSection from './components/sections/LocalSection';
+import ReviewsSection from './components/sections/ReviewsSection';
 
 // Features
 import ContactForm from './features/contact/ContactForm';
@@ -47,10 +48,13 @@ const App = () => {
         <AidesBanner onOpenAides={() => setShowAidesModal(true)} />
         <PVCOffer onOpenAides={() => setShowAidesModal(true)} />
         <VoletSection />
-        <B2BSection />
-        <AluSection />
         <EntranceDoorSection />
+        <AluSection />
         <GarageAndVerandaSection />
+        <B2BSection />
+
+        {/* Section Avis Google */}
+        <ReviewsSection />
 
         {/* Formulaire & Configurateur */}
         <ContactForm />

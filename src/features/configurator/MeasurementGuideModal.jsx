@@ -6,58 +6,86 @@ const MeasurementGuideModal = ({ isOpen, onClose, specificContent = null }) => {
     if (!isOpen) return null;
     return (
         <AnimatePresence>
-            <div className="fixed inset-0 z-[70] flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-sm" onClick={onClose}>
-                <motion.div 
-                    initial={{ scale: 0.9, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    exit={{ scale: 0.9, opacity: 0 }}
-                    className="bg-white rounded-2xl p-6 max-w-lg w-full relative"
+            <div className="fixed inset-0 z-[70] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm" onClick={onClose}>
+                <motion.div
+                    initial={{ scale: 0.95, opacity: 0, y: 20 }}
+                    animate={{ scale: 1, opacity: 1, y: 0 }}
+                    exit={{ scale: 0.95, opacity: 0, y: 20 }}
+                    className="bg-white rounded-2xl p-6 md:p-8 max-w-md w-full relative shadow-2xl"
                     onClick={e => e.stopPropagation()}
                 >
-                    <button onClick={onClose} className="absolute top-4 right-4 p-2 hover:bg-slate-100 rounded-full"><X size={20}/></button>
-                    
+                    <button onClick={onClose} className="absolute top-4 right-4 p-2 bg-slate-100 hover:bg-slate-200 rounded-full transition-colors text-slate-600">
+                        <X size={20} />
+                    </button>
+
                     {specificContent === 'cintrage' ? (
                         <>
-                            <h3 className="text-xl font-bold text-slate-900 mb-4 flex items-center"><ArrowUpFromLine className="mr-2 text-orange-500"/> Mesurer une fenêtre cintrée</h3>
-                            <div className="space-y-4">
-                                <div className="bg-orange-50 p-4 rounded-xl border border-orange-100">
-                                    <p className="text-sm text-orange-800">Pour fabriquer votre cintre, nous avons besoin de 3 cotes essentielles.</p>
+                            <div className="flex items-center mb-6">
+                                <div className="p-3 bg-orange-100 rounded-full mr-4 text-orange-600">
+                                    <ArrowUpFromLine size={24} />
                                 </div>
-                                <ul className="list-disc list-inside text-sm text-slate-600 space-y-1">
-                                    <li><strong>Largeur (Corde) :</strong> La largeur totale à la base du cintre.</li>
-                                    <li><strong>Hauteur Droit :</strong> La hauteur de la partie verticale avant l'arrondi.</li>
-                                    <li><strong>Hauteur de Flèche :</strong> La distance entre la base et le point le plus haut.</li>
+                                <h3 className="text-xl font-bold text-slate-900 leading-tight">Mesurer une fenêtre cintrée</h3>
+                            </div>
+
+                            <div className="space-y-5">
+                                <div className="bg-orange-50 p-4 rounded-xl border border-orange-100 text-sm text-orange-900 font-medium">
+                                    Pour fabriquer votre cintre, nous avons besoin de 3 cotes essentielles.
+                                </div>
+                                <ul className="space-y-3">
+                                    <li className="flex items-start text-sm text-slate-600">
+                                        <span className="w-1.5 h-1.5 bg-orange-500 rounded-full mt-1.5 mr-3 shrink-0"></span>
+                                        <span><strong className="text-slate-900">Largeur (Corde) :</strong> Largeur totale à la base.</span>
+                                    </li>
+                                    <li className="flex items-start text-sm text-slate-600">
+                                        <span className="w-1.5 h-1.5 bg-orange-500 rounded-full mt-1.5 mr-3 shrink-0"></span>
+                                        <span><strong className="text-slate-900">Hauteur Droit :</strong> Partie verticale avant l'arrondi.</span>
+                                    </li>
+                                    <li className="flex items-start text-sm text-slate-600">
+                                        <span className="w-1.5 h-1.5 bg-orange-500 rounded-full mt-1.5 mr-3 shrink-0"></span>
+                                        <span><strong className="text-slate-900">Flèche :</strong> Distance base - point le plus haut.</span>
+                                    </li>
                                 </ul>
                             </div>
                         </>
                     ) : (
                         <>
-                            <h3 className="text-xl font-bold text-slate-900 mb-4 flex items-center"><Ruler className="mr-2 text-orange-500"/> Comment prendre vos mesures ?</h3>
-                            <div className="space-y-4">
+                            <div className="flex items-center mb-6">
+                                <div className="p-3 bg-blue-100 rounded-full mr-4 text-blue-600">
+                                    <Ruler size={24} />
+                                </div>
+                                <h3 className="text-xl font-bold text-slate-900 leading-tight">Prise de cotes standard</h3>
+                            </div>
+
+                            <div className="space-y-5">
                                 <div className="bg-blue-50 p-4 rounded-xl border border-blue-100">
-                                    <h4 className="font-bold text-blue-800 mb-2">La règle d'or : Mur à Mur</h4>
-                                    <p className="text-sm text-blue-700">Mesurez la largeur et la hauteur du tableau (le trou dans le mur), à l'intérieur.</p>
+                                    <h4 className="font-bold text-blue-900 text-sm mb-1 uppercase tracking-wide">La règle d'or</h4>
+                                    <p className="text-sm text-blue-700">Mesurez toujours de <strong>Mur à Mur</strong> (intérieur tableau).</p>
                                 </div>
                                 <div className="grid grid-cols-2 gap-4">
-                                    <div className="text-center p-4 border rounded-xl">
-                                        <p className="font-bold text-sm">Largeur (L)</p>
-                                        <p className="text-xs text-slate-500">Mur à mur horizontal</p>
+                                    <div className="text-center p-4 border-2 border-slate-100 rounded-xl bg-slate-50">
+                                        <span className="block font-black text-2xl text-slate-900 mb-1">L</span>
+                                        <p className="text-xs font-bold text-slate-500 uppercase">Largeur</p>
+                                        <p className="text-[10px] text-slate-400">Mur à mur horizontal</p>
                                     </div>
-                                    <div className="text-center p-4 border rounded-xl">
-                                        <p className="font-bold text-sm">Hauteur (H)</p>
-                                        <p className="text-xs text-slate-500">Mur à mur vertical</p>
+                                    <div className="text-center p-4 border-2 border-slate-100 rounded-xl bg-slate-50">
+                                        <span className="block font-black text-2xl text-slate-900 mb-1">H</span>
+                                        <p className="text-xs font-bold text-slate-500 uppercase">Hauteur</p>
+                                        <p className="text-[10px] text-slate-400">Mur à mur vertical</p>
                                     </div>
                                 </div>
                             </div>
                         </>
                     )}
 
-                    <div className="flex items-center text-green-700 text-sm bg-green-50 p-3 rounded-lg mt-4">
-                        <CheckCircle size={16} className="mr-2 shrink-0"/>
-                        <span>Ce sont des mesures pour devis. Nos techniciens vérifieront tout sur place.</span>
+                    <div className="flex items-start mt-6 p-3 rounded-lg bg-green-50 border border-green-100">
+                        <CheckCircle size={16} className="mr-3 mt-0.5 text-green-600 shrink-0" />
+                        <span className="text-xs font-medium text-green-800 leading-relaxed">
+                            Pas d'inquiétude : ce sont des cotes estimatives pour le devis. Nos métreurs valideront tout sur place.
+                        </span>
                     </div>
-                    <button onClick={onClose} className="w-full mt-6 bg-orange-500 text-white font-bold py-3 rounded-xl hover:bg-orange-600 transition-colors">
-                        J'ai compris
+
+                    <button onClick={onClose} className="w-full mt-6 bg-slate-900 text-white font-bold py-4 rounded-xl hover:bg-slate-800 transition-colors shadow-lg active:scale-95">
+                        C'est compris
                     </button>
                 </motion.div>
             </div>

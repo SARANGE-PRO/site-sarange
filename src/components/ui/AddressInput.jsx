@@ -99,7 +99,7 @@ const AddressInput = ({ value, onChange, onSelect, placeholder = "Rechercher une
                     onChange={handleInputChange}
                     placeholder={placeholder}
                     required={required}
-                    className="tap-target w-full p-3 sm:p-4 pl-10 sm:pl-12 bg-white border border-slate-200 rounded-xl focus:ring-4 focus:ring-orange-500/10 focus:border-orange-500 outline-none text-sm font-light placeholder:text-slate-400 transition-all"
+                    className="tap-target w-full p-3 sm:p-4 pl-10 sm:pl-12 bg-white border border-slate-200 rounded-xl focus:ring-4 focus:ring-orange-500/10 focus:border-orange-500 outline-none text-base font-light placeholder:text-slate-400 transition-all"
                     autoComplete="off"
                 />
                 <div className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 text-slate-400">

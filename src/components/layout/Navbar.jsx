@@ -40,10 +40,10 @@ const Navbar = ({ onOpenAides }) => {
 
         {/* Desktop Menu */}
         <div className="hidden lg:flex items-center space-x-8">
-          <button onClick={() => scrollTo('b2b')} className={`text-sm font-bold flex items-center bg-secondary-800 text-white px-3 py-1 rounded hover:bg-secondary-700 transition-colors`}><Briefcase size={14} className="mr-2" /> ESPACE PRO</button>
-          {['Fenêtres PVC', 'Volets', 'Aluminium', 'Portes d\'entrée', 'Garage / Extension'].map((item) => (
-            <button key={item} onClick={() => scrollTo(item === 'Fenêtres PVC' ? 'offer-pvc' : item === 'Volets' ? 'volets' : item === 'Aluminium' ? 'alu' : item === 'Portes d\'entrée' ? 'portes' : 'garage')} className={`text-sm font-semibold hover:text-primary-500 transition-colors ${isScrolled ? 'text-secondary-700' : 'text-white'}`}>{item}</button>
+          {['Fenêtres PVC', 'Volets', 'Portes d\'entrée', 'Aluminium', 'Garage / Extension'].map((item) => (
+            <button key={item} onClick={() => scrollTo(item === 'Fenêtres PVC' ? 'offer-pvc' : item === 'Volets' ? 'volets' : item === 'Portes d\'entrée' ? 'portes' : item === 'Aluminium' ? 'alu' : 'garage')} className={`text-sm font-semibold hover:text-primary-500 transition-colors ${isScrolled ? 'text-secondary-700' : 'text-white'}`}>{item}</button>
           ))}
+          <button onClick={() => scrollTo('b2b')} className={`text-sm font-bold flex items-center bg-secondary-800 text-white px-3 py-1 rounded hover:bg-secondary-700 transition-colors`}><Briefcase size={14} className="mr-2" /> B2B</button>
           <button onClick={() => scrollTo('contact')} className="px-6 py-2.5 bg-primary-500 hover:bg-primary-600 text-white font-bold rounded-full transition-all shadow-lg transform hover:-translate-y-0.5">DEVIS GRATUIT</button>
         </div>
 
@@ -56,10 +56,10 @@ const Navbar = ({ onOpenAides }) => {
         {isOpen && (
           <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="lg:hidden glass-dark border-t border-white/10 shadow-2xl">
             <div className="flex flex-col p-5 sm:p-6 space-y-1">
-              <button onClick={() => scrollTo('b2b')} className="tap-target text-base sm:text-lg font-bold text-white py-3 sm:py-3.5 border-b border-white/10 flex items-center hover:text-primary-400 transition-colors"><Briefcase className="mr-2 text-primary-500" size={20} /> ESPACE PRO / B2B</button>
-              {['Fenêtres PVC', 'Volets', 'Aluminium', 'Portes d\'entrée', 'Garage / Extension'].map((item) => (
-                <button key={item} onClick={() => scrollTo(item === 'Fenêtres PVC' ? 'offer-pvc' : item === 'Volets' ? 'volets' : item === 'Aluminium' ? 'alu' : item === 'Portes d\'entrée' ? 'portes' : 'garage')} className="tap-target text-base sm:text-lg font-medium text-secondary-200 py-3 sm:py-3.5 border-b border-white/5 hover:text-white transition-colors">{item}</button>
+              {['Fenêtres PVC', 'Volets', 'Portes d\'entrée', 'Aluminium', 'Garage / Extension'].map((item) => (
+                <button key={item} onClick={() => scrollTo(item === 'Fenêtres PVC' ? 'offer-pvc' : item === 'Volets' ? 'volets' : item === 'Portes d\'entrée' ? 'portes' : item === 'Aluminium' ? 'alu' : 'garage')} className="tap-target text-base sm:text-lg font-medium text-secondary-200 py-3 sm:py-3.5 border-b border-white/5 hover:text-white transition-colors">{item}</button>
               ))}
+              <button onClick={() => scrollTo('b2b')} className="tap-target text-base sm:text-lg font-bold text-white py-3 sm:py-3.5 border-b border-white/10 flex items-center hover:text-primary-400 transition-colors"><Briefcase className="mr-2 text-primary-500" size={20} /> ESPACE PRO / B2B</button>
               <button onClick={onOpenAides} className="tap-target text-base sm:text-lg font-medium text-success-400 py-3 sm:py-3.5 border-b border-success-500/20 flex items-center hover:text-success-300 transition-colors"><Percent className="mr-2" size={18} /> Voir les Aides & Primes</button>
               <button onClick={() => scrollTo('contact')} className="tap-target w-full py-3.5 sm:py-4 bg-primary-500 text-white font-bold rounded-xl mt-4 hover:bg-primary-600 transition-colors shadow-lg">DEMANDER MON DEVIS</button>
             </div>

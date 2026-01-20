@@ -1,17 +1,32 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, Trash2, Briefcase } from 'lucide-react';
-// Assurez-vous que les imports sont corrects selon votre structure
+import {
+  Plus,
+  Trash2,
+  Briefcase,
+  ArrowRight,
+  Columns,     // Icône Fenêtre (2 vantaux)
+  DoorOpen,    // Porte
+  Maximize,    // Baie
+  Blinds,      // Volet
+  Warehouse,   // Garage
+  Sun          // Véranda
+} from 'lucide-react';
 import { PRODUCT_TYPES } from '../../data/products';
 import ProductConfigurator from '../configurator/ProductConfigurator';
 import AddressInput from '../../components/ui/AddressInput';
 import CTATrustBadges from '../../components/ui/CTATrustBadges';
-import { db } from '../../lib/firebase';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-import emailjs from '@emailjs/browser';
+
+// ============================================================
+// 🎯 CONFIGURATION GOOGLE APPS SCRIPT
+// ============================================================
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxjpgDnnP9alIIDvTDulEeA5j1nc70Hv-p7AtlK52E4ANd4Sv9xn-sI5HpKP8KYklkh/exec';
+
+// ============================================================
+// 🎨 COMPOSANT PRINCIPAL
+// ============================================================
 
 const ContactForm = () => {
-  // CORRECTION 1 : Ajout de 'address' dans l'état initial pour éviter les bugs d'input non contrôlé
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -28,8 +43,20 @@ const ContactForm = () => {
   const [isConfiguratorOpen, setIsConfiguratorOpen] = useState(false);
   const [currentProductType, setCurrentProductType] = useState(null);
 
+  // 📍 MAPPING DES ICÔNES
+  const PRODUCT_ICONS = {
+    fenetre: Columns,
+    porte: DoorOpen,
+    baie: Maximize,
+    volet: Blinds,
+    garage: Warehouse,
+    veranda: Sun
+  };
+
   const openConfigurator = (productType) => {
-    setCurrentProductType(productType);
+    // On injecte la bonne icône dans l'objet produit pour la modale
+    const iconToUse = PRODUCT_ICONS[productType.id] || productType.icon;
+    setCurrentProductType({ ...productType, icon: iconToUse });
     setIsConfiguratorOpen(true);
   };
 
@@ -41,13 +68,11 @@ const ContactForm = () => {
     setProjectItems(projectItems.filter(item => item.id !== id));
   };
 
-  // Gestionnaires de changement d'état sécurisés (CORRECTION 2)
   const handleChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
   const handleAddressSelect = (data) => {
-    // On met à jour l'adresse ET le code postal/ville en même temps
     setFormData(prev => ({
       ...prev,
       address: data.fullAddress,
@@ -55,112 +80,77 @@ const ContactForm = () => {
     }));
   };
 
+  // ============================================================
+  // 🚀 FORMATAGE EMAIL (Logic complète conservée)
+  // ============================================================
+
+  const formatProjectForEmail = () => {
+    if (projectItems.length === 0) {
+      return '<div style="color: #64748b; font-style: italic; padding: 20px; text-align: center;">Aucun produit configuré - Demande d\'information générale</div>';
+    }
+
+    return projectItems.map((item, index) => {
+      let detailsHTML = '';
+
+      if (item.type) detailsHTML += `<div style="margin-bottom: 4px;"><span style="color: #f97316;">✦</span> <span style="font-weight: 600;">Type:</span> ${item.type}</div>`;
+      if (item.subtype) detailsHTML += `<div style="margin-bottom: 4px;"><span style="color: #f97316;">✦</span> <span style="font-weight: 600;">Projet:</span> ${item.subtype}</div>`;
+      if (item.material) detailsHTML += `<div style="margin-bottom: 4px;"><span style="color: #f97316;">✦</span> <span style="font-weight: 600;">Matériau:</span> ${item.material}</div>`;
+
+      if (item.width && item.height) {
+        let dimStr = `${item.width}x${item.height}mm`;
+        if (item.fleche) dimStr += ` (Flèche: ${item.fleche}mm)`;
+        detailsHTML += `<div style="margin-bottom: 4px;"><span style="color: #f97316;">✦</span> <span style="font-weight: 600;">Dimensions:</span> ${dimStr}</div>`;
+      }
+
+      if (item.color) {
+        let colorStr = item.color;
+        if (item.customColor) colorStr += ` - ${item.customColor}`;
+        detailsHTML += `<div style="margin-bottom: 4px;"><span style="color: #f97316;">✦</span> <span style="font-weight: 600;">Coloris:</span> ${colorStr}</div>`;
+      }
+
+      if (item.stylePanel) detailsHTML += `<div style="margin-bottom: 4px;"><span style="color: #f97316;">✦</span> <span style="font-weight: 600;">Style:</span> ${item.stylePanel}</div>`;
+      if (item.options && item.options.length > 0) detailsHTML += `<div style="margin-bottom: 4px;"><span style="color: #f97316;">✦</span> <span style="font-weight: 600;">Options:</span> ${item.options.join(', ')}</div>`;
+      if (item.otherTypeDetails) detailsHTML += `<div style="margin-bottom: 4px;"><span style="color: #f97316;">✦</span> <span style="font-weight: 600;">Précisions:</span> ${item.otherTypeDetails}</div>`;
+      if (item.pose) detailsHTML += `<div style="margin-bottom: 4px;"><span style="color: #f97316;">✦</span> <span style="font-weight: 600;">Prestation:</span> ${item.pose}</div>`;
+
+      return `
+        <div style="background-color: #ffffff; padding: 16px 20px; border-radius: 12px; border: 1px solid #e2e8f0; margin-bottom: 12px;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="background-color: #0f172a; color: white; font-size: 11px; font-weight: 700; padding: 4px 8px; border-radius: 4px;">${item.quantity}x</span>
+              <span style="font-weight: 700; color: #0f172a; font-size: 15px;">${item.productLabel}</span>
+            </div>
+          </div>
+          <div style="font-size: 13px; color: #64748b; padding-left: 8px; border-left: 2px solid #fed7aa;">
+            ${detailsHTML}
+          </div>
+        </div>
+      `;
+    }).join('');
+  };
+
+  // ============================================================
+  // 📧 ENVOI FORMULAIRE (Système d'envoi conservé)
+  // ============================================================
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus('loading');
 
     try {
-      // Fonction pour formater TOUTES les données d'un produit
-      const formatProductDetails = (item) => {
-        let details = [];
+      const projectHTML = formatProjectForEmail();
+      const formDataToSend = new FormData(e.target);
 
-        // Ligne principale
-        details.push(`▶ ${item.quantity}x ${item.productLabel}`);
+      // Ajout des données spécifiques au projet pour le script Google
+      formDataToSend.append('project_html', projectHTML);
+      formDataToSend.append('project_count', projectItems.length.toString());
 
-        // Type d'ouverture / Modèle
-        if (item.type) {
-          details.push(`  Type: ${item.type}`);
-        }
+      const projectSummary = projectItems.length > 0
+        ? projectItems.map(item => `${item.quantity}x ${item.productLabel}`).join(', ')
+        : 'Aucun produit';
+      formDataToSend.append('project_summary', projectSummary);
 
-        // Sous-type (pour projets spéciaux: Velux, Bois, Cintrée...)
-        if (item.subtype) {
-          details.push(`  Projet: ${item.subtype}`);
-        }
-
-        // Matériau
-        if (item.material) {
-          details.push(`  Matériau: ${item.material}`);
-        }
-
-        // Dimensions
-        if (item.width && item.height) {
-          let dimStr = `  Dimensions: ${item.width}x${item.height}mm`;
-          // Flèche pour fenêtres cintrées
-          if (item.fleche) {
-            dimStr += ` (Flèche: ${item.fleche}mm)`;
-          }
-          details.push(dimStr);
-        }
-
-        // Couleur
-        if (item.color) {
-          let colorStr = `  Coloris: ${item.color}`;
-          if (item.customColor) {
-            colorStr += ` - ${item.customColor}`;
-          }
-          details.push(colorStr);
-        }
-
-        // Options (tableau)
-        if (item.options && item.options.length > 0) {
-          details.push(`  Options: ${item.options.join(', ')}`);
-        }
-
-        // Pose
-        if (item.pose) {
-          details.push(`  Prestation: ${item.pose}`);
-        }
-
-        // Style panneau (pour portes d'entrée)
-        if (item.stylePanel) {
-          details.push(`  Style: ${item.stylePanel}`);
-        }
-
-        // Détails supplémentaires (baie "Autre")
-        if (item.otherTypeDetails) {
-          details.push(`  Précisions: ${item.otherTypeDetails}`);
-        }
-
-        return details.join('\n');
-      };
-
-      let projectSummary = projectItems.length > 0
-        ? projectItems.map(item => formatProductDetails(item)).join('\n\n')
-        : 'Aucun produit configuré';
-
-      const devisData = {
-        client: {
-          nom: formData.name,
-          email: formData.email,
-          telephone: formData.phone,
-          adresse: formData.address, // Utilisation de la donnée sécurisée
-          codePostal: formData.zip
-        },
-        projet: {
-          type: projectItems.length > 0 ? projectItems.map(i => i.productLabel).join(', ') : 'Non spécifié',
-          message: formData.message,
-          details: projectSummary,
-          produits: projectItems
-        },
-        metadata: {
-          date: serverTimestamp(),
-          statut: 'Nouveau',
-          source: 'Site Web'
-        }
-      };
-
-      await addDoc(collection(db, 'devis_leads'), devisData);
-
-      const emailParams = {
-        to_name: formData.name,
-        to_email: formData.email,
-        phone_number: formData.phone,
-        project_summary: projectSummary,
-        message: formData.message || 'Aucun message complémentaire'
-      };
-
-      await emailjs.send('service_i0jj8of', 'template_vucj6ts', emailParams, 'MPR6F6LEh4Bausmby');
-      await emailjs.send('service_i0jj8of', 'template_rqgztkt', emailParams, 'MPR6F6LEh4Bausmby');
+      await fetch(GOOGLE_SCRIPT_URL, { method: 'POST', body: formDataToSend, mode: 'no-cors' });
 
       setStatus('success');
       setTimeout(() => {
@@ -168,124 +158,155 @@ const ContactForm = () => {
         setProjectItems([]);
         setStatus('idle');
       }, 5000);
-
     } catch (error) {
-      console.error('Erreur lors de l\'envoi:', error);
+      console.error('Erreur:', error);
       setStatus('error');
       setTimeout(() => setStatus('idle'), 5000);
     }
   };
 
   return (
-    <section id="contact" className="py-12 sm:py-16 md:py-24 bg-gradient-to-b from-slate-50 to-white">
+    <section id="contact" className="py-12 sm:py-24 bg-slate-50">
       <div className="container mx-auto px-4 sm:px-6">
-        <div className="max-w-5xl mx-auto bg-white rounded-3xl shadow-2xl border border-slate-100">
-          <div className="bg-slate-900 p-6 sm:p-8 text-center rounded-t-3xl">
-            <h2 className="h3-mobile font-bold text-white mb-2">Configurez votre projet</h2>
-            <p className="text-slate-400 text-sm sm:text-base">Obtenez un chiffrage précis en indiquant vos dimensions approximatives.</p>
+        <div className="max-w-4xl mx-auto bg-white rounded-3xl shadow-2xl shadow-slate-200 overflow-hidden">
+
+          {/* Header Form */}
+          <div className="bg-slate-900 p-8 sm:p-12 text-center">
+            <h2 className="text-2xl sm:text-3xl font-black text-white mb-2">Demander un Devis Gratuit</h2>
+            <p className="text-slate-400 text-sm sm:text-base">Configurez vos menuiseries et recevez votre chiffrage sous 24h.</p>
           </div>
 
-          <form onSubmit={handleSubmit} className="p-6 sm:p-10 md:p-14 space-y-8 sm:space-y-10">
+          <form onSubmit={handleSubmit} className="p-6 sm:p-12 space-y-10">
+            <input type="text" name="robot_check" style={{ display: 'none' }} tabIndex="-1" autoComplete="off" />
 
-            {/* Step 1: Coordonnées */}
-            <div>
-              <h3 className="text-base sm:text-lg font-bold text-slate-800 mb-4 flex items-center">
-                <span className="bg-orange-100 text-orange-600 w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center mr-2 sm:mr-3 text-sm font-bold flex-shrink-0">1</span>
-                Vos Coordonnées
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-                <input
-                  required
-                  type="text"
-                  placeholder="Nom / Société"
-                  className="tap-target w-full p-3 sm:p-4 bg-white border border-slate-200 rounded-xl focus:ring-4 focus:ring-orange-500/10 focus:border-orange-500 outline-none text-sm font-light placeholder:text-slate-400 transition-all"
-                  value={formData.name}
-                  onChange={e => handleChange('name', e.target.value)}
-                />
-                <input
-                  required
-                  type="tel"
-                  placeholder="Téléphone (Obligatoire)"
-                  className="tap-target w-full p-3 sm:p-4 bg-white border border-slate-200 rounded-xl focus:ring-4 focus:ring-orange-500/10 focus:border-orange-500 outline-none text-sm font-light placeholder:text-slate-400 transition-all"
-                  value={formData.phone}
-                  onChange={e => handleChange('phone', e.target.value)}
-                />
-                <input
-                  type="email"
-                  placeholder="Email"
-                  className="tap-target w-full p-3 sm:p-4 bg-white border border-slate-200 rounded-xl focus:ring-4 focus:ring-orange-500/10 focus:border-orange-500 outline-none text-sm font-light placeholder:text-slate-400 transition-all"
-                  value={formData.email}
-                  onChange={e => handleChange('email', e.target.value)}
-                />
+            {/* Étape 1 : Coordonnées */}
+            <div className="space-y-6">
+              <div className="flex items-center space-x-3 mb-2">
+                <div className="w-8 h-8 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center font-bold text-sm">1</div>
+                <h3 className="text-lg font-bold text-slate-900">Vos Coordonnées</h3>
+              </div>
 
-                {/* CORRECTION 3 : AddressInput correctement branché */}
-                <AddressInput
-                  value={formData.address}
-                  onChange={(val) => handleChange('address', val)}
-                  onSelect={handleAddressSelect}
-                  placeholder="Rechercher votre adresse"
-                  required={true} // Important pour la validation HTML5
-                />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div className="space-y-1">
+                  <label className="text-xs font-bold text-slate-500 uppercase ml-1">Nom / Société</label>
+                  <input
+                    required
+                    type="text"
+                    name="name"
+                    className="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all font-medium"
+                    value={formData.name}
+                    onChange={e => handleChange('name', e.target.value)}
+                  />
+                </div>
+                <div className="space-y-1">
+                  <label className="text-xs font-bold text-slate-500 uppercase ml-1">Téléphone</label>
+                  <input
+                    required
+                    type="tel"
+                    inputMode="numeric"
+                    name="phone"
+                    className="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all font-medium"
+                    value={formData.phone}
+                    onChange={e => handleChange('phone', e.target.value)}
+                  />
+                </div>
+                <div className="space-y-1">
+                  <label className="text-xs font-bold text-slate-500 uppercase ml-1">Email</label>
+                  <input
+                    type="email"
+                    name="email"
+                    className="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all font-medium"
+                    value={formData.email}
+                    onChange={e => handleChange('email', e.target.value)}
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-xs font-bold text-slate-500 uppercase ml-1">Adresse chantier</label>
+                  <AddressInput
+                    value={formData.address}
+                    onChange={(val) => handleChange('address', val)}
+                    onSelect={handleAddressSelect}
+                    placeholder="Rechercher votre adresse"
+                    required={true}
+                  />
+                </div>
+
+                <input type="hidden" name="zip" value={formData.zip} />
+                <input type="hidden" name="address" value={formData.address} />
               </div>
             </div>
 
-            {/* Step 2: Configurator Buttons */}
-            <div>
-              <h3 className="text-base sm:text-lg font-bold text-slate-800 mb-4 flex items-center">
-                <span className="bg-orange-100 text-orange-600 w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center mr-2 sm:mr-3 text-sm font-bold flex-shrink-0">2</span>
-                Composez votre projet
-              </h3>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 mb-6">
-                {PRODUCT_TYPES.map((prod) => (
-                  <button
-                    key={prod.id}
-                    type="button"
-                    onClick={() => openConfigurator(prod)}
-                    className="tap-target flex flex-col items-center justify-center p-4 sm:p-6 bg-white border border-slate-100 shadow-sm rounded-2xl hover:shadow-md hover:border-orange-500 transition-all group"
-                  >
-                    <div className="bg-slate-100 p-2.5 sm:p-3 rounded-full text-slate-500 group-hover:bg-orange-500/10 group-hover:text-orange-600 transition-colors mb-2">
-                      <prod.icon size={20} />
-                    </div>
-                    <span className="font-bold text-slate-700 group-hover:text-orange-700 text-sm md:text-base transition-colors">{prod.label}</span>
-                    <span className="text-xs text-slate-400 mt-1 flex items-center group-hover:text-orange-500 transition-colors"><Plus size={12} className="mr-1" /> Ajouter</span>
-                  </button>
-                ))}
+            {/* Étape 2 : Configuration */}
+            <div className="space-y-6">
+              <div className="flex items-center space-x-3 mb-2">
+                <div className="w-8 h-8 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center font-bold text-sm">2</div>
+                <h3 className="text-lg font-bold text-slate-900">Composez votre projet</h3>
               </div>
 
-              {/* Panier (Cart) */}
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                {PRODUCT_TYPES.map((prod) => {
+                  const ProductIcon = PRODUCT_ICONS[prod.id] || prod.icon;
+                  return (
+                    <button
+                      key={prod.id}
+                      type="button"
+                      onClick={() => openConfigurator(prod)}
+                      className="flex flex-col items-center justify-center p-4 bg-white border-2 border-slate-100 rounded-2xl hover:border-orange-500 hover:bg-orange-50/20 transition-all group active:scale-95 shadow-sm"
+                    >
+                      <div className="bg-slate-50 p-3 rounded-full text-slate-400 group-hover:bg-white group-hover:text-orange-500 group-hover:shadow-md transition-all mb-2">
+                        <ProductIcon size={24} strokeWidth={1.5} />
+                      </div>
+                      <span className="font-bold text-sm text-slate-700 group-hover:text-slate-900">{prod.label}</span>
+                      <span className="text-[10px] font-bold text-orange-500 opacity-0 group-hover:opacity-100 transition-opacity mt-1 flex items-center">
+                        <Plus size={10} className="mr-1" /> Ajouter
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* PANIER / LISTE */}
               <AnimatePresence>
                 {projectItems.length > 0 && (
-                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-orange-50/50 border border-orange-100 rounded-2xl p-4 sm:p-6">
-                    <h4 className="font-bold text-slate-800 mb-4 flex items-center text-sm sm:text-base"><Briefcase size={18} className="mr-2 text-orange-600" /> Récapitulatif</h4>
+                  <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} className="bg-slate-50 rounded-2xl p-6 border border-slate-200">
+                    <div className="flex items-center mb-4">
+                      <Briefcase size={18} className="text-slate-400 mr-2" />
+                      <span className="font-bold text-sm text-slate-500 uppercase tracking-wide">Récapitulatif ({projectItems.length})</span>
+                    </div>
+
                     <div className="space-y-3">
                       {projectItems.map((item) => (
-                        <div key={item.id} className="bg-white p-3 sm:p-4 rounded-xl border border-slate-100 shadow-sm">
-                          {/* En-tête avec titre et bouton supprimer */}
-                          <div className="flex justify-between items-start gap-2 mb-2">
-                            <div className="flex items-center gap-2 flex-wrap">
-                              <span className="bg-slate-900 text-white text-xs font-bold px-2 py-1 rounded flex-shrink-0">{item.quantity}x</span>
-                              <span className="font-bold text-slate-800 text-sm sm:text-base">{item.productLabel}</span>
-                            </div>
-                            <button type="button" onClick={() => removeItem(item.id)} className="tap-target text-red-400 hover:text-red-600 p-1 flex-shrink-0"><Trash2 size={16} /></button>
+                        <div key={item.id} className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col relative group hover:shadow-md transition-shadow">
+                          <button type="button" onClick={() => removeItem(item.id)} className="absolute top-3 right-3 p-2 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors">
+                            <Trash2 size={16} />
+                          </button>
+
+                          <div className="flex items-center mb-2">
+                            <span className="bg-slate-900 text-white text-xs font-bold px-2 py-1 rounded mr-3">{item.quantity}x</span>
+                            <span className="font-bold text-slate-800">{item.productLabel}</span>
                           </div>
 
-                          {/* Détails complets du produit */}
-                          <div className="text-xs sm:text-sm text-slate-600 space-y-1 pl-2 border-l-2 border-orange-200">
-                            {item.type && <div>✦ <span className="font-semibold">Type:</span> {item.type}</div>}
-                            {item.subtype && <div>✦ <span className="font-semibold">Projet:</span> {item.subtype}</div>}
-                            {item.material && <div>✦ <span className="font-semibold">Matériau:</span> {item.material}</div>}
+                          <div className="pl-10 text-xs text-slate-500 space-y-1 border-l-2 border-slate-100 ml-3">
+                            {item.type && <div>Type : <span className="font-semibold text-slate-700">{item.type}</span></div>}
+                            {item.subtype && <div>Projet : <span className="font-semibold text-slate-700">{item.subtype}</span></div>}
+                            {item.material && <div>Matériau : <span className="font-semibold text-slate-700">{item.material}</span></div>}
+
                             {(item.width && item.height) && (
-                              <div>✦ <span className="font-semibold">Dimensions:</span> {item.width}x{item.height}mm{item.fleche ? ` (Flèche: ${item.fleche}mm)` : ''}</div>
+                              <div>Dimensions : <span className="font-semibold text-slate-700">{item.width} x {item.height} mm {item.fleche ? `(Flèche: ${item.fleche})` : ''}</span></div>
                             )}
-                            {item.color && <div>✦ <span className="font-semibold">Coloris:</span
-                            > {item.color}{item.customColor ? ` - ${item.customColor}` : ''}</div>}
+
+                            {item.color && <div>Couleur : <span className="font-semibold text-slate-700">{item.color} {item.customColor ? `(${item.customColor})` : ''}</span></div>}
+
+                            {item.stylePanel && <div>Style : <span className="font-semibold text-slate-700">{item.stylePanel}</span></div>}
+
                             {item.options && item.options.length > 0 && (
-                              <div>✦ <span className="font-semibold">Options:</span> {item.options.join(', ')}</div>
+                              <div>Options : <span className="font-semibold text-slate-700">{item.options.join(', ')}</span></div>
                             )}
-                            {item.pose && <div>✦ <span className="font-semibold">Prestation:</span> {item.pose}</div>}
-                            {item.stylePanel && <div>✦ <span className="font-semibold">Style:</span> {item.stylePanel}</div>}
-                            {item.otherTypeDetails && <div>✦ <span className="font-semibold">Précisions:</span> {item.otherTypeDetails}</div>}
+
+                            {item.otherTypeDetails && <div>Précisions : <span className="font-semibold text-slate-700">{item.otherTypeDetails}</span></div>}
+
+                            {item.pose && <div><span className="font-semibold text-slate-700">{item.pose}</span></div>}
                           </div>
                         </div>
                       ))}
@@ -295,34 +316,30 @@ const ContactForm = () => {
               </AnimatePresence>
             </div>
 
-            {/* Step 3: Message & Validation */}
-            <div>
-              <h3 className="text-base sm:text-lg font-bold text-slate-800 mb-4 flex items-center">
-                <span className="bg-orange-100 text-orange-600 w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center mr-2 sm:mr-3 text-sm font-bold flex-shrink-0">3</span>
-                Détails supplémentaires
-              </h3>
-              <textarea
-                className="w-full p-3 sm:p-4 bg-white border border-slate-200 rounded-xl focus:ring-4 focus:ring-orange-500/10 focus:border-orange-500 outline-none h-28 sm:h-32 text-slate-700 text-sm font-light placeholder:text-slate-400 transition-all"
-                placeholder="Précisions sur l'accès chantier, l'étage..."
-                value={formData.message}
-                onChange={e => handleChange('message', e.target.value)}
-              ></textarea>
-            </div>
+            {/* Étape 3 : Validation */}
+            <div className="space-y-6 pt-6 border-t border-slate-100">
+              <div className="space-y-1">
+                <label className="text-xs font-bold text-slate-500 uppercase ml-1">Message (Facultatif)</label>
+                <textarea
+                  name="message"
+                  className="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-orange-500 outline-none transition-all h-32 resize-none"
+                  placeholder="Précisions sur l'accès chantier, l'étage..."
+                  value={formData.message}
+                  onChange={e => handleChange('message', e.target.value)}
+                ></textarea>
+              </div>
 
-            <div className="pt-4">
               <button
                 type="submit"
                 disabled={status === 'loading'}
-                className="tap-target w-full py-4 sm:py-5 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 disabled:from-slate-400 disabled:to-slate-500 disabled:cursor-not-allowed text-white font-bold text-lg sm:text-xl rounded-xl shadow-lg shadow-orange-500/30 hover:shadow-orange-500/50 transition-all flex flex-col items-center justify-center transform hover:scale-[1.01]"
+                className="w-full py-5 bg-gradient-to-r from-slate-900 to-slate-800 hover:from-orange-600 hover:to-orange-500 text-white font-bold text-xl rounded-xl shadow-xl hover:shadow-2xl transition-all transform active:scale-[0.99] disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center"
               >
-                <span>
-                  {status === 'loading' && 'Envoi en cours...'}
-                  {status === 'success' && '✓ Demande envoyée !'}
-                  {status === 'error' && '✗ Erreur - Réessayez'}
-                  {status === 'idle' && 'RECEVOIR MON DEVIS GRATUIT'}
-                </span>
+                {status === 'loading' ? 'Envoi en cours...' : status === 'success' ? 'Envoyé avec succès !' : status === 'error' ? 'Erreur - Réessayez' : (
+                  <>RECEVOIR MON DEVIS <ArrowRight className="ml-2" size={20} /></>
+                )}
               </button>
-              <div className="mt-4 flex flex-col md:flex-row items-center justify-center text-xs sm:text-sm text-slate-500 space-y-2 md:space-y-0 md:space-x-6">
+
+              <div className="flex justify-center pt-2">
                 <CTATrustBadges />
               </div>
             </div>
