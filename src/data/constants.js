@@ -24,8 +24,6 @@ import composeImage from '../assets/windows/compose.webp';
 
 
 
-export const API_KEY = ""; // Ta clé API future
-
 export const IMAGES = {
   hero: heroImage,
   pvc: pvcImage,

@@ -16,8 +16,12 @@ import {
 } from 'lucide-react';
 import CTATrustBadges from '../ui/CTATrustBadges';
 import { IMAGES } from '../../data/constants';
+import { useOffer } from '../../features/context/OfferContext';
 
 const PVCOffer = ({ onOpenAides }) => {
+  // Context pour partager la promo avec ContactForm
+  const { setPromo } = useOffer();
+
   // State principal
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [config, setConfig] = useState({
@@ -116,15 +120,19 @@ const PVCOffer = ({ onOpenAides }) => {
   const currentTab = TABS[activeTab];
   const currentImage = WINDOW_IMAGES[currentImageIndex].image;
 
-  // Scroll vers contact
+  // Scroll vers contact et active la promo si applicable
   const handleCtaClick = () => {
-    const configSummary = {
-      type: currentTab.label,
-      ...config,
-      promo: config.shutter ? 'PACK_DUO_20' : null
-    };
-    console.log("Configuration envoyée au devis:", configSummary);
+    // Si le volet roulant est sélectionné, activer la promo PACK DUO
+    if (config.shutter) {
+      setPromo(
+        'PACK_DUO_20',
+        'Pack Duo PVC Blanc + Volet -20%',
+        ['fenetre', 'volet']
+      );
+      console.log('✅ Promo PACK_DUO_20 activée');
+    }
 
+    // Scroll vers le formulaire de contact
     const contactSection = document.getElementById('contact');
     if (contactSection) {
       contactSection.scrollIntoView({ behavior: 'smooth' });

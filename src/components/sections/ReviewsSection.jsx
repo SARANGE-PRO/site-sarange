@@ -4,22 +4,22 @@ import { motion } from 'framer-motion';
 
 const reviews = [
     {
-        name: "Hafidah Chelghaf",
-        date: "Il y a 2 ans",
+        name: "steeven lopez",
+        date: "Décembre 2025",
         rating: 5,
-        text: "Entreprise fiable ( rare de nos jours). Sérieux, ponctualité, travail propre soigné et a prix compétitifs.je recommande fortement.",
+        text: "Prix très compétitif et pose impeccable, je recommande",
+    },
+    {
+        name: "Carolane Dubocage",
+        date: "Avril 2025",
+        rating: 5,
+        text: "Pose d'une porte fenêtre, fenêtre et porte d'entrée. Tout c'est très bien passé, équipe professionnelle et au top ! Merci à vous",
     },
     {
         name: "Karine Ymar",
-        date: "Il y a un an",
+        date: "Décembre 2024",
         rating: 5,
         text: "Bon rapport qualité prix. Délai de fabrication rapide. Fenêtre de qualité. Pose faite avec professionnalisme. Je recommande",
-    },
-    {
-        name: "Az-eddine Bouskri",
-        date: "Il y a 9 mois",
-        rating: 5,
-        text: "Une équipe professionnelle, souriante, de bonne humeur, soucieuse de la qualité de la prestation et très méticuleuse. Je recommande fortement.",
     }
 ];
 
@@ -92,10 +92,10 @@ const ReviewsSection = () => {
                         href="https://www.google.com/search?q=sarange+menuiserie+avis"
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex items-center gap-2 text-slate-900 font-bold hover:text-orange-600 transition-colors border-b-2 border-slate-200 hover:border-orange-600 pb-1"
+                        className="inline-flex items-center gap-1 text-slate-400 text-sm hover:text-slate-600 transition-colors"
                     >
-                        <span>Lire tous les 28 avis sur Google</span>
-                        <ArrowRight size={16} />
+                        <span>Voir l'ensemble des avis</span>
+                        <ArrowRight size={14} />
                     </a>
                 </div>
             </div>

@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { OfferProvider } from './features/context/OfferContext';
+import CookieConsent from "react-cookie-consent";
 
 // Layout
 import Navbar from './components/layout/Navbar';
@@ -29,55 +31,107 @@ const App = () => {
   const [showInterventionModal, setShowInterventionModal] = useState(false);
 
   return (
-    <div className="font-sans antialiased text-secondary-800 bg-white pb-20 md:pb-0">
+    <OfferProvider>
+      <div className="font-sans antialiased text-secondary-800 bg-white pb-20 md:pb-0">
 
-      {/* Modales Globales */}
-      <AidesModal isOpen={showAidesModal} onClose={() => setShowAidesModal(false)} />
-      <InterventionModal isOpen={showInterventionModal} onClose={() => setShowInterventionModal(false)} />
+        {/* Modales Globales */}
+        <AidesModal isOpen={showAidesModal} onClose={() => setShowAidesModal(false)} />
+        <InterventionModal isOpen={showInterventionModal} onClose={() => setShowInterventionModal(false)} />
 
-      {/* Navigation */}
-      <Navbar onOpenAides={() => setShowAidesModal(true)} />
+        {/* Navigation */}
+        <Navbar onOpenAides={() => setShowAidesModal(true)} />
 
-      {/* Contenu Principal */}
-      <main>
-        <Hero
-          onOpenAides={() => setShowAidesModal(true)}
-          onOpenIntervention={() => setShowInterventionModal(true)}
-        />
+        {/* Contenu Principal */}
+        <main>
+          <Hero
+            onOpenAides={() => setShowAidesModal(true)}
+            onOpenIntervention={() => setShowInterventionModal(true)}
+          />
 
-        <AidesBanner onOpenAides={() => setShowAidesModal(true)} />
-        <PVCOffer onOpenAides={() => setShowAidesModal(true)} />
-        <VoletSection />
-        <EntranceDoorSection />
-        <AluSection />
-        <GarageAndVerandaSection />
-        <B2BSection />
+          <AidesBanner onOpenAides={() => setShowAidesModal(true)} />
+          <PVCOffer onOpenAides={() => setShowAidesModal(true)} />
+          <VoletSection />
+          <EntranceDoorSection />
+          <AluSection />
+          <GarageAndVerandaSection />
+          <B2BSection />
 
-        {/* Section Avis Google */}
-        <ReviewsSection />
+          {/* Section Avis Google */}
+          <ReviewsSection />
 
-        {/* Formulaire & Configurateur */}
-        <ContactForm />
-      </main>
+          {/* Formulaire & Configurateur */}
+          <ContactForm />
+        </main>
 
-      <Footer />
+        <Footer />
 
-      {/* Sticky Call Button Mobile (Optimisé avec Glassmorphism) */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 glass border-t border-white/20 p-3 sm:p-4 z-40 flex justify-between items-center safe-area-bottom shadow-2xl">
-        <div className="flex flex-col">
-          <span className="text-[10px] uppercase font-bold text-secondary-600 tracking-wider">Une question ?</span>
-          <a href="tel:0986713444" className="tap-target font-black text-secondary-900 text-base sm:text-lg hover:text-primary-500 transition-colors">09 86 71 34 44</a>
+        {/* Sticky Call Button Mobile (Optimisé avec Glassmorphism) */}
+        <div className="md:hidden fixed bottom-0 left-0 right-0 glass border-t border-white/20 p-3 sm:p-4 z-40 flex justify-between items-center safe-area-bottom shadow-2xl">
+          <div className="flex flex-col">
+            <span className="text-[10px] uppercase font-bold text-secondary-600 tracking-wider">Une question ?</span>
+            <a href="tel:0986713444" className="tap-target font-black text-secondary-900 text-base sm:text-lg hover:text-primary-500 transition-colors">09 86 71 34 44</a>
+          </div>
+          <button
+            onClick={() => document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })}
+            className="tap-target bg-primary-500 text-white px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl font-bold text-sm shadow-lg active:scale-95 transition-all hover:bg-primary-600"
+          >
+            DEVIS RAPIDE
+          </button>
         </div>
-        <button
-          onClick={() => document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })}
-          className="tap-target bg-primary-500 text-white px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl font-bold text-sm shadow-lg active:scale-95 transition-all hover:bg-primary-600"
-        >
-          DEVIS RAPIDE
-        </button>
+
+
       </div>
 
-
-    </div>
+      {/* Cookie Consent Banner */}
+      <CookieConsent
+        location="bottom"
+        buttonText="Tout accepter"
+        declineButtonText="Tout refuser"
+        enableDeclineButton
+        cookieName="sarange_cookie_consent"
+        style={{
+          background: "#0f172a",
+          alignItems: "center",
+          padding: "20px",
+          boxShadow: "0 -4px 20px rgba(0,0,0,0.2)"
+        }}
+        buttonStyle={{
+          background: "linear-gradient(to right, #f97316, #dc2626)",
+          color: "white",
+          fontSize: "14px",
+          borderRadius: "10px",
+          padding: "12px 24px",
+          fontWeight: "700"
+        }}
+        declineButtonStyle={{
+          background: "transparent",
+          border: "2px solid #94a3b8",
+          color: "#94a3b8",
+          fontSize: "14px",
+          borderRadius: "10px",
+          padding: "10px 24px",
+          fontWeight: "600"
+        }}
+        expires={180}
+      >
+        <div className="flex items-center justify-between gap-6 flex-wrap">
+          <div className="flex-1 min-w-[280px]">
+            <p className="text-white font-semibold text-base mb-1">
+              🍪 Nous utilisons des cookies
+            </p>
+            <p className="text-slate-300 text-sm">
+              Ce site utilise des cookies pour améliorer votre expérience.{" "}
+              <a
+                href="/politique-confidentialite"
+                className="underline text-orange-400 hover:text-orange-300 transition-colors font-semibold"
+              >
+                En savoir plus
+              </a>
+            </p>
+          </div>
+        </div>
+      </CookieConsent>
+    </OfferProvider>
   );
 };
 

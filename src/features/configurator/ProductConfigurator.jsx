@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Plus, Palette, Info, Smartphone, CheckCircle, ArrowRight } from 'lucide-react';
+import { X, Plus, Palette, Info, Smartphone, CheckCircle, ArrowRight, AlertCircle } from 'lucide-react';
 import { WindowIcons } from '../../components/icons/WindowIcons';
 import ConfigSection from './ConfigSection';
 import MeasurementGuideModal from './MeasurementGuideModal';
@@ -26,6 +26,8 @@ const ProductConfigurator = ({ isOpen, onClose, productType, onAdd }) => {
     const [data, setData] = useState(initialData);
     const [showGuide, setShowGuide] = useState(false);
     const [guideType, setGuideType] = useState('standard');
+    const [validationError, setValidationError] = useState(null);
+    const [allowNoDimensions, setAllowNoDimensions] = useState(false);
 
     // --- 2. RESET INTELLIGENT ---
     useEffect(() => {
@@ -478,16 +480,30 @@ const ProductConfigurator = ({ isOpen, onClose, productType, onAdd }) => {
 
     // --- 5. VALIDATION ---
     const handleAdd = () => {
-        if (productType.id !== 'veranda' || (data.subtype && data.subtype !== 'Fenêtre de toit (VELUX)')) {
-            if (!data.width || !data.height) {
-                alert("Merci d'indiquer des dimensions approximatives.");
-                return;
-            }
-        }
+        // Reset error
+        setValidationError(null);
 
+        // Vérifier le type d'ouverture pour fenêtres
         if (!data.type && productType.id === 'fenetre') {
             alert("Merci de sélectionner un type d'ouverture.");
             return;
+        }
+
+        // Vérifier les dimensions (sauf pour véranda et VELUX)
+        const needsDimensions = productType.id !== 'veranda' || (data.subtype && data.subtype !== 'Fenêtre de toit (VELUX)');
+
+        if (needsDimensions && !allowNoDimensions) {
+            if (!data.width || !data.height) {
+                setValidationError('dimensions');
+                // Scroll vers le champ dimensions
+                setTimeout(() => {
+                    document.getElementById('dimensions-input')?.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center'
+                    });
+                }, 100);
+                return;
+            }
         }
 
         let label = productType.label;
@@ -500,7 +516,8 @@ const ProductConfigurator = ({ isOpen, onClose, productType, onAdd }) => {
             ...data,
             color: finalColor,
             productTypeId: productType.id,
-            productLabel: label
+            productLabel: label,
+            needsMeasurement: !data.width || !data.height
         });
         onClose();
     };
@@ -551,10 +568,49 @@ const ProductConfigurator = ({ isOpen, onClose, productType, onAdd }) => {
                         {/* COULEURS */}
                         {productType.id !== 'veranda' && renderColorSection()}
 
+                        {/* MESSAGE D'ERREUR VALIDATION */}
+                        {validationError === 'dimensions' && (
+                            <motion.div
+                                initial={{ opacity: 0, y: -10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                className="bg-red-50 border border-red-200 rounded-xl p-4 mb-4"
+                            >
+                                <div className="flex items-start gap-3">
+                                    <AlertCircle className="text-red-500 shrink-0" size={20} />
+                                    <div className="flex-1">
+                                        <p className="text-red-800 font-bold text-sm mb-2">
+                                            Veuillez renseigner les dimensions
+                                        </p>
+                                        <p className="text-red-600 text-xs mb-3">
+                                            Les dimensions de votre menuiserie sont nécessaires pour établir un devis précis.
+                                        </p>
+                                        <button
+                                            type="button"
+                                            onClick={() => setAllowNoDimensions(true)}
+                                            className="text-xs text-slate-600 underline hover:text-slate-800 transition-colors"
+                                        >
+                                            Je n'ai pas les mesures → Continuer quand même
+                                        </button>
+                                    </div>
+                                </div>
+                            </motion.div>
+                        )}
+
+                        {allowNoDimensions && (
+                            <div className="bg-blue-50 border border-blue-200 rounded-xl p-3 mb-4 text-xs">
+                                <p className="text-blue-800 font-semibold mb-1">
+                                    📏 Pas de mesures ? Aucun problème !
+                                </p>
+                                <p className="text-blue-600">
+                                    Donnez-nous vos coordonnées, nous vous contacterons pour prendre les mesures.
+                                </p>
+                            </div>
+                        )}
+
                         {/* DIMENSIONS */}
                         {productType.id !== 'veranda' && (
                             <ConfigSection title="📏 Dimensions (mm)" helpAction={() => { setGuideType('standard'); setShowGuide(true); }}>
-                                <div className="flex items-center bg-white rounded-2xl p-4 border border-slate-200 shadow-sm ring-1 ring-slate-100">
+                                <div id="dimensions-input" className="flex items-center bg-white rounded-2xl p-4 border border-slate-200 shadow-sm ring-1 ring-slate-100">
                                     <div className="flex-1 text-center border-r border-slate-100 pr-4">
                                         <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block mb-1">Largeur</span>
                                         {/* 📍 INPUT NUMÉRIQUE + PATTERN */}
@@ -594,9 +650,9 @@ const ProductConfigurator = ({ isOpen, onClose, productType, onAdd }) => {
                                     <input type="radio" name="pose" checked={data.pose === 'Fourniture + Pose SARANGE'} onChange={() => setData({ ...data, pose: 'Fourniture + Pose SARANGE' })} className="text-orange-500 w-5 h-5 accent-orange-500" />
                                     <div className="ml-3 flex-1">
                                         <span className="block text-sm font-bold text-slate-900">Fourniture + Pose (Recommandé)</span>
-                                        <span className="text-xs text-slate-500">Garantie décennale incluse</span>
+                                        <span className="text-xs text-slate-500">Garantie décennale incluse, TVA réduite sous conditions</span>
                                     </div>
-                                    <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-md font-bold">TVA 5.5%</span>
+                                    <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-md font-bold">TVA Réduite</span>
                                 </label>
                                 <label className={`flex items-center p-4 border-2 rounded-xl cursor-pointer transition-all ${data.pose === 'Fourniture seule' ? 'border-orange-500 bg-orange-50/50' : 'border-slate-200 bg-white'}`}>
                                     <input type="radio" name="pose" checked={data.pose === 'Fourniture seule'} onChange={() => setData({ ...data, pose: 'Fourniture seule' })} className="text-orange-500 w-5 h-5 accent-orange-500" />
