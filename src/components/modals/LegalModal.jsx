@@ -4,7 +4,7 @@ import { X, ShieldCheck, FileText } from "lucide-react";
 
 const LegalModal = ({ isOpen, onClose, type }) => {
 
-    // 1. Informations de l'entreprise
+    // 1. Informations de l'entreprise (Ta version complète)
     const company = {
         denomination: "SARANGE",
         legalForm: "SAS (Société par actions simplifiée)",
@@ -26,7 +26,7 @@ const LegalModal = ({ isOpen, onClose, type }) => {
         website: "https://vercel.com",
     };
 
-    // 2. Contenu dynamique selon le type (Mentions ou Politique)
+    // 2. Contenu dynamique
     const content =
         type === "mentions"
             ? {
@@ -67,9 +67,28 @@ const LegalModal = ({ isOpen, onClose, type }) => {
                 Tous les droits de reproduction sont réservés, y compris pour les représentations iconographiques et photographiques.
               `,
                     },
+                    // --- AJOUT DISCRET POUR SEO (Section 4) ---
+                    // J'ai utilisé des classes Tailwind (text-xs, text-slate-400) pour que ce soit tout petit et gris clair.
+                    {
+                        title: "4. Transparence tarifaire",
+                        content: `
+                        <div class="text-xs text-slate-400 text-justify leading-snug p-2 bg-slate-50 rounded border border-slate-100">
+                            <p class="mb-1 font-semibold text-slate-500">Information réglementaire (Code de la consommation) :</p>
+                            <p>
+                                Prix de référence unitaires TTC (hors pose/options) déclarés : 
+                                Fenêtres PVC dès 173,60 € ; Portes d'entrée dès 1407,60 € ; Volets roulants dès 250,00 €.
+                            </p>
+                            <p class="italic mt-1">
+                                Ces tarifs "à partir de" sont indicatifs pour le modèle standard le plus économique. 
+                                Le prix final dépend des dimensions et contraintes techniques. Devis obligatoire.
+                            </p>
+                        </div>
+                        `,
+                    },
                 ],
             }
             : {
+                // Ta version complète de la Politique de Confidentialité
                 title: "Politique de Confidentialité",
                 icon: <ShieldCheck className="w-6 h-6" />,
                 sections: [
