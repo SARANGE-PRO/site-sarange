@@ -43,13 +43,13 @@ const PVCOffer = ({ onOpenAides }) => {
     { id: 'compose', image: IMAGES.pvc_compose, tabKey: 'compose' },
   ];
 
-  // Configuration des onglets
+  // Configuration des onglets (CORRECTION PLURIEL)
   const TABS = {
     fenetre: {
       id: 'fenetre',
-      label: 'Fenêtre',
+      label: 'Fenêtres',
       image: IMAGES.pvc,
-      title: "Fenêtre PVC Schüco",
+      title: "Fenêtres PVC Schüco",
       subtitle: "Le blanc performant au meilleur prix du marché",
       features: [
         { icon: Thermometer, text: "Isolation Thermique Top Niveau jusqu'à Uw 1,1" },
@@ -60,9 +60,9 @@ const PVCOffer = ({ onOpenAides }) => {
     },
     porte_fenetre: {
       id: 'porte_fenetre',
-      label: 'Porte-Fenêtre',
+      label: 'Portes-Fenêtres',
       image: IMAGES.pvc_porte_fenetre_2vantaux,
-      title: "Porte-fenêtre PVC Schüco",
+      title: "Portes-fenêtres PVC Schüco",
       subtitle: "Plus de lumière. Moins de dépenses",
       features: [
         { icon: Maximize, text: "Jusqu'à +20 % de luminosité naturelle" },
@@ -73,9 +73,9 @@ const PVCOffer = ({ onOpenAides }) => {
     },
     coulissant: {
       id: 'coulissant',
-      label: 'Coulissant',
+      label: 'Coulissants',
       image: IMAGES.pvc_coulissant,
-      title: "Coulissant PVC Schüco Soft Slide",
+      title: "Coulissants PVC Schüco Soft Slide",
       subtitle: "Le coulissant fluide, isolant et économique",
       features: [
         { icon: Minimize, text: "Grandes surfaces vitrées, zéro compromis" },
@@ -155,7 +155,7 @@ const PVCOffer = ({ onOpenAides }) => {
             🏆 MEILLEUR RAPPORT QUALITÉ / PRIX
           </span>
           <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-4 md:mb-6 tracking-tight">
-            FENÊTRE SCHÜCO<br />
+            FENÊTRES SCHÜCO<br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-red-600">PRIX IMBATTABLE DIRECT USINE</span>
           </h2>
           <p className="text-base md:text-lg text-slate-600 max-w-2xl mx-auto px-4">
@@ -165,14 +165,13 @@ const PVCOffer = ({ onOpenAides }) => {
 
         {/* --- MAIN CARD --- */}
         <div
-          className="bg-white rounded-2xl md:rounded-3xl shadow-xl overflow-hidden border border-slate-100 flex flex-col lg:flex-row min-h-[600px] lg:h-[750px]"
+          className="bg-white rounded-2xl md:rounded-3xl shadow-xl overflow-hidden border border-slate-100 flex flex-col lg:flex-row min-h-[600px] lg:h-[750px] group cursor-pointer"
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
         >
 
-          {/* ZONE IMAGE (Gauche sur Desktop, Haut sur Mobile) 
-              Optimisé pour les photos verticales/carrées */}
-          <div className="relative w-full lg:w-1/2 h-80 md:h-96 lg:h-full shrink-0 group bg-slate-100">
+          {/* ZONE IMAGE (Gauche sur Desktop, Haut sur Mobile) */}
+          <div className="relative w-full lg:w-1/2 h-80 md:h-96 lg:h-full shrink-0 bg-slate-100 overflow-hidden">
 
             {/* Image Container - Full cover */}
             <div className="absolute inset-0 w-full h-full">
@@ -180,7 +179,8 @@ const PVCOffer = ({ onOpenAides }) => {
                 key={currentImageIndex}
                 src={currentImage}
                 alt={`Menuiserie PVC - ${currentTab.label}`}
-                className="w-full h-full object-cover object-center transition-transform duration-1000 ease-out group-hover:scale-105 animate-fadeIn"
+                // Zoom doux (scale-105) sur hover du groupe
+                className="w-full h-full object-cover object-center transition-all duration-1000 ease-in-out transform group-hover:scale-105 animate-fadeIn"
               />
               {/* Gradient subtil pour lisibilité des badges */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/10 lg:bg-gradient-to-r lg:from-transparent lg:to-black/5"></div>
@@ -281,9 +281,9 @@ const PVCOffer = ({ onOpenAides }) => {
 
                 {/* Pack Duo Card */}
                 <div
-                  onClick={() => setConfig({ ...config, shutter: !config.shutter })}
+                  onClick={(e) => { e.stopPropagation(); setConfig({ ...config, shutter: !config.shutter }); }}
                   className={`
-                    relative cursor-pointer group rounded-xl border-2 p-4 transition-all duration-300
+                    relative cursor-pointer group/card rounded-xl border-2 p-4 transition-all duration-300
                     ${config.shutter
                       ? 'border-orange-500 bg-orange-50/50 shadow-lg shadow-orange-100'
                       : 'border-slate-200 hover:border-orange-300 bg-white'}
@@ -308,7 +308,7 @@ const PVCOffer = ({ onOpenAides }) => {
 
                     {/* Badge Promo */}
                     <div className={`
-                      px-3 py-1 rounded-full text-xs font-black uppercase transform transition-transform group-hover:scale-105
+                      px-3 py-1 rounded-full text-xs font-black uppercase transform transition-transform group-hover/card:scale-105
                       ${config.shutter ? 'bg-orange-500 text-white rotate-0' : 'bg-slate-100 text-slate-400'}
                     `}>
                       -20% PACK DUO
@@ -328,16 +328,16 @@ const PVCOffer = ({ onOpenAides }) => {
             {/* Footer Actions */}
             <div className="p-5 md:p-8 bg-white border-t border-slate-100 z-20 mt-auto">
               <button
-                onClick={handleCtaClick}
-                className="w-full bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 text-white py-4 rounded-xl font-bold text-lg shadow-xl shadow-orange-600/30 hover:shadow-orange-700/40 transition-all transform active:scale-[0.98] flex items-center justify-center gap-2 group mb-3"
+                onClick={(e) => { e.stopPropagation(); handleCtaClick(); }}
+                className="w-full bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 text-white py-4 rounded-xl font-bold text-lg shadow-xl shadow-orange-600/30 hover:shadow-orange-700/40 transition-all transform active:scale-[0.98] flex items-center justify-center gap-2 group/btn mb-3"
               >
                 <span>Obtenir mon devis {config.shutter ? 'PACK DUO' : 'Express'}</span>
-                <ChevronRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                <ChevronRight size={20} className="group-hover/btn:translate-x-1 transition-transform" />
               </button>
 
               <div className="flex justify-between items-center px-1">
                 <button
-                  onClick={() => setShowModal(true)}
+                  onClick={(e) => { e.stopPropagation(); setShowModal(true); }}
                   className="text-xs font-semibold text-slate-500 hover:text-slate-800 underline decoration-slate-300 underline-offset-2 transition-colors"
                 >
                   Voir fiche technique

@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ChevronRight, Check, Percent, Info, Briefcase } from 'lucide-react';
+import { ChevronRight, Check, Percent, Info, Briefcase, MapPin } from 'lucide-react';
 import { IMAGES } from '@data/constants';
 
 const Hero = ({ onOpenAides, onOpenIntervention }) => {
@@ -28,18 +28,21 @@ const Hero = ({ onOpenAides, onOpenIntervention }) => {
         <section
             id="hero"
             className="relative min-h-screen flex items-center pt-16 sm:pt-20 overflow-hidden bg-slate-900"
+            aria-label="Introduction Menuiserie Sarange"
         >
             <div className="absolute inset-0 z-0 overflow-hidden">
+                {/* SEO IMAGE : LCP optimisé */}
                 <motion.img
                     src={IMAGES.hero}
-                    alt="Atelier de fabrication SARANGE - Menuiserie sur-mesure Combs-la-Ville"
+                    alt="Fenêtres PVC et Alu Sarange - Fabricant Installateur Île-de-France"
                     className="w-full h-full object-cover object-center"
                     initial={{ scale: 1.1 }}
                     animate={{ scale: 1 }}
                     transition={{ duration: 30, ease: 'linear', repeat: Infinity, repeatType: 'reverse' }}
+                    loading="eager"
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/90 sm:via-slate-950/80 to-slate-950/60 sm:to-transparent"></div>
-                {/* Technical Blueprint Overlay */}
+
                 <div
                     className="absolute inset-0 z-0 opacity-10 sm:opacity-20 pointer-events-none"
                     style={{
@@ -57,56 +60,57 @@ const Hero = ({ onOpenAides, onOpenIntervention }) => {
                     animate="visible"
                     className="lg:col-span-8 text-white space-y-6 sm:space-y-8"
                 >
-                    {/* 2. Titre H1 "Aggressive Hierarchy" & SEO Opti - Mobile First */}
-                    <motion.h1 variants={itemVariants} className="flex flex-col items-start max-w-4xl">
-                        {/* Ligne 1 : Impact Majeur (Keyword Principal) - Responsive */}
-                        <span className="h1-mobile font-black bg-clip-text text-transparent bg-gradient-to-b from-white to-slate-300 drop-shadow-xl uppercase tracking-tighter leading-none">
-                            FENÊTRES
-                        </span>
+                    {/* --- SEO H1 : HIERARCHIE CORRIGÉE (PRODUIT D'ABORD) --- */}
+                    <h1 className="flex flex-col items-start max-w-4xl">
 
-                        {/* Ligne 2 : Produits Secondaires & Signature - Responsive */}
-                        <span className="h3-mobile font-bold text-slate-100 leading-tight mt-2 mb-4 sm:mb-6">
-                            Portes & Volets <span className="italic text-orange-500">sur-mesure</span>
-                        </span>
+                        {/* Ligne 1 : Avantage Client (Au lieu du métier) */}
+                        <motion.span variants={itemVariants} className="text-sm md:text-base font-bold text-orange-500 uppercase tracking-widest mb-2 flex items-center">
+                            <span className="w-8 h-[2px] bg-orange-500 mr-3"></span>
+                            Direct Usine & Sur-mesure
+                        </motion.span>
 
-                        {/* Ligne 3 : Badge Métier (Style Technique) - Touch Friendly */}
-                        <div className="relative overflow-hidden inline-flex items-center bg-white/10 backdrop-blur-sm border border-white/20 px-4 py-2 sm:px-6 sm:py-2 rounded-sm hover:bg-white/20 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(255,255,255,0.15)] cursor-default group tap-target">
-                            {/* Technical Corner Accents */}
-                            <div className="absolute top-0 left-0 w-2 h-2 border-t-2 border-l-2 border-orange-500"></div>
-                            <div className="absolute bottom-0 right-0 w-2 h-2 border-b-2 border-r-2 border-orange-500"></div>
+                        {/* Ligne 2 : LE PRODUIT (H1 Principal) */}
+                        <motion.span variants={itemVariants} className="h1-mobile font-black bg-clip-text text-transparent bg-gradient-to-b from-white to-slate-300 drop-shadow-xl uppercase tracking-tighter leading-none">
+                            FENÊTRES <br className="hidden sm:block" />PVC & ALU
+                        </motion.span>
 
-                            <span className="text-xs md:text-sm uppercase tracking-wide sm:tracking-widest font-bold text-slate-200 group-hover:text-white transition-colors">
-                                Fabricant-installateur PVC & Aluminium
+                        {/* Ligne 3 : LE MÉTIER & LA ZONE (Réassurance) */}
+                        <motion.span variants={itemVariants} className="h3-mobile font-bold text-slate-100 leading-tight mt-4 flex flex-wrap items-center gap-2">
+                            Fabricant & Installateur <span className="hidden sm:inline text-slate-500">|</span>
+                            <span className="text-white flex items-center">
+                                <MapPin size={20} className="text-orange-500 mr-1 inline" />
+                                Île-de-France
                             </span>
-                        </div>
-                    </motion.h1>
+                        </motion.span>
+                    </h1>
 
-                    {/* 3. Sous-titre - Responsive */}
+                    {/* --- SEO DESCRIPTION --- */}
                     <motion.p
                         variants={itemVariants}
-                        className="body-mobile text-slate-300 leading-relaxed max-w-2xl font-light"
+                        className="body-mobile text-slate-300 leading-relaxed max-w-2xl font-light text-lg"
                     >
-                        La performance thermique des profilés Schüco et le design sur-mesure. Pour vos projets
-                        de rénovation et constructions neuves.
+                        Spécialiste de la <strong>rénovation énergétique</strong> de l'habitat.
+                        Menuiseries haute isolation, fabriquées dans notre atelier du 77 et posées par nos experts.
+                        <strong>Garantie 10 ans</strong>.
                     </motion.p>
 
-                    {/* 4. Checklist - Mobile Optimized */}
+                    {/* --- CHECKLIST --- */}
                     <motion.ul variants={itemVariants} className="space-y-3 sm:space-y-4 pt-2">
                         {[
                             'Fabrication locale à Combs-la-Ville (77)',
-                            'Métrage technique & Fabrication sur-mesure',
-                            'Pose certifiée RGE par nos propres techniciens',
+                            'Poseurs salariés SARANGE (Pas de sous-traitance)',
+                            'Certifié RGE Qualibat : Éligible aux primes',
                         ].map((text, index) => (
                             <li key={index} className="flex items-center text-slate-100 font-medium group">
                                 <div className="w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0 rounded-full bg-orange-500 flex items-center justify-center mr-3 sm:mr-4 shadow-lg shadow-orange-500/30 group-hover:scale-110 transition-transform">
                                     <Check size={14} className="text-white stroke-[3px]" />
                                 </div>
-                                <span className="text-sm sm:text-base md:text-lg">{text}</span>
+                                <span className="text-sm sm:text-base">{text}</span>
                             </li>
                         ))}
                     </motion.ul>
 
-                    {/* 5. CTAs - Fully Responsive & Touch Friendly */}
+                    {/* --- CTAs --- */}
                     <motion.div
                         variants={itemVariants}
                         className="pt-4 sm:pt-6 flex flex-col sm:flex-row gap-3 sm:gap-5"
@@ -115,9 +119,10 @@ const Hero = ({ onOpenAides, onOpenIntervention }) => {
                             onClick={() =>
                                 document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })
                             }
+                            title="Demander un devis fenêtre gratuit"
                             className="tap-target px-6 sm:px-10 py-3 sm:py-4 bg-orange-500 hover:bg-orange-600 text-white text-base sm:text-lg font-bold rounded-xl shadow-2xl shadow-orange-500/30 hover:shadow-orange-500/50 transition-all flex items-center justify-center group"
                         >
-                            DEMANDER MON DEVIS GRATUIT
+                            DEVIS GRATUIT & RAPIDE
                             <ChevronRight className="ml-2 group-hover:translate-x-1 transition-transform" />
                         </button>
 
@@ -126,11 +131,11 @@ const Hero = ({ onOpenAides, onOpenIntervention }) => {
                             className="tap-target px-6 sm:px-10 py-3 sm:py-4 border border-white/20 hover:border-white/50 bg-white/5 hover:bg-white/10 text-white text-base sm:text-lg font-medium rounded-xl backdrop-blur-sm transition-all flex items-center justify-center group"
                         >
                             <Briefcase className="mr-3 text-slate-400 group-hover:text-white" size={20} />
-                            Espace PRO
+                            Espace Architectes
                         </button>
                     </motion.div>
 
-                    {/* Mobile-Only Trust Badges (stacked below CTAs on small screens) */}
+                    {/* Mobile Badges */}
                     <motion.div variants={itemVariants} className="flex lg:hidden flex-col gap-3 pt-4">
                         <button
                             onClick={onOpenIntervention}
@@ -138,24 +143,13 @@ const Hero = ({ onOpenAides, onOpenIntervention }) => {
                         >
                             <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
                             <span className="text-xs font-bold uppercase tracking-wide text-slate-100">
-                                Intervention Île-de-France
+                                Intervention 75, 77, 91, 94
                             </span>
-                        </button>
-
-                        <button
-                            onClick={onOpenAides}
-                            className="tap-target inline-flex items-center justify-center space-x-2 bg-orange-500 hover:bg-orange-600 shadow-lg shadow-orange-500/20 px-4 py-2.5 rounded-full border border-orange-400 transition-all"
-                        >
-                            <Percent size={14} className="text-white" />
-                            <span className="text-xs font-bold uppercase tracking-wide text-white">
-                                TVA 5.5% & Aides RGE
-                            </span>
-                            <Info size={14} className="text-white/70 ml-1" />
                         </button>
                     </motion.div>
                 </motion.div>
 
-                {/* Colonne Droite : Trust Card (Desktop Only) */}
+                {/* Colonne Droite : Trust Card (PC) */}
                 <motion.div
                     initial={{ opacity: 0, scale: 0.95, y: 20 }}
                     animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -168,22 +162,18 @@ const Hero = ({ onOpenAides, onOpenIntervention }) => {
                             USINE
                         </p>
                         <p className="text-slate-300 text-sm leading-relaxed block clear-both">
-                            Nous gérons tout : du métrage à domicile à la fabrication dans notre atelier de
-                            Seine-et-Marne.
+                            Fabrication française sans intermédiaire. <br />
+                            Qualité contrôlée à chaque étape.
                         </p>
                     </div>
 
-                    {/* Desktop Badges */}
                     <div className="flex flex-col items-end gap-3 mt-4">
-                        <button
-                            onClick={onOpenIntervention}
-                            className="inline-flex items-center space-x-2 bg-white/10 hover:bg-white/20 backdrop-blur-md px-4 py-2 rounded-full border border-white/20 transition-all shadow-lg"
-                        >
-                            <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                        <div className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/20 shadow-lg cursor-default">
+                            <MapPin size={14} className="text-green-400" />
                             <span className="text-xs font-bold uppercase tracking-widest text-slate-100">
                                 Intervention Île-de-France
                             </span>
-                        </button>
+                        </div>
 
                         <button
                             onClick={onOpenAides}
@@ -191,9 +181,8 @@ const Hero = ({ onOpenAides, onOpenIntervention }) => {
                         >
                             <Percent size={14} className="text-white" />
                             <span className="text-xs font-bold uppercase tracking-widest text-white">
-                                TVA 5.5% & Aides RGE
+                                Éligible MaPrimeRénov'
                             </span>
-                            <Info size={14} className="text-white/70 ml-1" />
                         </button>
                     </div>
                 </motion.div>

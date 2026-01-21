@@ -1,143 +1,227 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { X } from 'lucide-react';
+import React from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { X, ShieldCheck, FileText } from "lucide-react";
 
 const LegalModal = ({ isOpen, onClose, type }) => {
-    if (!isOpen) return null;
 
-    const content = type === 'mentions' ? {
-        title: 'Mentions Légales',
-        sections: [
-            {
-                title: '1. Éditeur du site',
-                content: `
-          <strong>Raison sociale:</strong> SARANGE France<br/>
-          <strong>Forme juridique:</strong> [SARL / SAS]<br/>
-          <strong>Capital social:</strong> [montant] euros<br/>
-          <strong>Siège social:</strong> [Adresse complète]<br/>
-          <strong>SIRET:</strong> [XXX XXX XXX XXXXX]<br/>
-          <strong>RCS:</strong> [Ville + Numéro]<br/>
-          <strong>TVA intracommunautaire:</strong> FR[XX XXX XXX XXX]<br/>
-          <strong>Email:</strong> contact@sarange.fr<br/>
-          <strong>Téléphone:</strong> 09 86 71 34 44<br/>
-          <strong>Directeur de publication:</strong> [Nom Prénom]
-        `
-            },
-            {
-                title: '2. Hébergement',
-                content: `
-          Le site <strong>sarange.fr</strong> est hébergé par :<br/>
-          <strong>Vercel Inc.</strong><br/>
-          440 N Barranca Ave, Covina, CA 91723, USA<br/>
-          Site web : <a href="https://vercel.com" target="_blank" rel="noopener" class="text-orange-600 underline">vercel.com</a>
-        `
-            },
-            {
-                title: '3. Propriété intellectuelle',
-                content: `
-          L'ensemble du contenu présent sur ce site (textes, images, vidéos, logos, graphismes) 
-          est la propriété exclusive de <strong>SARANGE France</strong> et est protégé par le droit d'auteur.
-          Toute reproduction est strictement interdite sans autorisation préalable.
-        `
-            },
-            {
-                title: '4. Données personnelles',
-                content: `
-          Pour plus d'informations sur le traitement de vos données personnelles, consultez notre Politique de Confidentialité.
-          Vous disposez d'un droit d'accès, de rectification et de suppression de vos données personnelles.
-        `
-            }
-        ]
-    } : {
-        title: 'Politique de Confidentialité',
-        sections: [
-            {
-                title: '1. Données collectées',
-                content: `
-          <strong>Identité :</strong> Nom, prénom<br/>
-          <strong>Contact :</strong> Email, téléphone, adresse, code postal<br/>
-          <strong>Projet :</strong> Détails de votre demande de devis<br/>
-          <strong>Consentement marketing :</strong> Acceptation de recevoir nos offres (optionnel)
-        `
-            },
-            {
-                title: '2. Finalités du traitement',
-                content: `
-          <strong>Traitement des demandes :</strong> Vos données sont utilisées pour traiter votre demande de devis et vous recontacter.<br/><br/>
-          <strong>Communications marketing :</strong> Si vous avez coché la case d'opt-in, nous utilisons votre email pour vous envoyer nos offres promotionnelles.
-        `
-            },
-            {
-                title: '3. Durée de conservation',
-                content: `
-          <strong>Prospects :</strong> 3 ans si aucune relation client n'est établie<br/>
-          <strong>Clients :</strong> 10 ans (obligation légale comptable)
-        `
-            },
-            {
-                title: '4. Vos droits RGPD',
-                content: `
-          ✓ Droit d'accès à vos données<br/>
-          ✓ Droit de rectification<br/>
-          ✓ Droit à l'effacement<br/>
-          ✓ Droit de portabilité<br/><br/>
-          <strong>Pour exercer vos droits :</strong> <a href="mailto:contact@sarange.fr" class="text-orange-600 font-bold underline">contact@sarange.fr</a>
-        `
-            },
-            {
-                title: '5. Réclamation',
-                content: `
-          Vous pouvez introduire une réclamation auprès de la <strong>CNIL</strong><br/>
-          3 Place de Fontenoy, 75007 Paris<br/>
-          Site : <a href="https://www.cnil.fr" target="_blank" rel="noopener" class="text-orange-600 underline">www.cnil.fr</a>
-        `
-            }
-        ]
+    // 1. Informations de l'entreprise
+    const company = {
+        denomination: "SARANGE",
+        legalForm: "SAS (Société par actions simplifiée)",
+        capital: "30 000,00 €",
+        headOffice: "28 rue Jean Rostand, 77380 Combs-la-Ville, France",
+        siren: "820 001 014",
+        siret: "820 001 014 00027",
+        rcs: "RCS Melun 820 001 014",
+        vat: "FR22820001014",
+        publicationDirector: "Driss Denis (Président)",
+        email: "contact@sarange.fr",
+        phone: "09 86 71 34 44",
+        website: "sarange.fr",
     };
+
+    const host = {
+        name: "Vercel Inc.",
+        address: "440 N Barranca Ave, Covina, CA 91723, USA",
+        website: "https://vercel.com",
+    };
+
+    // 2. Contenu dynamique selon le type (Mentions ou Politique)
+    const content =
+        type === "mentions"
+            ? {
+                title: "Mentions Légales",
+                icon: <FileText className="w-6 h-6" />,
+                sections: [
+                    {
+                        title: "1. Éditeur du site",
+                        content: `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
+                    <div><span class="font-semibold text-slate-900">Dénomination :</span> ${company.denomination}</div>
+                    <div><span class="font-semibold text-slate-900">Forme :</span> ${company.legalForm}</div>
+                    <div><span class="font-semibold text-slate-900">Capital :</span> ${company.capital}</div>
+                    <div><span class="font-semibold text-slate-900">RCS :</span> ${company.rcs}</div>
+                    <div><span class="font-semibold text-slate-900">SIREN :</span> ${company.siren}</div>
+                    <div><span class="font-semibold text-slate-900">SIRET :</span> ${company.siret}</div>
+                    <div><span class="font-semibold text-slate-900">TVA :</span> ${company.vat}</div>
+                    <div class="md:col-span-2"><span class="font-semibold text-slate-900">Siège social :</span> ${company.headOffice}</div>
+                    <div class="md:col-span-2 mt-2 pt-2 border-t border-slate-100">
+                        <span class="font-semibold text-slate-900">Directeur de publication :</span> ${company.publicationDirector}<br/>
+                        <span class="font-semibold text-slate-900">Contact :</span> <a href="mailto:${company.email}" class="text-orange-600 hover:text-orange-700 transition-colors">${company.email}</a> | ${company.phone}
+                    </div>
+                </div>
+              `,
+                    },
+                    {
+                        title: "2. Hébergement",
+                        content: `
+                Le site <strong>${company.website}</strong> est hébergé par <strong>${host.name}</strong>.<br/>
+                <span class="text-slate-500 text-sm">${host.address}</span><br/>
+                Site web : <a href="${host.website}" target="_blank" rel="noopener" class="text-orange-600 hover:underline">vercel.com</a>
+              `,
+                    },
+                    {
+                        title: "3. Propriété intellectuelle",
+                        content: `
+                L'ensemble de ce site relève de la législation française et internationale sur le droit d'auteur et la propriété intellectuelle. 
+                Tous les droits de reproduction sont réservés, y compris pour les représentations iconographiques et photographiques.
+              `,
+                    },
+                ],
+            }
+            : {
+                title: "Politique de Confidentialité",
+                icon: <ShieldCheck className="w-6 h-6" />,
+                sections: [
+                    {
+                        title: "1. Responsable du traitement",
+                        content: `
+                <strong>${company.denomination}</strong><br/>
+                ${company.headOffice}<br/>
+                Délégué à la protection des données : <a href="mailto:${company.email}" class="text-orange-600 font-medium">${company.email}</a>
+              `,
+                    },
+                    {
+                        title: "2. Données collectées",
+                        content: `
+                Dans le cadre de l'utilisation du formulaire de devis, nous collectons les données suivantes :
+                <ul class="list-disc list-inside space-y-1 ml-1 mt-2">
+                    <li><strong>Identité :</strong> Nom, Prénom ou Raison sociale.</li>
+                    <li><strong>Contact :</strong> Adresse email, Numéro de téléphone.</li>
+                    <li><strong>Localisation :</strong> <span class="bg-orange-50 text-orange-700 px-1 rounded font-semibold">Adresse postale du chantier</span> (nécessaire pour l'étude technique et logistique).</li>
+                    <li><strong>Projet :</strong> Détails des menuiseries configurées (dimensions, types) et contenu de votre message.</li>
+                </ul>
+              `,
+                    },
+                    {
+                        title: "3. Finalité & Base légale",
+                        content: `
+                <strong>Finalités :</strong>
+                <ul class="list-disc list-inside ml-1 mb-2">
+                    <li>Gestion et suivi des demandes de devis et relation client.</li>
+                    <li>Analyse technique du projet (faisabilité selon l'adresse).</li>
+                    <li>Envoi d'offres commerciales (uniquement si vous avez coché la case dédiée).</li>
+                </ul>
+                <strong>Base légale :</strong> Votre consentement (art. 6.1.a RGPD) et l'exécution de mesures précontractuelles (demande de devis).
+              `,
+                    },
+                    {
+                        title: "4. Durée de conservation",
+                        content: `
+                Les données relatives aux prospects sont conservées pendant une durée de <strong>3 ans</strong> à compter du dernier contact entrant.
+                En cas de conclusion d'un contrat (commande), les données sont conservées selon les obligations légales (10 ans pour les pièces comptables).
+              `,
+                    },
+                    {
+                        title: "5. Destinataires",
+                        content: `
+                Les données collectées sont destinées exclusivement à <strong>${company.denomination}</strong>.
+                Elles peuvent être hébergées par notre prestataire technique dans le cadre strict du fonctionnement et de la maintenance du site.
+              `,
+                    },
+                    {
+                        title: "6. Transfert hors Union européenne",
+                        content: `
+                Les données peuvent être hébergées sur des serveurs situés hors de l’Union européenne (notamment via notre hébergeur Vercel Inc. aux USA).
+                Dans ce cas, des garanties appropriées sont mises en œuvre conformément au RGPD (Clauses Contractuelles Types ou cadre de protection équivalent).
+              `,
+                    },
+                    {
+                        title: "7. Vos droits",
+                        content: `
+                Vous disposez d'un droit d'accès, de rectification, d'effacement, de portabilité de vos données, ainsi que d'un droit à la limitation et d'opposition au traitement.<br/>
+                Pour exercer ces droits, contactez-nous : <a href="mailto:${company.email}" class="text-orange-600 font-medium">${company.email}</a>.
+              `,
+                    },
+                    {
+                        title: "8. Réclamation",
+                        content: `
+                Si vous estimez, après nous avoir contactés, que vos droits ne sont pas respectés, vous pouvez introduire une réclamation auprès de la :<br/><br/>
+                <strong>Commission Nationale de l’Informatique et des Libertés (CNIL)</strong><br/>
+                3 Place de Fontenoy – TSA 80715<br/>
+                75334 Paris Cedex 07<br/>
+                <a href="https://www.cnil.fr" target="_blank" rel="noopener" class="text-orange-600 underline">https://www.cnil.fr</a>
+              `,
+                    },
+                ],
+            };
+
+    if (!isOpen) return null;
 
     return (
         <AnimatePresence>
             <div
-                className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-sm"
-                onClick={onClose}
+                className="fixed inset-0 z-[200] flex items-center justify-center p-4 sm:p-6"
+                role="dialog"
+                aria-modal="true"
             >
+                {/* Backdrop avec flou */}
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    onClick={onClose}
+                    className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-all"
+                />
+
+                {/* Container Modal */}
                 <motion.div
                     initial={{ opacity: 0, scale: 0.95, y: 20 }}
                     animate={{ opacity: 1, scale: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                    transition={{ duration: 0.2 }}
-                    className="bg-white rounded-2xl w-full max-w-3xl max-h-[85vh] overflow-hidden shadow-2xl"
-                    onClick={e => e.stopPropagation()}
+                    transition={{ type: "spring", duration: 0.5, bounce: 0.3 }}
+                    className="relative flex flex-col w-full max-w-2xl max-h-[85vh] bg-white rounded-2xl shadow-2xl overflow-hidden ring-1 ring-white/10"
+                    onClick={(e) => e.stopPropagation()}
                 >
-                    {/* Header */}
-                    <div className="bg-gradient-to-r from-slate-900 to-slate-800 text-white p-6 flex items-center justify-between">
-                        <h2 className="text-2xl font-bold">{content.title}</h2>
+                    {/* --- HEADER --- */}
+                    <div className="flex-shrink-0 flex items-center justify-between px-6 py-4 border-b border-slate-100 bg-white z-10">
+                        <div className="flex items-center gap-3">
+                            <div className="p-2 bg-orange-100 text-orange-600 rounded-lg">
+                                {content.icon}
+                            </div>
+                            <h2 className="text-xl font-bold text-slate-800 tracking-tight">
+                                {content.title}
+                            </h2>
+                        </div>
                         <button
                             onClick={onClose}
-                            className="p-2 hover:bg-white/10 rounded-full transition-colors"
+                            className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-full transition-all duration-200"
+                            aria-label="Fermer"
                         >
-                            <X size={24} />
+                            <X size={20} />
                         </button>
                     </div>
 
-                    {/* Content */}
-                    <div className="p-6 overflow-y-auto max-h-[calc(85vh-120px)] custom-scrollbar">
-                        {content.sections.map((section, index) => (
-                            <div key={index} className={`mb-6 ${index !== 0 ? 'pt-6 border-t border-slate-200' : ''}`}>
-                                <h3 className="text-lg font-bold text-slate-900 mb-3">{section.title}</h3>
-                                <div
-                                    className="text-slate-700 leading-relaxed text-sm"
-                                    dangerouslySetInnerHTML={{ __html: section.content }}
-                                />
-                            </div>
-                        ))}
+                    {/* --- CONTENT --- */}
+                    <div className="flex-1 overflow-y-auto p-6 scroll-smooth custom-scrollbar">
+                        <div className="space-y-8">
+                            {content.sections.map((section, index) => (
+                                <section key={index} className="relative">
+                                    {/* Ligne verticale entre sections */}
+                                    {index !== content.sections.length - 1 && (
+                                        <div className="absolute left-0 top-8 bottom-0 w-px bg-slate-100 hidden md:block -ml-4" />
+                                    )}
+
+                                    <h3 className="text-sm uppercase tracking-wider font-bold text-orange-600 mb-3 flex items-center gap-2">
+                                        {section.title}
+                                    </h3>
+                                    <div
+                                        className="text-slate-600 leading-relaxed text-[15px] bg-slate-50/50 p-4 rounded-xl border border-slate-100/50"
+                                        dangerouslySetInnerHTML={{ __html: section.content }}
+                                    />
+                                </section>
+                            ))}
+                        </div>
                     </div>
 
-                    {/* Footer */}
-                    <div className="p-4 border-t border-slate-200 bg-slate-50 text-center">
+                    {/* --- FOOTER --- */}
+                    <div className="flex-shrink-0 px-6 py-4 border-t border-slate-100 bg-slate-50 flex justify-end items-center gap-4">
+                        <div className="hidden sm:block text-xs text-slate-400">
+                            SARANGE - Menuiserie & Rénovation
+                        </div>
                         <button
                             onClick={onClose}
-                            className="px-6 py-2 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg transition-colors"
+                            className="w-full sm:w-auto px-6 py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-medium text-sm rounded-lg shadow-lg shadow-slate-900/10 hover:shadow-slate-900/20 active:scale-95 transition-all duration-200"
                         >
                             Fermer
                         </button>

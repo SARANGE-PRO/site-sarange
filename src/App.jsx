@@ -15,8 +15,6 @@ import B2BSection from './components/sections/B2BSection';
 import AluSection from './components/sections/AluSection';
 import EntranceDoorSection from './components/sections/EntranceDoorSection';
 import GarageAndVerandaSection from './components/sections/GarageAndVerandaSection';
-import ExpertiseSection from './components/sections/ExpertiseSection';
-import LocalSection from './components/sections/LocalSection';
 import ReviewsSection from './components/sections/ReviewsSection';
 
 // Features
@@ -25,23 +23,36 @@ import ContactForm from './features/contact/ContactForm';
 // Modals
 import AidesModal from './components/modals/AidesModal';
 import InterventionModal from './components/modals/InterventionModal';
+import LegalModal from './components/modals/LegalModal';
 
 const App = () => {
   const [showAidesModal, setShowAidesModal] = useState(false);
   const [showInterventionModal, setShowInterventionModal] = useState(false);
+  const [activeModal, setActiveModal] = useState(null); // 'mentions', 'politique' ou null
 
   return (
     <OfferProvider>
       <div className="font-sans antialiased text-secondary-800 bg-white pb-20 md:pb-0">
 
-        {/* Modales Globales */}
+        {/* --- MODALES --- */}
         <AidesModal isOpen={showAidesModal} onClose={() => setShowAidesModal(false)} />
         <InterventionModal isOpen={showInterventionModal} onClose={() => setShowInterventionModal(false)} />
 
-        {/* Navigation */}
+        <LegalModal
+          isOpen={activeModal === 'mentions'}
+          onClose={() => setActiveModal(null)}
+          type="mentions"
+        />
+        <LegalModal
+          isOpen={activeModal === 'politique'}
+          onClose={() => setActiveModal(null)}
+          type="politique"
+        />
+
+        {/* --- NAVIGATION --- */}
         <Navbar onOpenAides={() => setShowAidesModal(true)} />
 
-        {/* Contenu Principal */}
+        {/* --- CONTENU PRINCIPAL --- */}
         <main>
           <Hero
             onOpenAides={() => setShowAidesModal(true)}
@@ -55,18 +66,19 @@ const App = () => {
           <AluSection />
           <GarageAndVerandaSection />
           <B2BSection />
-
-          {/* Section Avis Google */}
           <ReviewsSection />
 
-          {/* Formulaire & Configurateur */}
           <ContactForm />
         </main>
 
-        <Footer />
+        {/* --- FOOTER --- */}
+        <Footer
+          onOpenMentions={() => setActiveModal('mentions')}
+          onOpenPolitique={() => setActiveModal('politique')}
+        />
 
-        {/* Sticky Call Button Mobile (Optimisé avec Glassmorphism) */}
-        <div className="md:hidden fixed bottom-0 left-0 right-0 glass border-t border-white/20 p-3 sm:p-4 z-40 flex justify-between items-center safe-area-bottom shadow-2xl">
+        {/* --- BOUTON APPEL MOBILE (STICKY) --- */}
+        <div className="md:hidden fixed bottom-0 left-0 right-0 glass border-t border-white/20 p-3 sm:p-4 z-40 flex justify-between items-center safe-area-bottom shadow-2xl bg-white/90 backdrop-blur-md">
           <div className="flex flex-col">
             <span className="text-[10px] uppercase font-bold text-secondary-600 tracking-wider">Une question ?</span>
             <a href="tel:0986713444" className="tap-target font-black text-secondary-900 text-base sm:text-lg hover:text-primary-500 transition-colors">09 86 71 34 44</a>
@@ -79,10 +91,9 @@ const App = () => {
           </button>
         </div>
 
-
       </div>
 
-      {/* Cookie Consent Banner */}
+      {/* --- BANNIÈRE COOKIES --- */}
       <CookieConsent
         location="bottom"
         buttonText="Tout accepter"
@@ -93,7 +104,8 @@ const App = () => {
           background: "#0f172a",
           alignItems: "center",
           padding: "20px",
-          boxShadow: "0 -4px 20px rgba(0,0,0,0.2)"
+          boxShadow: "0 -4px 20px rgba(0,0,0,0.2)",
+          zIndex: 100
         }}
         buttonStyle={{
           background: "linear-gradient(to right, #f97316, #dc2626)",
@@ -121,12 +133,13 @@ const App = () => {
             </p>
             <p className="text-slate-300 text-sm">
               Ce site utilise des cookies pour améliorer votre expérience.{" "}
-              <a
-                href="/politique-confidentialite"
-                className="underline text-orange-400 hover:text-orange-300 transition-colors font-semibold"
+              {/* CORRECTION : Le bouton ouvre maintenant la modale au lieu de changer de page */}
+              <button
+                onClick={() => setActiveModal('politique')}
+                className="underline text-orange-400 hover:text-orange-300 transition-colors font-semibold bg-transparent border-none cursor-pointer p-0"
               >
                 En savoir plus
-              </a>
+              </button>
             </p>
           </div>
         </div>
