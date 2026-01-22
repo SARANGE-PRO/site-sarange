@@ -22,7 +22,7 @@ const Hero = ({ onOpenAides, onOpenIntervention }) => {
     },
   };
 
-  // Nouvelle présentation ÉPURÉE (Juste le texte et l'icône, pas de fond)
+  // Configuration des 4 points forts (Version épurée)
   const features = [
     { icon: Factory, title: "Prix Direct Usine", sub: "Sans intermédiaire" },
     { icon: Ruler, title: "Métrage Précis", sub: "Technique certifiée" },
@@ -45,6 +45,7 @@ const Hero = ({ onOpenAides, onOpenIntervention }) => {
           initial={{ scale: 1.1 }}
           animate={{ scale: 1 }}
           transition={{ duration: 25, ease: 'linear', repeat: Infinity, repeatType: 'reverse' }}
+          fetchPriority="high"
         />
         <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900/90 to-slate-950/50"></div>
         <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent"></div>
@@ -64,10 +65,10 @@ const Hero = ({ onOpenAides, onOpenIntervention }) => {
         >
           <div className="flex flex-col items-start max-w-4xl">
 
-            {/* Tagline */}
+            {/* Tagline modifiée */}
             <motion.div variants={itemVariants} className="text-xs sm:text-sm font-bold text-orange-400 uppercase tracking-[0.2em] mb-2 flex items-center">
               <span className="w-8 h-[2px] bg-orange-500 mr-3 shadow-[0_0_12px_rgba(249,115,22,1)]"></span>
-              Direct Fabricant • 100% Français
+              Direct Fabricant • MEILLEUR RAPPORT QUALITÉ-PRIX
             </motion.div>
 
             {/* H1 : FENÊTRES */}
@@ -82,14 +83,14 @@ const Hero = ({ onOpenAides, onOpenIntervention }) => {
                 FENÊTRES
               </span>
 
-              <div className="flex flex-wrap items-center gap-4 sm:gap-6 mt-1">
+              <div className="flex flex-wrap items-center gap-3 sm:gap-6 mt-1">
                 <span className="text-white/90 text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight">
                   PVC & ALU
                 </span>
 
                 <span className="relative inline-block group transform -skew-x-6 hover:skew-x-0 transition-transform duration-300">
                   <span className="absolute inset-0 bg-gradient-to-r from-orange-500 to-orange-400 rounded-sm shadow-[0_5px_20px_rgba(249,115,22,0.4)]"></span>
-                  <span className="relative z-10 text-slate-950 px-4 py-1 italic font-black text-xl sm:text-2xl lg:text-3xl block">
+                  <span className="relative z-10 text-slate-950 px-3 py-1 italic font-black text-lg sm:text-2xl lg:text-3xl block">
                     sur-mesure
                   </span>
                 </span>
@@ -107,7 +108,7 @@ const Hero = ({ onOpenAides, onOpenIntervention }) => {
             </motion.h2>
 
             {/* Badge RGE */}
-            <motion.div variants={itemVariants} className="flex flex-wrap gap-3 mb-6">
+            <motion.div variants={itemVariants} className="flex flex-wrap gap-3 mb-4">
               <div className="relative overflow-hidden inline-flex items-center bg-slate-800/60 backdrop-blur-xl border border-white/10 px-4 py-2 rounded-lg shadow-xl">
                 <div className="relative flex h-3 w-3 mr-3">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
@@ -120,15 +121,15 @@ const Hero = ({ onOpenAides, onOpenIntervention }) => {
             </motion.div>
           </div>
 
-          {/* INTEGRATION ÉPURÉE : LISTE TECHNIQUE (Plus de grosses cartes) */}
-          <motion.div variants={itemVariants} className="grid grid-cols-2 gap-x-8 gap-y-6 max-w-2xl py-2">
+          {/* LISTE AVANTAGES ÉPURÉE (Sans cartes) */}
+          <motion.div variants={itemVariants} className="grid grid-cols-2 gap-x-4 gap-y-6 max-w-2xl py-2">
             {features.map((feature, index) => (
-              <div key={index} className="flex items-start gap-3 group">
-                <feature.icon size={20} className="text-orange-500 mt-0.5 group-hover:scale-110 transition-transform" />
-                <div className="flex flex-col">
+              <div key={index} className="flex flex-col justify-center gap-1 group">
+                <div className="flex items-center gap-2">
+                  <feature.icon size={20} className="text-orange-500 group-hover:scale-110 transition-transform" />
                   <span className="font-bold text-slate-100 text-sm sm:text-base leading-tight">{feature.title}</span>
-                  <span className="text-xs text-slate-400 mt-0.5">{feature.sub}</span>
                 </div>
+                <span className="text-xs text-slate-400 pl-7">{feature.sub}</span>
               </div>
             ))}
           </motion.div>
@@ -137,21 +138,21 @@ const Hero = ({ onOpenAides, onOpenIntervention }) => {
             *Taux réduit applicable sous conditions d'éligibilité.
           </motion.p>
 
-          {/* CTA UNIQUE LARGE */}
+          {/* CTA UNIQUE */}
           <motion.div variants={itemVariants} className="pt-4 flex flex-col sm:flex-row gap-4">
             <button
               onClick={() => document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })}
-              className="relative w-full sm:w-auto px-12 py-4 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-400 hover:to-orange-500 text-white font-bold rounded-xl shadow-[0_10px_30px_rgba(249,115,22,0.4)] transition-all transform hover:-translate-y-1 overflow-hidden group"
+              className="relative w-full sm:w-auto px-6 sm:px-12 py-4 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-400 hover:to-orange-500 text-white font-bold rounded-xl shadow-[0_10px_30px_rgba(249,115,22,0.4)] transition-all transform hover:-translate-y-1 overflow-hidden group"
             >
               <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
-              <span className="relative flex items-center justify-center text-lg tracking-wide">
+              <span className="relative flex items-center justify-center text-base sm:text-lg tracking-wide whitespace-nowrap">
                 DEMANDER MON DEVIS GRATUIT
-                <Sparkles size={20} className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity" />
+                <Sparkles size={20} className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity hidden sm:block" />
               </span>
             </button>
           </motion.div>
 
-          {/* Mobile Shortcuts (Harmonisés) */}
+          {/* Mobile Shortcuts */}
           <motion.div variants={itemVariants} className="flex lg:hidden gap-2 pt-4 overflow-x-auto no-scrollbar pb-2">
             <button
               onClick={onOpenIntervention}
@@ -170,7 +171,7 @@ const Hero = ({ onOpenAides, onOpenIntervention }) => {
           </motion.div>
         </motion.div>
 
-        {/* --- COLONNE DROITE --- */}
+        {/* --- COLONNE DROITE (Desktop Only) --- */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9, y: 30 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -225,9 +226,10 @@ const Hero = ({ onOpenAides, onOpenIntervention }) => {
 
       </div>
 
-      {/* --- SCROLL INDICATOR MOBILE CENTRÉ --- */}
+      {/* --- SCROLL INDICATOR MOBILE CORRIGÉ --- */}
+      {/* Positionné avec w-full et left-0 pour garantir le centrage parfait */}
       <motion.div
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center lg:hidden pointer-events-none"
+        className="absolute bottom-28 left-0 w-full flex flex-col items-center lg:hidden pointer-events-none z-20"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1, y: [0, 8, 0] }}
         transition={{ delay: 2, duration: 2, repeat: Infinity }}
