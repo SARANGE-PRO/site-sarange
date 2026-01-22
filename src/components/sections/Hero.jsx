@@ -70,10 +70,10 @@ const Hero = ({ onOpenAides, onOpenIntervention }) => {
               Direct Fabricant • Meilleur Rapport Qualité/Prix
             </motion.div>
 
-            {/* H1 : FENÊTRES */}
+            {/* H1 : FENÊTRES (Remonté sur mobile avec -mt-12) */}
             <motion.h1
               variants={itemVariants}
-              className="font-black uppercase tracking-tighter leading-none"
+              className="font-black uppercase tracking-tighter leading-none -mt-12 sm:mt-0"
             >
               <span
                 className="block bg-clip-text text-transparent bg-gradient-to-br from-white via-slate-100 to-slate-400 drop-shadow-2xl py-2"
@@ -125,7 +125,7 @@ const Hero = ({ onOpenAides, onOpenIntervention }) => {
             </motion.div>
           </div>
 
-          {/* LISTE TECHNIQUE : DESKTOP UNIQUEMENT (hidden sur mobile) */}
+          {/* LISTE TECHNIQUE : DESKTOP UNIQUEMENT */}
           <motion.div variants={itemVariants} className="hidden lg:grid grid-cols-2 gap-x-8 gap-y-6 max-w-2xl py-2">
             {features.map((feature, index) => (
               <div key={index} className="flex items-start gap-3 group">
@@ -142,22 +142,23 @@ const Hero = ({ onOpenAides, onOpenIntervention }) => {
             *Taux réduit applicable sous conditions d'éligibilité.
           </motion.p>
 
-          {/* CTA Principal */}
-          <motion.div variants={itemVariants} className="pt-2 flex flex-col sm:flex-row gap-4">
+          {/* CTA NOUVEAU STYLE (Glassmorphism + Centrage Parfait) */}
+          <motion.div variants={itemVariants} className="pt-2 flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
             <button
               onClick={() => document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })}
-              className="relative w-full sm:w-auto px-8 sm:px-12 py-4 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-400 hover:to-orange-500 text-white font-bold rounded-xl shadow-[0_10px_30px_rgba(249,115,22,0.4)] transition-all transform hover:-translate-y-1 overflow-hidden group touch-manipulation"
+              className="relative w-full sm:w-auto px-8 py-4 rounded-xl border border-orange-500/30 bg-orange-500/80 hover:bg-orange-500 text-white font-bold shadow-[0_0_30px_rgba(249,115,22,0.25)] backdrop-blur-md transition-all transform hover:-translate-y-1 overflow-hidden group flex items-center justify-center touch-manipulation"
             >
-              <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
-              <span className="relative flex items-center justify-center text-lg tracking-wide">
-                DEMANDER MON DEVIS GRATUIT
-                <Sparkles size={20} className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity" />
+              <span className="relative z-10 flex items-center justify-center text-lg tracking-wide text-center uppercase">
+                Demander mon devis gratuit
+                <Sparkles size={20} className="ml-2 animate-pulse" />
               </span>
+              {/* Effet Brillance */}
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-shimmer"></div>
             </button>
           </motion.div>
 
-          {/* BOUTONS SHORTCUTS : Visibles sur Mobile pour remplacer la liste technique */}
-          <motion.div variants={itemVariants} className="flex lg:hidden gap-3 pt-4 pb-2 flex-wrap">
+          {/* BOUTONS SHORTCUTS MOBILE */}
+          <motion.div variants={itemVariants} className="flex lg:hidden gap-3 pt-4 pb-2 flex-wrap justify-center w-full">
             <button
               onClick={onOpenIntervention}
               className="flex-1 min-w-[140px] px-4 py-3 bg-slate-800/90 border border-slate-700 rounded-xl text-xs font-bold text-slate-100 flex items-center justify-center gap-2 active:scale-95 transition-all touch-manipulation"
@@ -230,9 +231,8 @@ const Hero = ({ onOpenAides, onOpenIntervention }) => {
 
       </div>
 
-      {/* --- SCROLL INDICATOR CENTRÉ & BIEN REMONTÉ --- */}
-      {/* bottom-20 pour être sûr d'être au-dessus de la zone de nav mobile */}
-      <div className="absolute bottom-20 inset-x-0 flex justify-center lg:hidden pointer-events-none">
+      {/* --- SCROLL INDICATOR (Remonté à bottom-32 pour être sûr) --- */}
+      <div className="absolute bottom-32 inset-x-0 flex justify-center lg:hidden pointer-events-none">
         <motion.div
           className="flex flex-col items-center"
           initial={{ opacity: 0 }}
