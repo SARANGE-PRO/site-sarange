@@ -32,13 +32,11 @@ const Hero = ({ onOpenAides, onOpenIntervention }) => {
   return (
     <section
       id="hero"
-      // CHANGEMENT: pb-20 pour laisser de la place au scroll indicator sur mobile
-      className="relative min-h-[100dvh] flex items-center pt-24 sm:pt-24 lg:pt-16 pb-20 lg:pb-12 overflow-hidden bg-slate-950"
+      className="relative min-h-[100dvh] flex items-center pt-20 sm:pt-24 lg:pt-16 pb-12 overflow-hidden bg-slate-950"
       aria-label="Menuiserie PVC et Alu sur-mesure Sarange"
     >
       {/* --- FOND --- */}
       <div className="absolute inset-0 z-0 overflow-hidden">
-        {/* OPTIMISATION SEO LCP : fetchPriority="high" */}
         <motion.img
           src={IMAGES.hero}
           alt="Atelier de fabrication SARANGE - Menuiserie sur-mesure Combs-la-Ville"
@@ -55,45 +53,43 @@ const Hero = ({ onOpenAides, onOpenIntervention }) => {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 sm:px-6 relative z-10 grid lg:grid-cols-12 gap-6 lg:gap-16 items-center">
+      <div className="container mx-auto px-4 sm:px-6 relative z-10 grid lg:grid-cols-12 gap-8 lg:gap-16 items-center">
 
         {/* --- COLONNE GAUCHE --- */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          // CHANGEMENT: space-y-4 au lieu de 6 pour gagner de la place sur mobile
-          className="lg:col-span-8 text-white space-y-4 lg:space-y-6"
+          className="lg:col-span-8 text-white space-y-6"
         >
-          <div className="flex flex-col items-start max-w-4xl">
+          <div className="flex flex-col items-start max-w-5xl">
 
-            {/* Tagline */}
-            <motion.div variants={itemVariants} className="text-[10px] sm:text-sm font-bold text-orange-400 uppercase tracking-[0.2em] mb-1 sm:mb-2 flex items-center">
-              <span className="w-6 sm:w-8 h-[2px] bg-orange-500 mr-2 sm:mr-3 shadow-[0_0_12px_rgba(249,115,22,1)]"></span>
-              Direct Fabricant • RAPPORT QUALITÉ-PRIX
+            {/* Tagline : CACHÉE SUR MOBILE ("hidden sm:flex") pour épurer */}
+            <motion.div variants={itemVariants} className="hidden sm:flex text-xs sm:text-sm font-bold text-orange-400 uppercase tracking-[0.2em] mb-2 items-center">
+              <span className="w-8 h-[2px] bg-orange-500 mr-3 shadow-[0_0_12px_rgba(249,115,22,1)]"></span>
+              Direct Fabricant • Meilleur Rapport Qualité/Prix
             </motion.div>
 
-            {/* H1 : KEYWORD PRINCIPAL */}
+            {/* H1 : FENÊTRES */}
             <motion.h1
               variants={itemVariants}
               className="font-black uppercase tracking-tighter leading-none"
             >
               <span
-                className="block bg-clip-text text-transparent bg-gradient-to-br from-white via-slate-100 to-slate-400 drop-shadow-2xl py-1 sm:py-2"
-                // CHANGEMENT: clamp ajusté (2.5rem min) pour éviter les retours à la ligne intempestifs sur petit écran
-                style={{ fontSize: 'clamp(2.5rem, 9vw, 6rem)' }}
+                className="block bg-clip-text text-transparent bg-gradient-to-br from-white via-slate-100 to-slate-400 drop-shadow-2xl py-2"
+                style={{ fontSize: 'clamp(3rem, 7vw, 6rem)' }}
               >
                 FENÊTRES
               </span>
 
-              <div className="flex flex-wrap items-center gap-3 sm:gap-6 mt-0 sm:mt-1">
+              <div className="flex flex-wrap items-center gap-4 sm:gap-6 mt-1">
                 <span className="text-white/90 text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight">
                   PVC & ALU
                 </span>
 
                 <span className="relative inline-block group transform -skew-x-6 hover:skew-x-0 transition-transform duration-300">
                   <span className="absolute inset-0 bg-gradient-to-r from-orange-500 to-orange-400 rounded-sm shadow-[0_5px_20px_rgba(249,115,22,0.4)]"></span>
-                  <span className="relative z-10 text-slate-950 px-3 sm:px-4 py-0.5 sm:py-1 italic font-black text-lg sm:text-2xl lg:text-3xl block">
+                  <span className="relative z-10 text-slate-950 px-4 py-1 italic font-black text-xl sm:text-2xl lg:text-3xl block">
                     sur-mesure
                   </span>
                 </span>
@@ -101,82 +97,85 @@ const Hero = ({ onOpenAides, onOpenIntervention }) => {
             </motion.h1>
 
             {/* H2 : LOCALISATION */}
-            <motion.h2 variants={itemVariants} className="font-semibold text-slate-200 mt-4 sm:mt-6 mb-3 sm:mb-4 flex items-center gap-3">
-              <div className="flex items-center gap-2 bg-white/5 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border border-white/10 backdrop-blur-md shadow-lg">
-                <MapPin size={16} className="text-orange-500 flex-shrink-0" />
+            <motion.h2 variants={itemVariants} className="font-semibold text-slate-200 mt-6 mb-2 flex items-center gap-3">
+              <div className="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-full border border-white/10 backdrop-blur-md shadow-lg">
+                <MapPin size={18} className="text-orange-500 flex-shrink-0" />
                 <span className="text-sm sm:text-base">Combs-la-Ville <span className="text-orange-500 font-black">(77)</span></span>
               </div>
               <span className="hidden sm:block w-1 h-1 rounded-full bg-slate-600"></span>
               <span className="text-slate-400 font-normal text-sm sm:text-base hidden sm:block">Île-de-France</span>
             </motion.h2>
 
+            {/* LISTE PRODUITS */}
+            <motion.p variants={itemVariants} className="text-lg sm:text-xl font-medium text-slate-300 leading-tight mb-6 tracking-wide">
+              Volets • Portes • Vérandas • Garages <span className="text-orange-500 font-black italic ml-2">Direct Usine</span>
+            </motion.p>
+
             {/* Badge RGE */}
-            <motion.div variants={itemVariants} className="flex flex-wrap gap-3 mb-4 sm:mb-6">
-              <div className="relative overflow-hidden inline-flex items-center bg-slate-800/60 backdrop-blur-xl border border-white/10 px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg shadow-xl">
-                <div className="relative flex h-2.5 w-2.5 sm:h-3 sm:w-3 mr-2 sm:mr-3">
+            <motion.div variants={itemVariants} className="flex flex-wrap gap-3 mb-6">
+              <div className="relative overflow-hidden inline-flex items-center bg-slate-800/60 backdrop-blur-xl border border-white/10 px-4 py-2 rounded-lg shadow-xl">
+                <div className="relative flex h-3 w-3 mr-3">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-full w-full bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.6)]"></span>
+                  <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.6)]"></span>
                 </div>
-                <span className="text-[10px] sm:text-sm uppercase tracking-wide font-bold text-slate-200">
+                <span className="text-xs sm:text-sm uppercase tracking-wide font-bold text-slate-200">
                   Fabricant-Installateur <span className="text-green-400 font-black">Certifié RGE Qualibat</span>
                 </span>
               </div>
             </motion.div>
           </div>
 
-          {/* LISTE TECHNIQUE */}
-          {/* CHANGEMENT: gap réduit pour compacter sur mobile */}
-          <motion.div variants={itemVariants} className="grid grid-cols-2 gap-x-4 gap-y-4 sm:gap-x-8 sm:gap-y-6 max-w-2xl py-1 sm:py-2">
+          {/* LISTE TECHNIQUE MOBILE FRIENDLY */}
+          <motion.div variants={itemVariants} className="grid grid-cols-2 gap-x-4 gap-y-6 sm:gap-x-8 max-w-2xl py-2">
             {features.map((feature, index) => (
-              <div key={index} className="flex items-start gap-2 sm:gap-3 group">
-                <feature.icon size={18} className="text-orange-500 mt-0.5 group-hover:scale-110 transition-transform flex-shrink-0" />
+              <div key={index} className="flex items-start gap-3 group">
+                <feature.icon size={20} className="text-orange-500 mt-0.5 group-hover:scale-110 transition-transform flex-shrink-0" />
                 <div className="flex flex-col">
                   <span className="font-bold text-slate-100 text-sm sm:text-base leading-tight">{feature.title}</span>
-                  <span className="text-[10px] sm:text-xs text-slate-400 mt-0.5">{feature.sub}</span>
+                  <span className="text-xs text-slate-400 mt-0.5 leading-snug">{feature.sub}</span>
                 </div>
               </div>
             ))}
           </motion.div>
 
-          {/* Mention légale */}
-          <motion.p variants={itemVariants} className="text-[10px] text-slate-500 italic pl-1 hidden sm:block">
+          <motion.p variants={itemVariants} className="text-[10px] text-slate-500 italic pl-1">
             *Taux réduit applicable sous conditions d'éligibilité.
           </motion.p>
 
-          {/* CTA */}
-          <motion.div variants={itemVariants} className="pt-2 sm:pt-4 flex flex-col sm:flex-row gap-4">
+          {/* CTA Mobile Friendly */}
+          <motion.div variants={itemVariants} className="pt-4 flex flex-col sm:flex-row gap-4">
             <button
               onClick={() => document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })}
-              className="relative w-full sm:w-auto px-8 sm:px-12 py-3.5 sm:py-4 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-400 hover:to-orange-500 text-white font-bold rounded-xl shadow-[0_10px_30px_rgba(249,115,22,0.4)] transition-all transform hover:-translate-y-1 overflow-hidden group z-20"
+              className="relative w-full sm:w-auto px-8 sm:px-12 py-4 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-400 hover:to-orange-500 text-white font-bold rounded-xl shadow-[0_10px_30px_rgba(249,115,22,0.4)] transition-all transform hover:-translate-y-1 overflow-hidden group touch-manipulation"
             >
               <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
-              <span className="relative flex items-center justify-center text-base sm:text-lg tracking-wide">
+              <span className="relative flex items-center justify-center text-lg tracking-wide">
                 DEMANDER MON DEVIS GRATUIT
-                <Sparkles size={18} className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity" />
+                <Sparkles size={20} className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity" />
               </span>
             </button>
           </motion.div>
 
-          {/* Mobile Shortcuts (Boutons secondaires) */}
-          <motion.div variants={itemVariants} className="flex lg:hidden gap-2 pt-2 overflow-x-auto no-scrollbar pb-2">
+          {/* Mobile Shortcuts */}
+          <motion.div variants={itemVariants} className="flex lg:hidden gap-2 pt-4 overflow-x-auto no-scrollbar pb-2 mask-linear-fade">
             <button
               onClick={onOpenIntervention}
-              className="whitespace-nowrap px-4 py-2 bg-slate-800/80 border border-slate-700/50 rounded-full text-xs font-bold text-slate-100 flex items-center gap-2 active:scale-95 transition-all backdrop-blur-sm"
+              className="whitespace-nowrap px-4 py-2.5 bg-slate-800/90 border border-slate-700 rounded-full text-xs font-bold text-slate-100 flex items-center gap-2 active:scale-95 transition-all touch-manipulation"
             >
-              <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
+              <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
               Zones d'intervention
             </button>
             <button
               onClick={onOpenAides}
-              className="whitespace-nowrap px-4 py-2 bg-slate-800/80 border border-slate-700/50 rounded-full text-xs font-bold text-orange-400 flex items-center gap-2 active:scale-95 transition-all backdrop-blur-sm"
+              className="whitespace-nowrap px-4 py-2.5 bg-slate-800/90 border border-slate-700 rounded-full text-xs font-bold text-orange-400 flex items-center gap-2 active:scale-95 transition-all touch-manipulation"
             >
-              <Percent size={12} />
+              <Percent size={14} />
               Aides & TVA*
             </button>
           </motion.div>
         </motion.div>
 
-        {/* --- COLONNE DROITE (Desktop uniquement) --- */}
+        {/* --- COLONNE DROITE (Desktop Only) --- */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9, y: 30 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -231,23 +230,21 @@ const Hero = ({ onOpenAides, onOpenIntervention }) => {
 
       </div>
 
-      {/* --- SCROLL INDICATOR MOBILE CENTRÉ --- */}
-      <motion.div
-        onClick={() => window.scrollBy({ top: window.innerHeight * 0.8, behavior: 'smooth' })}
-        // CORRECTION ICI :
-        // 1. Suppression de 'left-1/2' et '-translate-x-1/2' (qui entraient en conflit avec Framer Motion)
-        // 2. Ajout de 'left-0', 'w-full' pour prendre toute la largeur
-        // 3. 'flex-col items-center' assure le centrage horizontal parfait du contenu
-        className="absolute bottom-6 left-0 w-full flex flex-col items-center lg:hidden cursor-pointer z-30 mix-blend-screen"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1, y: [0, 8, 0] }}
-        transition={{ delay: 2, duration: 2, repeat: Infinity }}
-      >
-        <span className="text-[9px] text-slate-400 mb-1 font-bold tracking-widest uppercase drop-shadow-md">Découvrir</span>
-        <div className="bg-slate-900/50 p-1 rounded-full backdrop-blur-sm border border-white/10 shadow-lg">
-          <ChevronDown className="text-orange-500" size={20} />
-        </div>
-      </motion.div>
+      {/* --- SCROLL INDICATOR CENTRÉ & REMONTÉ --- */}
+      {/* Remonté à bottom-16 pour être sûr qu'il ne colle pas en bas sur mobile */}
+      <div className="absolute bottom-16 inset-x-0 flex justify-center lg:hidden pointer-events-none">
+        <motion.div
+          className="flex flex-col items-center"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1, y: [0, 8, 0] }}
+          transition={{ delay: 2, duration: 2, repeat: Infinity }}
+        >
+          <span className="text-[10px] text-slate-500 mb-1 font-medium tracking-widest uppercase">
+            Découvrir
+          </span>
+          <ChevronDown className="text-orange-500" size={24} />
+        </motion.div>
+      </div>
 
     </section>
   );
