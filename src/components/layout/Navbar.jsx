@@ -156,7 +156,7 @@ const Navbar = ({ onOpenAides }) => {
                   onClick={() => scrollTo('b2b')}
                   className="text-left text-sm font-bold text-white py-2 flex items-center"
                 >
-                  <Briefcase className="mr-3 text-orange-500" size={18} /> ESPACE PRO / B2B
+                  <Briefcase className="mr-3 text-orange-500" size={18} /> PRO
                 </button>
 
                 <button
@@ -165,17 +165,6 @@ const Navbar = ({ onOpenAides }) => {
                 >
                   <Percent className="mr-3 text-orange-500" size={18} /> Voir les Aides & Primes
                 </button>
-
-                <a
-                  href="tel:+33986713444"
-                  onClick={handleTelClick}
-                  className="flex items-center gap-3 text-white font-bold py-2"
-                >
-                  <div className="p-2 bg-orange-500 rounded-full">
-                    <Phone size={16} className="text-white" />
-                  </div>
-                  09 86 71 34 44
-                </a>
 
                 <button
                   onClick={() => scrollTo('contact')}
