@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# Eviter l'indexation des fichiers techniques
+Disallow: /assets/
+Disallow: *.js$
+Disallow: *.css$
+
+# Sitemap
+Sitemap: https://sarange.fr/sitemap.xml
