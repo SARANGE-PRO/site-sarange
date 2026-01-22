@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ChevronRight, Check, Percent, Info, Briefcase } from 'lucide-react';
+import { ChevronRight, ChevronDown, Percent, Info, Briefcase, MapPin, Sparkles, Factory, Ruler, UserCheck } from 'lucide-react';
 import { IMAGES } from '../../data/constants';
 
 const Hero = ({ onOpenAides, onOpenIntervention }) => {
@@ -8,176 +8,234 @@ const Hero = ({ onOpenAides, onOpenIntervention }) => {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.12,
-        delayChildren: 0.2
-      }
-    }
+      transition: { staggerChildren: 0.1, delayChildren: 0.1 },
+    },
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0, y: 20, filter: 'blur(5px)' },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6, ease: "easeOut" }
-    }
+      filter: 'blur(0px)',
+      transition: { duration: 0.6, ease: 'easeOut' },
+    },
   };
 
+  // Nouvelle présentation ÉPURÉE (Juste le texte et l'icône, pas de fond)
+  const features = [
+    { icon: Factory, title: "Prix Direct Usine", sub: "Sans intermédiaire" },
+    { icon: Ruler, title: "Métrage Précis", sub: "Technique certifiée" },
+    { icon: UserCheck, title: "Pose Expert", sub: "Salariés SARANGE" },
+    { icon: Percent, title: "TVA Réduite 5,5%*", sub: "Selon éligibilité" },
+  ];
+
   return (
-    <section id="hero" className="relative min-h-screen flex items-center pt-16 sm:pt-20 overflow-hidden bg-slate-900">
+    <section
+      id="hero"
+      className="relative min-h-[100dvh] flex items-center pt-20 sm:pt-24 lg:pt-16 pb-12 overflow-hidden bg-slate-950"
+      aria-label="Menuiserie PVC et Alu sur-mesure Sarange"
+    >
+      {/* --- FOND --- */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         <motion.img
           src={IMAGES.hero}
-          alt="Atelier de fabrication SARANGE - Menuiserie sur-mesure Combs-la-Ville"
-          className="w-full h-full object-cover object-center"
+          alt="Fenêtres PVC et Alu Sarange"
+          className="w-full h-full object-cover object-center opacity-60"
           initial={{ scale: 1.1 }}
           animate={{ scale: 1 }}
-          transition={{ duration: 30, ease: "linear", repeat: Infinity, repeatType: "reverse" }}
+          transition={{ duration: 25, ease: 'linear', repeat: Infinity, repeatType: 'reverse' }}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/90 sm:via-slate-950/80 to-slate-950/60 sm:to-transparent"></div>
-        {/* Technical Blueprint Overlay */}
-        <div
-          className="absolute inset-0 z-0 opacity-10 sm:opacity-20 pointer-events-none"
-          style={{
-            backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px)',
-            backgroundSize: '20px 20px'
-          }}
-        ></div>
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent opacity-10"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900/90 to-slate-950/50"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent"></div>
+        <div className="absolute inset-0 z-0 opacity-[0.08] pointer-events-none"
+          style={{ backgroundImage: 'radial-gradient(circle, #f97316 1px, transparent 1px)', backgroundSize: '30px 30px' }}>
+        </div>
       </div>
 
-      <div className="container mx-auto px-4 sm:px-6 relative z-10 grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+      <div className="container mx-auto px-4 sm:px-6 relative z-10 grid lg:grid-cols-12 gap-8 lg:gap-16 items-center">
+
+        {/* --- COLONNE GAUCHE --- */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="lg:col-span-8 text-white space-y-6 sm:space-y-8"
+          className="lg:col-span-8 text-white space-y-6"
         >
-          {/* 2. Titre H1 "Aggressive Hierarchy" & SEO Opti - Mobile First */}
-          <motion.h1 variants={itemVariants} className="flex flex-col items-start max-w-4xl">
-            {/* Ligne 1 : Impact Majeur (Keyword Principal) - Responsive */}
-            <span className="h1-mobile font-black bg-clip-text text-transparent bg-gradient-to-b from-white to-slate-300 drop-shadow-xl uppercase tracking-tighter leading-none">
-              FENÊTRES
-            </span>
+          <div className="flex flex-col items-start max-w-4xl">
 
-            {/* Ligne 2 : Produits Secondaires & Signature - Responsive */}
-            <span className="h3-mobile font-bold text-slate-100 leading-tight mt-2 mb-4 sm:mb-6">
-              Portes & Volets <span className="italic text-orange-500">sur-mesure</span>
-            </span>
+            {/* Tagline */}
+            <motion.div variants={itemVariants} className="text-xs sm:text-sm font-bold text-orange-400 uppercase tracking-[0.2em] mb-2 flex items-center">
+              <span className="w-8 h-[2px] bg-orange-500 mr-3 shadow-[0_0_12px_rgba(249,115,22,1)]"></span>
+              Direct Fabricant • 100% Français
+            </motion.div>
 
-            {/* Ligne 3 : Badge Métier (Style Technique) - Touch Friendly */}
-            <div className="relative overflow-hidden inline-flex items-center bg-white/10 backdrop-blur-sm border border-white/20 px-4 py-2 sm:px-6 sm:py-2 rounded-sm hover:bg-white/20 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(255,255,255,0.15)] cursor-default group tap-target">
-              {/* Technical Corner Accents */}
-              <div className="absolute top-0 left-0 w-2 h-2 border-t-2 border-l-2 border-orange-500"></div>
-              <div className="absolute bottom-0 right-0 w-2 h-2 border-b-2 border-r-2 border-orange-500"></div>
-
-              <span className="text-xs md:text-sm uppercase tracking-wide sm:tracking-widest font-bold text-slate-200 group-hover:text-white transition-colors">
-                Fabricant-installateur PVC & Aluminium
+            {/* H1 : FENÊTRES */}
+            <motion.h1
+              variants={itemVariants}
+              className="font-black uppercase tracking-tighter leading-none"
+            >
+              <span
+                className="block bg-clip-text text-transparent bg-gradient-to-br from-white via-slate-100 to-slate-400 drop-shadow-2xl py-2"
+                style={{ fontSize: 'clamp(3rem, 7vw, 6rem)' }}
+              >
+                FENÊTRES
               </span>
-            </div>
-          </motion.h1>
 
-          {/* 3. Sous-titre - Responsive */}
-          <motion.p variants={itemVariants} className="body-mobile text-slate-300 leading-relaxed max-w-2xl font-light">
-            La performance thermique des profilés Schüco et le design sur-mesure. Pour vos projets de rénovation et constructions neuves.
+              <div className="flex flex-wrap items-center gap-4 sm:gap-6 mt-1">
+                <span className="text-white/90 text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight">
+                  PVC & ALU
+                </span>
+
+                <span className="relative inline-block group transform -skew-x-6 hover:skew-x-0 transition-transform duration-300">
+                  <span className="absolute inset-0 bg-gradient-to-r from-orange-500 to-orange-400 rounded-sm shadow-[0_5px_20px_rgba(249,115,22,0.4)]"></span>
+                  <span className="relative z-10 text-slate-950 px-4 py-1 italic font-black text-xl sm:text-2xl lg:text-3xl block">
+                    sur-mesure
+                  </span>
+                </span>
+              </div>
+            </motion.h1>
+
+            {/* H2 : Localisation */}
+            <motion.h2 variants={itemVariants} className="font-semibold text-slate-200 mt-6 mb-4 flex items-center gap-3">
+              <div className="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-full border border-white/10 backdrop-blur-md shadow-lg">
+                <MapPin size={18} className="text-orange-500 flex-shrink-0" />
+                <span className="text-sm sm:text-base">Combs-la-Ville <span className="text-orange-500 font-black">(77)</span></span>
+              </div>
+              <span className="hidden sm:block w-1 h-1 rounded-full bg-slate-600"></span>
+              <span className="text-slate-400 font-normal text-sm sm:text-base hidden sm:block">Île-de-France</span>
+            </motion.h2>
+
+            {/* Badge RGE */}
+            <motion.div variants={itemVariants} className="flex flex-wrap gap-3 mb-6">
+              <div className="relative overflow-hidden inline-flex items-center bg-slate-800/60 backdrop-blur-xl border border-white/10 px-4 py-2 rounded-lg shadow-xl">
+                <div className="relative flex h-3 w-3 mr-3">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.6)]"></span>
+                </div>
+                <span className="text-xs sm:text-sm uppercase tracking-wide font-bold text-slate-200">
+                  Fabricant-Installateur <span className="text-green-400 font-black">Certifié RGE Qualibat</span>
+                </span>
+              </div>
+            </motion.div>
+          </div>
+
+          {/* INTEGRATION ÉPURÉE : LISTE TECHNIQUE (Plus de grosses cartes) */}
+          <motion.div variants={itemVariants} className="grid grid-cols-2 gap-x-8 gap-y-6 max-w-2xl py-2">
+            {features.map((feature, index) => (
+              <div key={index} className="flex items-start gap-3 group">
+                <feature.icon size={20} className="text-orange-500 mt-0.5 group-hover:scale-110 transition-transform" />
+                <div className="flex flex-col">
+                  <span className="font-bold text-slate-100 text-sm sm:text-base leading-tight">{feature.title}</span>
+                  <span className="text-xs text-slate-400 mt-0.5">{feature.sub}</span>
+                </div>
+              </div>
+            ))}
+          </motion.div>
+
+          <motion.p variants={itemVariants} className="text-[10px] text-slate-500 italic pl-1">
+            *Taux réduit applicable sous conditions d'éligibilité.
           </motion.p>
 
-          {/* 4. Checklist - Mobile Optimized */}
-          <motion.ul variants={itemVariants} className="space-y-3 sm:space-y-4 pt-2">
-            {[
-              "Fabrication locale à Combs-la-Ville (77)",
-              "Métrage technique & Fabrication sur-mesure",
-              "Pose certifiée RGE par nos propres techniciens"
-            ].map((text, index) => (
-              <li key={index} className="flex items-center text-slate-100 font-medium group">
-                <div className="w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0 rounded-full bg-orange-500 flex items-center justify-center mr-3 sm:mr-4 shadow-lg shadow-orange-500/30 group-hover:scale-110 transition-transform">
-                  <Check size={14} className="text-white stroke-[3px]" />
-                </div>
-                <span className="text-sm sm:text-base md:text-lg">{text}</span>
-              </li>
-            ))}
-          </motion.ul>
-
-          {/* 5. CTAs - Fully Responsive & Touch Friendly */}
-          <motion.div variants={itemVariants} className="pt-4 sm:pt-6 flex flex-col sm:flex-row gap-3 sm:gap-5">
+          {/* CTA UNIQUE LARGE */}
+          <motion.div variants={itemVariants} className="pt-4 flex flex-col sm:flex-row gap-4">
             <button
               onClick={() => document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })}
-              className="tap-target px-6 sm:px-10 py-3 sm:py-4 bg-orange-500 hover:bg-orange-600 text-white text-base sm:text-lg font-bold rounded-xl shadow-2xl shadow-orange-500/30 hover:shadow-orange-500/50 transition-all flex items-center justify-center group"
+              className="relative w-full sm:w-auto px-12 py-4 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-400 hover:to-orange-500 text-white font-bold rounded-xl shadow-[0_10px_30px_rgba(249,115,22,0.4)] transition-all transform hover:-translate-y-1 overflow-hidden group"
             >
-              DEMANDER MON DEVIS GRATUIT
-              <ChevronRight className="ml-2 group-hover:translate-x-1 transition-transform" />
-            </button>
-
-            <button
-              onClick={() => document.getElementById('b2b').scrollIntoView({ behavior: 'smooth' })}
-              className="tap-target px-6 sm:px-10 py-3 sm:py-4 border border-white/20 hover:border-white/50 bg-white/5 hover:bg-white/10 text-white text-base sm:text-lg font-medium rounded-xl backdrop-blur-sm transition-all flex items-center justify-center group"
-            >
-              <Briefcase className="mr-3 text-slate-400 group-hover:text-white" size={20} />
-              Espace PRO
+              <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+              <span className="relative flex items-center justify-center text-lg tracking-wide">
+                DEMANDER MON DEVIS GRATUIT
+                <Sparkles size={20} className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity" />
+              </span>
             </button>
           </motion.div>
 
-          {/* Mobile-Only Trust Badges (stacked below CTAs on small screens) */}
-          <motion.div
-            variants={itemVariants}
-            className="flex lg:hidden flex-col gap-3 pt-4"
-          >
+          {/* Mobile Shortcuts (Harmonisés) */}
+          <motion.div variants={itemVariants} className="flex lg:hidden gap-2 pt-4 overflow-x-auto no-scrollbar pb-2">
             <button
               onClick={onOpenIntervention}
-              className="tap-target inline-flex items-center justify-center space-x-2 bg-white/10 hover:bg-white/20 backdrop-blur-md px-4 py-2.5 rounded-full border border-white/20 transition-all shadow-lg"
+              className="whitespace-nowrap px-4 py-2.5 bg-slate-800/90 border border-slate-700 rounded-full text-xs font-bold text-slate-100 flex items-center gap-2 active:scale-95 transition-all"
             >
               <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-              <span className="text-xs font-bold uppercase tracking-wide text-slate-100">Intervention Île-de-France</span>
+              Zones d'intervention
             </button>
-
             <button
               onClick={onOpenAides}
-              className="tap-target inline-flex items-center justify-center space-x-2 bg-orange-500 hover:bg-orange-600 shadow-lg shadow-orange-500/20 px-4 py-2.5 rounded-full border border-orange-400 transition-all"
+              className="whitespace-nowrap px-4 py-2.5 bg-slate-800/90 border border-slate-700 rounded-full text-xs font-bold text-orange-400 flex items-center gap-2 active:scale-95 transition-all"
             >
-              <Percent size={14} className="text-white" />
-              <span className="text-xs font-bold uppercase tracking-wide text-white">TVA 5.5% & Aides RGE</span>
-              <Info size={14} className="text-white/70 ml-1" />
+              <Percent size={14} />
+              Aides & TVA*
             </button>
           </motion.div>
         </motion.div>
 
-        {/* Colonne Droite : Trust Card (Desktop Only) */}
+        {/* --- COLONNE DROITE --- */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.95, y: 20 }}
+          initial={{ opacity: 0, scale: 0.9, y: 30 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ delay: 1.5, duration: 1.2, ease: "easeOut" }}
-          className="hidden lg:flex flex-col items-end space-y-4 lg:col-span-4"
+          transition={{ delay: 0.8, duration: 0.8 }}
+          className="hidden lg:flex flex-col items-end lg:col-span-4"
         >
-          <div className="bg-gradient-to-br from-slate-900/60 to-slate-800/40 backdrop-blur-md border border-white/10 p-8 rounded-3xl shadow-2xl text-right max-w-xs transform hover:scale-105 transition-transform duration-500">
-            <p className="text-orange-500 font-black text-4xl mb-1">Direct</p>
-            <p className="text-white font-bold text-xl uppercase tracking-tighter mb-4 border-b border-orange-500/30 pb-3 inline-block">USINE</p>
-            <p className="text-slate-300 text-sm leading-relaxed block clear-both">
-              Nous gérons tout : du métrage à domicile à la fabrication dans notre atelier de Seine-et-Marne.
+          <div className="relative bg-slate-900/70 backdrop-blur-2xl border border-white/10 p-7 rounded-2xl shadow-2xl max-w-sm group hover:border-orange-500/40 hover:shadow-[0_0_50px_rgba(249,115,22,0.15)] transition-all duration-500">
+            <div className="absolute -top-10 -right-10 w-32 h-32 bg-orange-500/20 rounded-full blur-3xl group-hover:bg-orange-500/30 transition-colors"></div>
+
+            <div className="relative flex justify-between items-start mb-2">
+              <span className="text-transparent bg-clip-text bg-gradient-to-br from-orange-400 via-orange-500 to-orange-600 font-black text-7xl leading-none tracking-tighter">
+                100<span className="text-4xl align-top text-orange-500">%</span>
+              </span>
+              <Briefcase className="text-white/10 group-hover:text-orange-500/20 transition-colors" size={40} />
+            </div>
+
+            <p className="text-white font-black text-xl uppercase tracking-wider mb-2 border-b-2 border-gradient-to-r from-orange-500 to-transparent pb-2 inline-block">
+              Direct Usine
             </p>
-          </div>
+            <p className="text-slate-400 text-sm leading-snug mb-6">
+              Pas d'intermédiaire. Du métrage à l'installation, tout est géré par nos experts certifiés.
+            </p>
 
-          {/* Desktop Badges */}
-          <div className="flex flex-col items-end gap-3 mt-4">
-            <button
-              onClick={onOpenIntervention}
-              className="inline-flex items-center space-x-2 bg-white/10 hover:bg-white/20 backdrop-blur-md px-4 py-2 rounded-full border border-white/20 transition-all shadow-lg"
-            >
-              <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-              <span className="text-xs font-bold uppercase tracking-widest text-slate-100">Intervention Île-de-France</span>
-            </button>
+            <div className="flex flex-col gap-2.5">
+              <button
+                onClick={onOpenIntervention}
+                className="w-full px-4 py-2.5 bg-slate-800 hover:bg-slate-750 border border-slate-600/50 rounded-lg flex items-center justify-between group/btn transition-all"
+              >
+                <div className="flex items-center gap-2">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500 shadow-lg shadow-green-500/50"></span>
+                  </span>
+                  <span className="text-xs font-bold text-slate-200 uppercase tracking-wide">Zones d'intervention</span>
+                </div>
+                <ChevronRight size={14} className="text-slate-500 group-hover/btn:text-white transition-all" />
+              </button>
 
-            <button
-              onClick={onOpenAides}
-              className="inline-flex items-center space-x-2 bg-orange-500 hover:bg-orange-600 shadow-lg shadow-orange-500/20 px-4 py-2 rounded-full border border-orange-400 transition-all"
-            >
-              <Percent size={14} className="text-white" />
-              <span className="text-xs font-bold uppercase tracking-widest text-white">TVA 5.5% & Aides RGE</span>
-              <Info size={14} className="text-white/70 ml-1" />
-            </button>
+              <button
+                onClick={onOpenAides}
+                className="w-full px-4 py-2.5 bg-slate-800 hover:bg-slate-750 border border-slate-600/50 rounded-lg flex items-center justify-between group/btn transition-all"
+              >
+                <div className="flex items-center gap-2">
+                  <Percent size={14} className="text-orange-400" />
+                  <span className="text-xs font-bold text-slate-200 uppercase tracking-wide">Éligible Aides & TVA*</span>
+                </div>
+                <Info size={14} className="text-slate-500 group-hover/btn:text-orange-400 transition-colors" />
+              </button>
+            </div>
           </div>
         </motion.div>
+
       </div>
+
+      {/* --- SCROLL INDICATOR MOBILE CENTRÉ --- */}
+      <motion.div
+        className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center lg:hidden pointer-events-none"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1, y: [0, 8, 0] }}
+        transition={{ delay: 2, duration: 2, repeat: Infinity }}
+      >
+        <span className="text-[10px] text-slate-500 mb-1 font-medium tracking-widest uppercase">Découvrir</span>
+        <ChevronDown className="text-orange-500" size={24} />
+      </motion.div>
+
     </section>
   );
 };

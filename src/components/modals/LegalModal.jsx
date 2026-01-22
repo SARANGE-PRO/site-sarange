@@ -76,7 +76,7 @@ const LegalModal = ({ isOpen, onClose, type }) => {
                             <p class="mb-1 font-semibold text-slate-500">Information réglementaire (Code de la consommation) :</p>
                             <p>
                                 Prix de référence unitaires TTC (hors pose/options) déclarés : 
-                                Fenêtres PVC dès 173,60 € ; Portes d'entrée dès 1407,60 € ; Volets roulants dès 250,00 €.
+                                Fenêtres PVC dès 173,60 € ; Portes d'entrée dès 1407,60 € ; Volets roulants dès 250,00 € ; Baies vitrées coulissantes dès 850,00 €.
                             </p>
                             <p class="italic mt-1">
                                 Ces tarifs "à partir de" sont indicatifs pour le modèle standard le plus économique. 
