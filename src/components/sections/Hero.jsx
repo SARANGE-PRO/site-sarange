@@ -64,7 +64,7 @@ const Hero = ({ onOpenAides, onOpenIntervention }) => {
         >
           <div className="flex flex-col items-start max-w-5xl">
 
-            {/* Tagline : CACHÉE SUR MOBILE ("hidden sm:flex") pour épurer */}
+            {/* Tagline : CACHÉE SUR MOBILE */}
             <motion.div variants={itemVariants} className="hidden sm:flex text-xs sm:text-sm font-bold text-orange-400 uppercase tracking-[0.2em] mb-2 items-center">
               <span className="w-8 h-[2px] bg-orange-500 mr-3 shadow-[0_0_12px_rgba(249,115,22,1)]"></span>
               Direct Fabricant • Meilleur Rapport Qualité/Prix
@@ -108,7 +108,7 @@ const Hero = ({ onOpenAides, onOpenIntervention }) => {
 
             {/* LISTE PRODUITS */}
             <motion.p variants={itemVariants} className="text-lg sm:text-xl font-medium text-slate-300 leading-tight mb-6 tracking-wide">
-              Volets • Portes • Vérandas • Garages <span className="text-orange-500 font-black italic ml-2">Direct Usine</span>
+              Volets • Portes • Vérandas • Garages
             </motion.p>
 
             {/* Badge RGE */}
@@ -125,8 +125,8 @@ const Hero = ({ onOpenAides, onOpenIntervention }) => {
             </motion.div>
           </div>
 
-          {/* LISTE TECHNIQUE MOBILE FRIENDLY */}
-          <motion.div variants={itemVariants} className="grid grid-cols-2 gap-x-4 gap-y-6 sm:gap-x-8 max-w-2xl py-2">
+          {/* LISTE TECHNIQUE : DESKTOP UNIQUEMENT (hidden sur mobile) */}
+          <motion.div variants={itemVariants} className="hidden lg:grid grid-cols-2 gap-x-8 gap-y-6 max-w-2xl py-2">
             {features.map((feature, index) => (
               <div key={index} className="flex items-start gap-3 group">
                 <feature.icon size={20} className="text-orange-500 mt-0.5 group-hover:scale-110 transition-transform flex-shrink-0" />
@@ -138,12 +138,12 @@ const Hero = ({ onOpenAides, onOpenIntervention }) => {
             ))}
           </motion.div>
 
-          <motion.p variants={itemVariants} className="text-[10px] text-slate-500 italic pl-1">
+          <motion.p variants={itemVariants} className="text-[10px] text-slate-500 italic pl-1 hidden lg:block">
             *Taux réduit applicable sous conditions d'éligibilité.
           </motion.p>
 
-          {/* CTA Mobile Friendly */}
-          <motion.div variants={itemVariants} className="pt-4 flex flex-col sm:flex-row gap-4">
+          {/* CTA Principal */}
+          <motion.div variants={itemVariants} className="pt-2 flex flex-col sm:flex-row gap-4">
             <button
               onClick={() => document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })}
               className="relative w-full sm:w-auto px-8 sm:px-12 py-4 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-400 hover:to-orange-500 text-white font-bold rounded-xl shadow-[0_10px_30px_rgba(249,115,22,0.4)] transition-all transform hover:-translate-y-1 overflow-hidden group touch-manipulation"
@@ -156,18 +156,18 @@ const Hero = ({ onOpenAides, onOpenIntervention }) => {
             </button>
           </motion.div>
 
-          {/* Mobile Shortcuts */}
-          <motion.div variants={itemVariants} className="flex lg:hidden gap-2 pt-4 overflow-x-auto no-scrollbar pb-2 mask-linear-fade">
+          {/* BOUTONS SHORTCUTS : Visibles sur Mobile pour remplacer la liste technique */}
+          <motion.div variants={itemVariants} className="flex lg:hidden gap-3 pt-4 pb-2 flex-wrap">
             <button
               onClick={onOpenIntervention}
-              className="whitespace-nowrap px-4 py-2.5 bg-slate-800/90 border border-slate-700 rounded-full text-xs font-bold text-slate-100 flex items-center gap-2 active:scale-95 transition-all touch-manipulation"
+              className="flex-1 min-w-[140px] px-4 py-3 bg-slate-800/90 border border-slate-700 rounded-xl text-xs font-bold text-slate-100 flex items-center justify-center gap-2 active:scale-95 transition-all touch-manipulation"
             >
               <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
               Zones d'intervention
             </button>
             <button
               onClick={onOpenAides}
-              className="whitespace-nowrap px-4 py-2.5 bg-slate-800/90 border border-slate-700 rounded-full text-xs font-bold text-orange-400 flex items-center gap-2 active:scale-95 transition-all touch-manipulation"
+              className="flex-1 min-w-[140px] px-4 py-3 bg-slate-800/90 border border-slate-700 rounded-xl text-xs font-bold text-orange-400 flex items-center justify-center gap-2 active:scale-95 transition-all touch-manipulation"
             >
               <Percent size={14} />
               Aides & TVA*
@@ -230,9 +230,9 @@ const Hero = ({ onOpenAides, onOpenIntervention }) => {
 
       </div>
 
-      {/* --- SCROLL INDICATOR CENTRÉ & REMONTÉ --- */}
-      {/* Remonté à bottom-16 pour être sûr qu'il ne colle pas en bas sur mobile */}
-      <div className="absolute bottom-16 inset-x-0 flex justify-center lg:hidden pointer-events-none">
+      {/* --- SCROLL INDICATOR CENTRÉ & BIEN REMONTÉ --- */}
+      {/* bottom-20 pour être sûr d'être au-dessus de la zone de nav mobile */}
+      <div className="absolute bottom-20 inset-x-0 flex justify-center lg:hidden pointer-events-none">
         <motion.div
           className="flex flex-col items-center"
           initial={{ opacity: 0 }}
