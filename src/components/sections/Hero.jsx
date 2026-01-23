@@ -118,7 +118,10 @@ const Hero = ({ onOpenAides, onOpenIntervention }) => {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.6)]"></span>
                 </div>
-                <span className="text-xs sm:text-sm uppercase tracking-wide font-bold text-slate-200">
+                <span
+                  className="uppercase tracking-wide font-bold text-slate-200"
+                  style={{ fontSize: 'clamp(0.65rem, 2.8vw, 0.875rem)' }}
+                >
                   Fabricant-Installateur <span className="text-green-400 font-black">Certifié RGE Qualibat</span>
                 </span>
               </div>
@@ -149,7 +152,7 @@ const Hero = ({ onOpenAides, onOpenIntervention }) => {
               className="relative w-full sm:w-auto px-8 py-4 rounded-xl border border-orange-500/30 bg-orange-500/80 hover:bg-orange-500 text-white font-bold shadow-[0_0_30px_rgba(249,115,22,0.25)] backdrop-blur-md transition-all transform hover:-translate-y-1 overflow-hidden group flex items-center justify-center touch-manipulation"
             >
               <span className="relative z-10 flex items-center justify-center text-lg tracking-wide text-center uppercase">
-                Demander mon devis gratuit
+                Demander mon devis
                 <Sparkles size={20} className="ml-2 animate-pulse" />
               </span>
               {/* Effet Brillance */}
