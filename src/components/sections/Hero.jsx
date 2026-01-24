@@ -235,7 +235,7 @@ const Hero = ({ onOpenAides, onOpenIntervention }) => {
       </div>
 
       {/* --- SCROLL INDICATOR --- */}
-      <div className="absolute bottom-28 lg:bottom-10 inset-x-0 flex justify-center pointer-events-none">
+      <div className="fixed bottom-8 sm:bottom-10 lg:bottom-12 inset-x-0 flex justify-center pointer-events-none z-20">
         <motion.div
           className="flex flex-col items-center"
           initial={{ opacity: 0 }}
