@@ -1,9 +1,24 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronRight, ChevronDown, Percent, Info, Briefcase, MapPin, Sparkles, Factory, Ruler, UserCheck } from 'lucide-react';
 import { IMAGES } from '../../data/constants';
 
 const Hero = ({ onOpenAides, onOpenIntervention }) => {
+  const [showScrollIndicator, setShowScrollIndicator] = useState(true);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setShowScrollIndicator(false);
+      } else {
+        setShowScrollIndicator(true);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -33,8 +48,8 @@ const Hero = ({ onOpenAides, onOpenIntervention }) => {
     <>
     <section
       id="hero"
-      className="relative h-screen flex items-center pt-20 sm:pt-24 lg:pt-16 pb-12 bg-slate-950"
-      style={{ minHeight: '-webkit-fill-available' }}
+      className="relative flex items-center pt-20 sm:pt-24 lg:pt-16 pb-12 bg-slate-950"
+      style={{ height: '100vh', maxHeight: '100vh', minHeight: '100vh' }}
       aria-label="Menuiserie PVC et Alu sur-mesure Sarange"
     >
       {/* --- FOND --- */}
@@ -239,19 +254,24 @@ const Hero = ({ onOpenAides, onOpenIntervention }) => {
     </section>
 
     {/* --- SCROLL INDICATOR (OUTSIDE SECTION) --- */}
-    <div className="fixed bottom-6 sm:bottom-8 lg:bottom-10 left-0 right-0 flex justify-center pointer-events-none z-50">
-      <motion.div
-        className="flex flex-col items-center px-4 py-2 bg-slate-950/80 backdrop-blur-sm rounded-full border border-slate-800/50"
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: [0, 8, 0] }}
-        transition={{ delay: 2, duration: 2, repeat: Infinity }}
-      >
-        <span className="text-[10px] text-slate-400 mb-1 font-medium tracking-widest uppercase">
-          Découvrir
-        </span>
-        <ChevronDown className="text-orange-500" size={22} />
-      </motion.div>
-    </div>
+    <AnimatePresence>
+      {showScrollIndicator && (
+        <motion.div 
+          className="fixed bottom-[100px] sm:bottom-24 lg:bottom-10 left-0 right-0 flex justify-center pointer-events-none z-30"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: [0, 8, 0] }}
+          exit={{ opacity: 0, y: -10 }}
+          transition={{ duration: 0.3, y: { delay: 2, duration: 2, repeat: Infinity } }}
+        >
+          <div className="flex flex-col items-center px-4 py-2 bg-slate-950/80 backdrop-blur-sm rounded-full border border-slate-800/50">
+            <span className="text-[10px] text-slate-400 mb-1 font-medium tracking-widest uppercase">
+              Découvrir
+            </span>
+            <ChevronDown className="text-orange-500" size={22} />
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
     </>
   );
 };
