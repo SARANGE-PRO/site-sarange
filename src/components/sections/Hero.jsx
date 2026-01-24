@@ -48,19 +48,17 @@ const Hero = ({ onOpenAides, onOpenIntervention }) => {
     <>
     <section
       id="hero"
-      className="relative flex items-center pt-20 sm:pt-24 lg:pt-16 pb-12 bg-slate-950"
+      className="relative flex items-center pt-20 sm:pt-24 lg:pt-16 pb-12 bg-slate-950 overflow-hidden"
       style={{ height: '100vh', maxHeight: '100vh', minHeight: '100vh' }}
       aria-label="Menuiserie PVC et Alu sur-mesure Sarange"
     >
       {/* --- FOND --- */}
-      <div className="absolute inset-0 z-0 overflow-hidden">
-        <motion.img
+      <div className="absolute inset-0 z-0">
+        <img
           src={IMAGES.hero}
           alt="Atelier de fabrication SARANGE - Menuiserie sur-mesure Combs-la-Ville"
           className="w-full h-full object-cover object-center opacity-60"
-          initial={{ scale: 1.1 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 25, ease: 'linear', repeat: Infinity, repeatType: 'reverse' }}
+          style={{ transform: 'translate3d(0, 0, 0)', willChange: 'auto' }}
           fetchPriority="high"
         />
         <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900/90 to-slate-950/50"></div>
