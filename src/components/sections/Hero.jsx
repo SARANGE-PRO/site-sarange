@@ -30,9 +30,11 @@ const Hero = ({ onOpenAides, onOpenIntervention }) => {
   ];
 
   return (
+    <>
     <section
       id="hero"
-      className="relative min-h-[100dvh] flex items-center pt-20 sm:pt-24 lg:pt-16 pb-12 overflow-hidden bg-slate-950"
+      className="relative h-screen flex items-center pt-20 sm:pt-24 lg:pt-16 pb-12 bg-slate-950"
+      style={{ minHeight: '-webkit-fill-available' }}
       aria-label="Menuiserie PVC et Alu sur-mesure Sarange"
     >
       {/* --- FOND --- */}
@@ -234,22 +236,23 @@ const Hero = ({ onOpenAides, onOpenIntervention }) => {
 
       </div>
 
-      {/* --- SCROLL INDICATOR --- */}
-      <div className="fixed bottom-8 sm:bottom-10 lg:bottom-12 inset-x-0 flex justify-center pointer-events-none z-20">
-        <motion.div
-          className="flex flex-col items-center"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1, y: [0, 8, 0] }}
-          transition={{ delay: 2, duration: 2, repeat: Infinity }}
-        >
-          <span className="text-[10px] text-slate-500 mb-1 font-medium tracking-widest uppercase">
-            Découvrir
-          </span>
-          <ChevronDown className="text-orange-500" size={24} />
-        </motion.div>
-      </div>
-
     </section>
+
+    {/* --- SCROLL INDICATOR (OUTSIDE SECTION) --- */}
+    <div className="fixed bottom-6 sm:bottom-8 lg:bottom-10 left-0 right-0 flex justify-center pointer-events-none z-50">
+      <motion.div
+        className="flex flex-col items-center px-4 py-2 bg-slate-950/80 backdrop-blur-sm rounded-full border border-slate-800/50"
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: [0, 8, 0] }}
+        transition={{ delay: 2, duration: 2, repeat: Infinity }}
+      >
+        <span className="text-[10px] text-slate-400 mb-1 font-medium tracking-widest uppercase">
+          Découvrir
+        </span>
+        <ChevronDown className="text-orange-500" size={22} />
+      </motion.div>
+    </div>
+    </>
   );
 };
 
