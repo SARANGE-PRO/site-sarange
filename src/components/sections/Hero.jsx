@@ -5,8 +5,32 @@ import { IMAGES } from '../../data/constants';
 
 const Hero = ({ onOpenAides, onOpenIntervention }) => {
   const [showScrollIndicator, setShowScrollIndicator] = useState(true);
+  // Initialisation à 100vh pour le premier rendu, puis passage en pixels via JS
+  const [heroHeight, setHeroHeight] = useState('100vh');
 
   useEffect(() => {
+    // Variable pour suivre la largeur et ignorer le resize vertical (barre d'adresse)
+    let lastWidth = window.innerWidth;
+
+    // Fonction pour figer la hauteur exacte en pixels
+    const setFixedMobileHeight = () => {
+      setHeroHeight(`${window.innerHeight}px`);
+    };
+
+    // 1. On applique la hauteur fixe immédiatement
+    setFixedMobileHeight();
+
+    // 2. Gestion du redimensionnement intelligent
+    const handleResize = () => {
+      // On ne recalcule que si la LARGEUR change (rotation de l'écran)
+      // Si c'est juste la barre d'adresse qui bouge (hauteur), on ne fait RIEN.
+      if (window.innerWidth !== lastWidth) {
+        setFixedMobileHeight();
+        lastWidth = window.innerWidth;
+      }
+    };
+
+    // 3. Gestion de l'indicateur de scroll
     const handleScroll = () => {
       if (window.scrollY > 50) {
         setShowScrollIndicator(false);
@@ -15,8 +39,13 @@ const Hero = ({ onOpenAides, onOpenIntervention }) => {
       }
     };
 
+    window.addEventListener('resize', handleResize);
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   const containerVariants = {
@@ -49,8 +78,12 @@ const Hero = ({ onOpenAides, onOpenIntervention }) => {
       <section
         id="hero"
         className="relative flex items-center pt-20 sm:pt-24 lg:pt-16 pb-12 bg-slate-950 overflow-hidden"
-        // Hauteur fixée avec 100svh pour éviter les sauts sur mobile
-        style={{ height: '100svh', maxHeight: '100svh', minHeight: '100svh' }}
+        // Hauteur verrouillée en pixels via le state heroHeight
+        style={{
+          height: heroHeight,
+          minHeight: heroHeight,
+          maxHeight: heroHeight
+        }}
         aria-label="Menuiserie PVC et Alu sur-mesure Sarange"
       >
         {/* --- FOND --- */}
@@ -127,7 +160,7 @@ const Hero = ({ onOpenAides, onOpenIntervention }) => {
                 Volets • Portes • Vérandas • Garages
               </motion.p>
 
-              {/* Badge RGE - SÉCURISÉ CONTRE LE DÉCALAGE */}
+              {/* Badge RGE - SÉCURISÉ (whitespace-nowrap + clamp ajusté) */}
               <motion.div variants={itemVariants} className="flex flex-wrap gap-3 mb-6 max-w-full">
                 <div className="relative overflow-hidden inline-flex items-center bg-slate-800/60 backdrop-blur-xl border border-white/10 px-4 py-2 rounded-lg shadow-xl max-w-full">
                   <div className="relative flex h-3 w-3 mr-3 flex-shrink-0">
@@ -135,9 +168,7 @@ const Hero = ({ onOpenAides, onOpenIntervention }) => {
                     <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.6)]"></span>
                   </div>
                   <span
-                    // AJOUT: whitespace-nowrap force le texte à rester sur une seule ligne
                     className="uppercase tracking-wide font-bold text-slate-200 whitespace-nowrap"
-                    // AJOUT: clamp ajusté (0.55rem min) pour s'assurer que ça rentre sur les petits écrans
                     style={{ fontSize: 'clamp(0.55rem, 2.8vw, 0.875rem)' }}
                   >
                     Fabricant-Installateur <span className="text-green-400 font-black">Certifié RGE Qualibat</span>
