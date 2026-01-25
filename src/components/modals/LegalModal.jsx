@@ -109,6 +109,7 @@ const LegalModal = ({ isOpen, onClose, type }) => {
                     <li><strong>Contact :</strong> Adresse email, Numéro de téléphone.</li>
                     <li><strong>Localisation :</strong> <span class="bg-orange-50 text-orange-700 px-1 rounded font-semibold">Adresse postale du chantier</span> (nécessaire pour l'étude technique et logistique).</li>
                     <li><strong>Projet :</strong> Détails des menuiseries configurées (dimensions, types) et contenu de votre message.</li>
+                    <li><strong>Navigation :</strong> Cookies analytiques anonymes (Google Analytics) pour mesurer l'audience et améliorer nos services (uniquement si vous acceptez les cookies).</li>
                 </ul>
               `,
                     },
