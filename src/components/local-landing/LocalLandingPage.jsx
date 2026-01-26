@@ -115,48 +115,72 @@ const LocalLandingMelun = ({ cityData }) => {
             "Certification RGE"
         ],
 
-        // Services catalogue
+        // Reviews Global (LocalBusiness matches index.html)
+        aggregateRating: {
+            "@type": "AggregateRating",
+            ratingValue: "5",
+            reviewCount: "28",
+            bestRating: "5"
+        },
+
+        // Services catalogue (Structure corrected: Product -> offers)
         hasOfferCatalog: {
             "@type": "OfferCatalog",
             name: "Menuiseries PVC et Aluminium",
             itemListElement: [
                 {
-                    "@type": "Offer",
-                    itemOffered: {
-                        "@type": "Product",
-                        name: `Fenêtres PVC sur mesure à ${name}`,
-                        description: "Fenêtres PVC double et triple vitrage Schüco CT 70, fabrication française",
-                        image: "https://sarange.fr/assets/windows/pvc-fenetre-2vantaux.webp",
-                        brand: { "@type": "Brand", "name": "Schüco" }
+                    "@type": "Product",
+                    name: `Fenêtres PVC sur mesure à ${name}`,
+                    description: "Fenêtres PVC double et triple vitrage Schüco CT 70, fabrication française",
+                    image: "https://sarange.fr/assets/windows/pvc-fenetre-2vantaux.webp",
+                    brand: { "@type": "Brand", "name": "Schüco" },
+                    offers: {
+                        "@type": "Offer",
+                        price: "173.60",
+                        priceCurrency: "EUR",
+                        availability: "https://schema.org/InStock",
+                        url: `https://sarange.fr/villes/${String(name).toLowerCase()}`
                     }
                 },
                 {
-                    "@type": "Offer",
-                    itemOffered: {
-                        "@type": "Product",
-                        name: `Baies vitrées aluminium à ${name}`,
-                        description: "Baies coulissantes et fixes en aluminium Schüco",
-                        image: "https://sarange.fr/assets/windows/alu-window.webp",
-                        brand: { "@type": "Brand", "name": "Schüco" }
+                    "@type": "Product",
+                    name: `Baies vitrées aluminium à ${name}`,
+                    description: "Baies coulissantes et fixes en aluminium Schüco",
+                    image: "https://sarange.fr/assets/windows/alu-window.webp",
+                    brand: { "@type": "Brand", "name": "Schüco" },
+                    offers: {
+                        "@type": "Offer",
+                        price: "850.00",
+                        priceCurrency: "EUR",
+                        availability: "https://schema.org/InStock",
+                        url: `https://sarange.fr/villes/${String(name).toLowerCase()}`
                     }
                 },
                 {
-                    "@type": "Offer",
-                    itemOffered: {
-                        "@type": "Product",
-                        name: `Volets roulants motorisés à ${name}`,
-                        description: "Volets roulants aluminium isolés, motorisation Somfy",
-                        image: "https://sarange.fr/assets/shutters/volet-solaire.webp",
-                        brand: { "@type": "Brand", "name": "Somfy" }
+                    "@type": "Product",
+                    name: `Volets roulants motorisés à ${name}`,
+                    description: "Volets roulants aluminium isolés, motorisation Somfy",
+                    image: "https://sarange.fr/assets/shutters/volet-solaire.webp",
+                    brand: { "@type": "Brand", "name": "Somfy" },
+                    offers: {
+                        "@type": "Offer",
+                        price: "250.00",
+                        priceCurrency: "EUR",
+                        availability: "https://schema.org/InStock",
+                        url: `https://sarange.fr/villes/${String(name).toLowerCase()}`
                     }
                 },
                 {
-                    "@type": "Offer",
-                    itemOffered: {
-                        "@type": "Product",
-                        name: `Portes d'entrée PVC & Alu à ${name}`,
-                        description: "Portes d'entrée sécurisées, serrure multipoints, isolation A+",
-                        image: "https://sarange.fr/assets/doors/porte.webp"
+                    "@type": "Product",
+                    name: `Portes d'entrée PVC & Alu à ${name}`,
+                    description: "Portes d'entrée sécurisées, serrure multipoints, isolation A+",
+                    image: "https://sarange.fr/assets/doors/porte.webp",
+                    offers: {
+                        "@type": "Offer",
+                        price: "1407.60",
+                        priceCurrency: "EUR",
+                        availability: "https://schema.org/InStock",
+                        url: `https://sarange.fr/villes/${String(name).toLowerCase()}`
                     }
                 }
             ]

@@ -10,6 +10,7 @@ const __dirname = path.dirname(__filename);
 // Plus besoin de Place ID complexe, juste le nom exact
 const QUERY = "SARANGE Combs-la-Ville";
 const HTML_FILE = path.join(__dirname, '../index.html');
+const LOCAL_LANDING_FILE = path.join(__dirname, '../src/components/local-landing/LocalLandingPage.jsx');
 
 async function updateReviews() {
     try {
@@ -67,7 +68,29 @@ async function updateReviews() {
             fs.writeFileSync(HTML_FILE, updatedHtml, 'utf8');
             console.log('🚀 index.html mis à jour avec succès !');
         } else {
-            console.log('😴 Aucune mise à jour nécessaire (valeurs identiques).');
+            console.log('😴 Aucune mise à jour nécessaire (valeurs identiques) pour index.html.');
+        }
+
+        // --- MISE À JOUR DE LOCAL LANDING PAGE (JSX) ---
+        // Dans le JSX, les clés ne sont pas entre guillemets : ratingValue: "5"
+        let jsxContent = fs.readFileSync(LOCAL_LANDING_FILE, 'utf8');
+
+        const jsxRatingRegex = /ratingValue:\s*"\d+(\.\d+)?"/;
+        const jsxCountRegex = /reviewCount:\s*"\d+"/;
+
+        if (!jsxContent.match(jsxRatingRegex) || !jsxContent.match(jsxCountRegex)) {
+            console.warn('⚠️ Impossible de trouver les champs ratingValue ou reviewCount dans LocalLandingPage.jsx');
+        } else {
+            let updatedJsx = jsxContent
+                .replace(jsxRatingRegex, `ratingValue: "${newRating}"`)
+                .replace(jsxCountRegex, `reviewCount: "${newReviewCount}"`);
+
+            if (updatedJsx !== jsxContent) {
+                fs.writeFileSync(LOCAL_LANDING_FILE, updatedJsx, 'utf8');
+                console.log('🚀 LocalLandingPage.jsx mis à jour avec succès !');
+            } else {
+                console.log('😴 Aucune mise à jour nécessaire pour LocalLandingPage.jsx.');
+            }
         }
 
     } catch (error) {
