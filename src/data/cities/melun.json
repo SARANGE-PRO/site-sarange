@@ -1,0 +1,65 @@
+{
+    "name": "Melun",
+    "zip": "77000",
+    "phoneLink": "tel:+33986713444",
+    "geo": {
+        "distanceFromWorkshop": "25 km",
+        "travelTime": "25 min",
+        "nearbyCommunes": [
+            "Dammarie-lès-Lys",
+            "Le Mée-sur-Seine",
+            "Vaux-le-Pénil",
+            "Rubelles",
+            "La Rochette"
+        ],
+        "departmentCode": "77",
+        "region": "Seine-et-Marne",
+        "latitude": 48.5397,
+        "longitude": 2.6599
+    },
+    "seo": {
+        "primaryKeywords": [
+            "fenetre pvc melun",
+            "volet roulant melun",
+            "porte entree melun"
+        ],
+        "secondaryKeywords": [
+            "menuisier melun 77000",
+            "fenetre aluminium seine-et-marne",
+            "rge melun"
+        ]
+    },
+    "uniqueContent": {
+        "intro": "Préfecture de Seine-et-Marne, Melun est au cœur de notre zone d'intervention historique. SARANGE, fabricant installé à Combs-la-Ville, accompagne les habitants de Melun pour tous leurs projets de rénovation de menuiseries. Notre expertise locale nous permet de vous proposer des solutions techniques et esthétiques parfaitement adaptées à l'architecture de votre ville, du centre ancien aux nouveaux quartiers résidentiels.",
+        "neighborhoods": [
+            "Melun Centre",
+            "Quartier de l'Almont",
+            "Plateau de Corbeil",
+            "Montaigu",
+            "Quartier Sud"
+        ],
+        "localProjects": [
+            {
+                "title": "Rénovation Résidentielle à Melun",
+                "year": "2024",
+                "desc": "Remplacement intégral de menuiseries pour une meilleure isolation thermique et phonique."
+            },
+            {
+                "title": "Chantier Pavillonnaire",
+                "year": "2024",
+                "desc": "Installation de volets roulants solaires et d'une porte d'entrée aluminium sécurisée."
+            }
+        ],
+        "specificFAQ": [
+            {
+                "q": "Intervenez-vous dans tout Melun ?",
+                "a": "Oui, notre équipe se déplace dans tous les quartiers de Melun ainsi que dans l'ensemble de l'agglomération pour l'étude technique et la pose."
+            },
+            {
+                "q": "Le devis est-il gratuit ?",
+                "a": "Absolument. Nous réalisons une étude personnalisée et un devis gratuit sans engagement pour votre projet de fenêtres, volets ou portes."
+            }
+        ]
+    },
+    "reviews": []
+}

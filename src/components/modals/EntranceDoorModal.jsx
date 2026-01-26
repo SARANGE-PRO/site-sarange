@@ -119,7 +119,7 @@ const EntranceDoorModal = ({ isOpen, onClose }) => {
                                                 <CheckCircle size={14} className="text-slate-700" />
                                             </div>
                                             <div>
-                                                <span className="block text-slate-900 font-bold text-sm">Structure Monobloc Alu</span>
+                                                <span className="block text-slate-900 font-bold text-sm">Structure Alu</span>
                                                 <span className="text-slate-500 text-xs">Conception haute résistance, indéformable dans le temps, idéale grands passages.</span>
                                             </div>
                                         </li>

@@ -8,6 +8,14 @@
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
+
+  <!-- Page Locale : Melun -->
+  <url>
+    <loc>https://sarange.fr/melun</loc>
+    <lastmod>2026-01-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
   
   <!-- Section Fenêtres (Ancre) -->
   <url>

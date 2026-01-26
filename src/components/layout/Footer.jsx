@@ -80,7 +80,7 @@ const Footer = ({ onOpenMentions = () => { }, onOpenPolitique = () => { }, onOpe
 
           <div className="mt-8">
             <h5 className="text-white font-bold text-sm mb-3">Zone d'intervention</h5>
-            <div className="flex flex-wrap gap-2 text-xs">
+            <div className="flex flex-wrap gap-2 text-xs mb-4">
               {[75, 77, 78, 91, 92, 93, 94, 95].map((dep) => (
                 <span
                   key={dep}
@@ -89,6 +89,13 @@ const Footer = ({ onOpenMentions = () => { }, onOpenPolitique = () => { }, onOpe
                   {dep}
                 </span>
               ))}
+            </div>
+
+            <h5 className="text-white font-bold text-sm mb-3">Page commerciale</h5>
+            <div className="flex flex-col gap-2">
+              <a href="/melun" className="text-xs text-secondary-400 hover:text-orange-500 transition-colors flex items-center gap-1">
+                <MapPin size={12} /> Melun
+              </a>
             </div>
           </div>
         </div>
