@@ -33,7 +33,7 @@ const LocalLandingMelun = ({ cityData }) => {
     const schema = useMemo(() => ({
         "@context": "https://schema.org",
         "@type": "LocalBusiness",
-        "@id": `https://sarange.fr/villes/${name.toLowerCase()}#business`,
+        "@id": `https://sarange.fr/${name.toLowerCase()}#business`,
         name: `SARANGE - Fenêtres PVC & Alu à ${name}`,
         description: `Fabricant et installateur de fenêtres PVC & Aluminium, volets roulants et portes d'entrée à ${name} (${zip}). Certification RGE Qualibat, fabrication sur-mesure depuis notre atelier de Combs-la-Ville.`,
 
@@ -44,7 +44,7 @@ const LocalLandingMelun = ({ cityData }) => {
         ],
 
         // URLs
-        url: `https://sarange.fr/villes/${name.toLowerCase()}`,
+        url: `https://sarange.fr/${name.toLowerCase()}`,
 
         // Contact (NAP consistency)
         telephone: "+33986713444",
@@ -139,7 +139,7 @@ const LocalLandingMelun = ({ cityData }) => {
                         price: "173.60",
                         priceCurrency: "EUR",
                         availability: "https://schema.org/InStock",
-                        url: `https://sarange.fr/villes/${String(name).toLowerCase()}`
+                        url: `https://sarange.fr/${String(name).toLowerCase()}`
                     }
                 },
                 {
@@ -153,7 +153,7 @@ const LocalLandingMelun = ({ cityData }) => {
                         price: "850.00",
                         priceCurrency: "EUR",
                         availability: "https://schema.org/InStock",
-                        url: `https://sarange.fr/villes/${String(name).toLowerCase()}`
+                        url: `https://sarange.fr/${String(name).toLowerCase()}`
                     }
                 },
                 {
@@ -167,7 +167,7 @@ const LocalLandingMelun = ({ cityData }) => {
                         price: "250.00",
                         priceCurrency: "EUR",
                         availability: "https://schema.org/InStock",
-                        url: `https://sarange.fr/villes/${String(name).toLowerCase()}`
+                        url: `https://sarange.fr/${String(name).toLowerCase()}`
                     }
                 },
                 {
@@ -180,7 +180,7 @@ const LocalLandingMelun = ({ cityData }) => {
                         price: "1407.60",
                         priceCurrency: "EUR",
                         availability: "https://schema.org/InStock",
-                        url: `https://sarange.fr/villes/${String(name).toLowerCase()}`
+                        url: `https://sarange.fr/${String(name).toLowerCase()}`
                     }
                 }
             ]

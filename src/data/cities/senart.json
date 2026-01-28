@@ -1,0 +1,82 @@
+{
+    "name": "Sénart",
+    "zip": "77",
+    "phoneLink": "tel:+33986713444",
+    "geo": {
+        "distanceFromWorkshop": "0 km",
+        "travelTime": "5 min",
+        "nearbyCommunes": [
+            "Combs-la-Ville",
+            "Lieusaint",
+            "Moissy-Cramayel",
+            "Tigery",
+            "Saint-Pierre-du-Perray"
+        ],
+        "departmentCode": "77",
+        "region": "Grand Paris Sud",
+        "latitude": 48.6630,
+        "longitude": 2.5594
+    },
+    "seo": {
+        "primaryKeywords": [
+            "fenetre senart",
+            "volet roulant senart",
+            "menuisier comb-la-ville"
+        ],
+        "secondaryKeywords": [
+            "rge senart 77",
+            "porte garage grand paris sud",
+            "baie vitree moissy"
+        ]
+    },
+    "uniqueContent": {
+        "intro": "Au cœur de l'agglomération Grand Paris Sud, Sénart bénéficie d'une situation privilégiée. SARANGE, votre fabricant local basé à Combs-la-Ville, intervient quotidiennement sur tout le secteur pour vos projets de menuiseries (fenêtres, volets, portes).",
+        "neighborhoods": [
+            "Carré Sénart",
+            "Lieusaint Centre",
+            "Moissy Jatteau",
+            "Combs la Ville Gare",
+            "Tigery Village"
+        ],
+        "localProjects": [],
+        "specificFAQ": []
+    },
+    "reviews": [
+        {
+            "name": "Darius Gadesseh",
+            "date": "Décembre 2025",
+            "rating": 5,
+            "text": "Super fenêtre de très bonne qualité"
+        },
+        {
+            "name": "Steeven Lopez",
+            "date": "Décembre 2025",
+            "rating": 5,
+            "text": "Prix très compétitif et pose impeccable, je recommande"
+        },
+        {
+            "name": "Gabriel Perbost",
+            "date": "Octobre 2025",
+            "rating": 5,
+            "text": "Très bon contact, excellent travail !"
+        },
+        {
+            "name": "Az-eddine Bouskri",
+            "date": "Avril 2025",
+            "rating": 5,
+            "text": "Une équipe professionnelle, souriante, de bonne humeur, soucieuse de la qualité de la prestation et très méticuleuse. Je recommande fortement."
+        },
+        {
+            "name": "Carolane Dubocage",
+            "date": "Avril 2025",
+            "rating": 5,
+            "text": "Pose d’une porte fenêtre, fenêtre et porte d’entrée. Tout c’est très bien passé, équipe professionnelle et au top ! Merci à vous"
+        },
+        {
+            "name": "Hillal France",
+            "date": "Février 2025",
+            "rating": 5,
+            "text": "Travail propre plus la bonne qualité"
+        }
+    ]
+}

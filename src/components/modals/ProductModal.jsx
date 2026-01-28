@@ -97,15 +97,7 @@ const ProductModal = ({ isOpen, onClose, product, onDevisClick }) => {
                                 Demander un devis
                                 <ArrowRight size={18} />
                             </button>
-                            <button
-                                onClick={() => {
-                                    onClose();
-                                    onDevisClick();
-                                }}
-                                className="w-full py-3 bg-white border border-slate-200 text-slate-700 font-bold rounded-xl hover:bg-slate-50 active:scale-95 transition-all text-sm"
-                            >
-                                Ajouter à ma demande
-                            </button>
+
                         </div>
                     </motion.div>
                 </div>

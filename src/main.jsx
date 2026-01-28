@@ -4,6 +4,7 @@ import App from './App.jsx'
 import './index.css'
 
 import LocalLandingPage from './components/local-landing/LocalLandingPage.jsx';
+import LocalLandingSenart from './components/local-landing/LocalLandingSenart.jsx';
 
 import { OfferProvider } from './features/context/OfferContext';
 
@@ -18,7 +19,7 @@ const cityData = cities[path];
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
-        {cityData ? (
+        {cityData && path !== 'senart' ? (
             <OfferProvider>
                 <LocalLandingPage cityData={cityData} />
             </OfferProvider>

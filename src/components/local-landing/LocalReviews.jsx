@@ -2,7 +2,7 @@ import React from 'react';
 import { Star, Quote, ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-const reviews = [
+const defaultReviews = [
     {
         name: "steeven lopez",
         date: "Décembre 2025",
@@ -23,7 +23,7 @@ const reviews = [
     }
 ];
 
-const LocalReviews = ({ city }) => {
+const LocalReviews = ({ city, reviews = defaultReviews }) => {
     return (
         <section className="py-12 md:py-16 bg-slate-50 border-t border-slate-100 relative overflow-hidden">
 

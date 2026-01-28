@@ -96,6 +96,9 @@ const Footer = ({ onOpenMentions = () => { }, onOpenPolitique = () => { }, onOpe
               <a href="/melun" className="text-xs text-secondary-400 hover:text-orange-500 transition-colors flex items-center gap-1">
                 <MapPin size={12} /> Melun
               </a>
+              <a href="/senart" className="text-xs text-secondary-400 hover:text-orange-500 transition-colors flex items-center gap-1">
+                <MapPin size={12} /> Sénart
+              </a>
             </div>
           </div>
         </div>
