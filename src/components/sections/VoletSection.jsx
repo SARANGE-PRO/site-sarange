@@ -2,11 +2,13 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Sun, Zap, Check, ChevronRight, Thermometer, ShieldCheck, Palette, Layers, Info, Signal, Power } from 'lucide-react';
 import { IMAGES } from '../../data/constants';
 import CTATrustBadges from '../ui/CTATrustBadges';
+import { MiniPromoBadge, ComboInfoModal } from '../promo/PromoCombo';
 
 const VoletSection = () => {
     const [selectedMotor, setSelectedMotor] = useState('radio');
     const [isAutoPlaying, setIsAutoPlaying] = useState(true);
     const [isHovering, setIsHovering] = useState(false);
+    const [showComboModal, setShowComboModal] = useState(false);
     const containerRef = useRef(null);
 
     // Autoplay logic
@@ -30,7 +32,10 @@ const VoletSection = () => {
     };
 
     return (
-        <section id="volets" className="py-12 md:py-20 bg-secondary-50 relative overflow-hidden">
+        <section
+            id="volets"
+            className={`py-12 md:py-20 bg-secondary-50 relative overflow-hidden ${showComboModal ? 'z-[9999]' : ''}`}
+        >
             {/* Background decoration */}
             <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
                 <div className="absolute top-0 right-0 w-96 h-96 bg-primary-200/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
@@ -47,7 +52,7 @@ const VoletSection = () => {
                         VOLETS ROULANTS <span className="text-primary-600">SUR-MESURE</span>
                     </h2>
                     <p className="text-base md:text-lg text-secondary-600 max-w-3xl mx-auto">
-                        Sécurisez et isolez votre maison. <span className="font-bold text-primary-700"> -20% sur tous les volets</span> pour toute commande simultanée avec vos fenêtres.
+                        Sécurisez et isolez votre maison avec nos volets roulants sur-mesure, conçus pour vous offrir confort et tranquillité.
                     </p>
                 </div>
 
@@ -73,12 +78,10 @@ const VoletSection = () => {
                             {/* Overlay Gradient */}
                             <div className="absolute inset-0 bg-gradient-to-t from-secondary-900/90 via-transparent to-black/30 lg:bg-gradient-to-t lg:from-secondary-900/60 lg:via-transparent lg:to-transparent"></div>
 
-                            {/* Promo badge (Top Left) */}
-                            <div className="absolute top-4 left-4 z-20">
-                                <span className="bg-red-600 text-white px-3 py-1.5 rounded-lg font-bold text-xs shadow-lg uppercase tracking-wide animate-pulse flex items-center gap-1">
-                                    <Zap size={14} fill="currentColor" /> -20% PACK DUO
-                                </span>
-                            </div>
+                            {/* Mini Badge Promo Combo */}
+                            <MiniPromoBadge onClick={() => setShowComboModal(true)} />
+
+
 
                             {/* Auto indicator (Top Right) */}
                             {isAutoPlaying && !isHovering && (
@@ -227,6 +230,9 @@ const VoletSection = () => {
                     </div>
                 </div>
             </div>
+
+            {/* Modal Offre Combo */}
+            <ComboInfoModal isOpen={showComboModal} onClose={() => setShowComboModal(false)} />
 
             <style>{`
                 @keyframes fadeIn {

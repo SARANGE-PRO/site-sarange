@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { OfferProvider } from './features/context/OfferContext';
 import CookieConsent from "react-cookie-consent";
+import { Phone, ArrowRight } from 'lucide-react';
 
 // Layout
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
+import SEOHead from './components/ui/SEOHead';
 
 // Sections
 import Hero from './components/sections/Hero';
@@ -33,6 +35,11 @@ const App = () => {
   return (
     <OfferProvider>
       <div className="font-sans antialiased text-secondary-800 bg-white pb-20 md:pb-0">
+        <SEOHead
+          title="Fenêtres PVC/Alu Direct Usine à Combs-la-Ville | SARANGE"
+          description="Économisez sur vos Fenêtres, Portes et Volets sur-mesure. Direct usine avec pose RGE, aides possibles et TVA réduite. Avis 5/5. Devis gratuit"
+          canonical="https://sarange.fr/"
+        />
 
         {/* --- MODALES --- */}
         <AidesModal isOpen={showAidesModal} onClose={() => setShowAidesModal(false)} />
@@ -77,17 +84,21 @@ const App = () => {
           onOpenPolitique={() => setActiveModal('politique')}
         />
 
-        {/* --- BOUTON APPEL MOBILE (STICKY) --- */}
-        <div className="md:hidden fixed bottom-0 left-0 right-0 glass border-t border-white/20 p-3 sm:p-4 z-40 flex justify-between items-center safe-area-bottom shadow-2xl bg-white/90 backdrop-blur-md">
-          <div className="flex flex-col">
-            <span className="text-[10px] uppercase font-bold text-secondary-600 tracking-wider">Une question ?</span>
-            <a href="tel:0986713444" className="tap-target font-black text-secondary-900 text-base sm:text-lg hover:text-primary-500 transition-colors">09 86 71 34 44</a>
-          </div>
+        {/* --- BOUTON MOBILE (STICKY BOTTOM BAR) - Unifié --- */}
+        <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t border-slate-200 px-4 py-3 shadow-[0_-5px_20px_rgba(0,0,0,0.1)] flex gap-3 safe-area-pb">
+          <a
+            href="tel:0986713444"
+            className="flex-1 bg-slate-50 text-slate-800 font-bold py-3 px-4 rounded-xl text-center hover:bg-slate-100 text-sm flex items-center justify-center gap-2 border border-slate-200 active:scale-95 transition-all"
+          >
+            <Phone size={18} className="text-slate-500" />
+            <span>Appeler</span>
+          </a>
           <button
             onClick={() => document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })}
-            className="tap-target bg-primary-500 text-white px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl font-bold text-sm shadow-lg active:scale-95 transition-all hover:bg-primary-600"
+            className="flex-[1.5] bg-gradient-to-r from-orange-600 to-orange-500 text-white font-bold py-3 px-4 rounded-xl text-center hover:from-orange-500 hover:to-orange-400 text-sm flex items-center justify-center gap-2 shadow-lg shadow-orange-500/25 active:scale-95 transition-all"
           >
-            DEVIS RAPIDE
+            <ArrowRight size={18} />
+            <span>Devis Rapide</span>
           </button>
         </div>
 

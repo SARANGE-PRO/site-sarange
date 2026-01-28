@@ -1,5 +1,5 @@
 import React, { useMemo, useCallback } from "react";
-import { Phone, CalendarCheck, MessageSquare } from "lucide-react";
+import { Phone, CalendarCheck, MessageSquare, ArrowRight } from "lucide-react";
 
 // Layout (Shared)
 import Navbar from "../layout/Navbar";
@@ -7,13 +7,17 @@ import Footer from "../layout/Footer";
 
 // Sections (Sénart Specific)
 import LocalReviews from "./LocalReviews";
-import SEOHead from "./melun/SEOHead";
+import SEOHead from "../ui/SEOHead";
 import LocalHero from "./senart/LocalHero";
 import OfferSection from "./senart/OfferSection";
 import PartnersBanner from "./senart/TrustSection";
 import ProductsOverview from "./senart/ProductsOverview";
 import FAQSection from "./senart/FAQSection";
 import ContactBlock from "./senart/ContactBlock";
+
+// Modals & Banners
+import AidesBanner from "../sections/AidesBanner";
+import AidesModal from "../modals/AidesModal";
 
 const LocalLandingSenart = ({ cityData }) => {
     // Data Loading
@@ -22,17 +26,16 @@ const LocalLandingSenart = ({ cityData }) => {
     const phoneLink = "tel:+33986713444";
 
     // ✅ URL CANONIQUE
-    const canonical = `https://sarange.fr/villes/senart`;
+    const canonical = `https://sarange.fr/senart`;
 
-    // ✅ META DESCRIPTION : AXÉE "LOCAL & USINE"
-    // Différente de Melun pour éviter le "Duplicate Content"
-    const metaDescription = `🏭 Menuiserie Direct Usine à Sénart (Combs-la-Ville). Fabricant installateur de fenêtres, vérandas et volets. Zéro intermédiaire, Prix fabricant & Pose certifiée RGE.`;
+    // ✅ META DESCRIPTION OPTIMISÉE (recommandation SEO)
+    const metaDescription = `Fenêtres, portes et volets sur mesure à Sénart. Fabrication directe SARANGE, pose RGE, aides possibles et TVA réduite. Devis gratuit.`;
 
     // ✅ SCHEMA LOCALBUSINESS (Optimisé Agglomération)
     const schema = useMemo(() => ({
         "@context": "https://schema.org",
         "@type": "HomeAndConstructionBusiness", // Plus précis que LocalBusiness
-        "@id": `https://sarange.fr/villes/senart#usine`,
+        "@id": `https://sarange.fr/senart#usine`,
         name: `SARANGE - Fabricant Menuiserie Sénart`,
         description: metaDescription,
         url: canonical,
@@ -80,12 +83,15 @@ const LocalLandingSenart = ({ cityData }) => {
         if (el) el.scrollIntoView({ behavior: "smooth" });
     }, []);
 
+    // State pour AidesModal
+    const [isAidesModalOpen, setIsAidesModalOpen] = React.useState(false);
+
     return (
         <div className="font-sans antialiased text-slate-900 bg-white min-h-screen selection:bg-orange-500 selection:text-white">
 
             <SEOHead
-                // ✅ TITRE : On met en avant "Fabricant" et "Véranda" (mot clé fort à Sénart)
-                title={`Menuiserie Sénart (77) : Fabricant Fenêtres & Vérandas | Direct Usine`}
+                // ✅ TITLE TAG OPTIMISÉ (recommandation SEO - 54 char)
+                title={`Fenêtres PVC & Alu à Sénart | SARANGE Fabricant RGE`}
                 description={metaDescription}
                 canonical={canonical}
                 schema={schema}
@@ -108,10 +114,11 @@ const LocalLandingSenart = ({ cityData }) => {
                 {/* 1. HERO : L'accroche locale */}
                 <LocalHero city="Sénart" zip="77" onDevisClick={scrollToContact} phoneLink={phoneLink} />
 
-                {/* 2. TRUST : On rassure TOUT DE SUITE avec les labels (Changement de place stratégique) */}
-                <div className="border-b border-slate-100">
-                    <PartnersBanner city="Sénart" />
-                </div>
+                {/* 2. CONFIANCE : Les partenaires avant l'offre commerciale */}
+                <PartnersBanner city="Sénart" />
+
+                {/* AIDES BANNER */}
+                <AidesBanner onOpenAides={() => setIsAidesModalOpen(true)} />
 
                 {/* 3. OFFRE : Maintenant qu'ils ont confiance, on vend l'offre */}
                 <OfferSection city="Sénart" />
@@ -146,10 +153,13 @@ const LocalLandingSenart = ({ cityData }) => {
                     onClick={scrollToContact}
                     className="flex-[1.5] bg-gradient-to-r from-orange-600 to-orange-500 text-white font-bold py-3 px-4 rounded-xl text-center hover:from-orange-500 hover:to-orange-400 text-sm flex items-center justify-center gap-2 shadow-lg shadow-orange-500/25 active:scale-95 transition-all"
                 >
-                    <CalendarCheck size={18} />
-                    <span>RDV Atelier / Devis</span>
+                    <ArrowRight size={18} />
+                    <span>Devis Rapide</span>
                 </button>
             </div>
+
+            {/* AIDES MODAL */}
+            <AidesModal isOpen={isAidesModalOpen} onClose={() => setIsAidesModalOpen(false)} />
         </div>
     );
 };

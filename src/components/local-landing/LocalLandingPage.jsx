@@ -1,5 +1,5 @@
 import React, { useMemo, useCallback } from "react";
-import { Phone, ArrowRight } from "lucide-react";
+import { Phone, ArrowRight, CalendarCheck } from "lucide-react";
 
 // Layout
 import Navbar from "../layout/Navbar";
@@ -7,13 +7,17 @@ import Footer from "../layout/Footer";
 
 // Sections
 import LocalReviews from "./LocalReviews";
-import SEOHead from "./melun/SEOHead";
+import SEOHead from "../ui/SEOHead";
 import LocalHero from "./melun/LocalHero";
 import OfferSection from "./melun/OfferSection";
 import PartnersBanner from "./melun/TrustSection";
 import ProductsOverview from "./melun/ProductsOverview";
 import FAQSection from "./melun/FAQSection";
 import ContactBlock from "./melun/ContactBlock";
+
+// Modals & Banners
+import AidesBanner from "../sections/AidesBanner";
+import AidesModal from "../modals/AidesModal";
 
 const LocalLandingMelun = ({ cityData }) => {
     // Data Loading
@@ -24,10 +28,10 @@ const LocalLandingMelun = ({ cityData }) => {
     // Correction : Utilisation du format racine (sarange.fr/melun) comme défini dans le routage
     const canonical = useMemo(() => `https://sarange.fr/${String(name).toLowerCase()}`, [name]);
 
-    // ✅ META DESCRIPTION OPTIMALE (155 char)
+    // ✅ META DESCRIPTION OPTIMISÉE (différente de Sénart)
     const metaDescription = useMemo(() => {
-        return `🏠 Fenêtres PVC & Alu sur mesure à ${name} et alentours (${zip}). Fabricant RGE Seine-et-Marne. Volets, portes. Devis gratuit 24h. ☎️ 09 86 71 34 44`;
-    }, [name, zip]);
+        return `Votre menuiserie à ${name} : fenêtres PVC & aluminium, volets et portes. Fabrication locale SARANGE, pose RGE. Demandez votre devis gratuit.`;
+    }, [name]);
 
     // ✅ SCHEMA LOCALBUSINESS MAXIMAL 2026
     const schema = useMemo(() => ({
@@ -192,11 +196,14 @@ const LocalLandingMelun = ({ cityData }) => {
         if (el) el.scrollIntoView({ behavior: "smooth" });
     }, []);
 
+    // State pour AidesModal
+    const [isAidesModalOpen, setIsAidesModalOpen] = React.useState(false);
+
     return (
         <div className="font-sans antialiased text-secondary-900 bg-white min-h-screen selection:bg-orange-100 selection:text-orange-900">
             <SEOHead
-                // ✅ TITLE TAG OPTIMAL (60 char)
-                title={`Fenêtres PVC & Alu à ${name} (${zip}) | Fabricant RGE 77`}
+                // ✅ TITLE TAG OPTIMISÉ (structure similaire à Sénart)
+                title={`Fenêtres PVC & Alu à ${name} | SARANGE Menuisier RGE`}
                 description={metaDescription}
                 canonical={canonical}
                 schema={schema}
@@ -218,6 +225,8 @@ const LocalLandingMelun = ({ cityData }) => {
             <main>
                 <LocalHero city={name} zip={zip} onDevisClick={scrollToContact} phoneLink={phoneLink} />
 
+                <AidesBanner onOpenAides={() => setIsAidesModalOpen(true)} />
+
                 <OfferSection city={name} />
 
                 <PartnersBanner city={name} />
@@ -236,21 +245,26 @@ const LocalLandingMelun = ({ cityData }) => {
 
             <Footer />
 
-            {/* STICKY BOTTOM BAR */}
-            <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-slate-200 px-4 py-3 shadow-[0_-5px_20px_rgba(0,0,0,0.1)] flex gap-3 safe-area-pb">
+            {/* STICKY BOTTOM BAR - Version Premium (Unifié) */}
+            <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t border-slate-200 px-4 py-3 shadow-[0_-5px_20px_rgba(0,0,0,0.1)] flex gap-3 safe-area-pb">
                 <a
                     href={phoneLink}
-                    className="flex-1 bg-slate-100 text-slate-900 font-bold py-3 px-4 rounded-xl text-center hover:bg-slate-200 text-sm flex items-center justify-center gap-2 active:scale-95 transition-all"
+                    className="flex-1 bg-slate-50 text-slate-800 font-bold py-3 px-4 rounded-xl text-center hover:bg-slate-100 text-sm flex items-center justify-center gap-2 border border-slate-200 active:scale-95 transition-all"
                 >
-                    <Phone size={18} /> Appeler
+                    <Phone size={18} className="text-slate-500" />
+                    <span>Appeler</span>
                 </a>
                 <button
                     onClick={scrollToContact}
-                    className="flex-[1.5] bg-orange-500 text-white font-bold py-3 px-4 rounded-xl text-center hover:bg-orange-600 text-sm flex items-center justify-center gap-2 shadow-lg shadow-orange-500/20 active:scale-95 transition-all"
+                    className="flex-[1.5] bg-gradient-to-r from-orange-600 to-orange-500 text-white font-bold py-3 px-4 rounded-xl text-center hover:from-orange-500 hover:to-orange-400 text-sm flex items-center justify-center gap-2 shadow-lg shadow-orange-500/25 active:scale-95 transition-all"
                 >
-                    Devis Gratuit <ArrowRight size={18} />
+                    <ArrowRight size={18} />
+                    <span>Devis Rapide</span>
                 </button>
             </div>
+
+            {/* AIDES MODAL */}
+            <AidesModal isOpen={isAidesModalOpen} onClose={() => setIsAidesModalOpen(false)} />
         </div>
     );
 };

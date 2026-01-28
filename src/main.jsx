@@ -19,9 +19,13 @@ const cityData = cities[path];
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
-        {cityData && path !== 'senart' ? (
+        {cityData ? (
             <OfferProvider>
-                <LocalLandingPage cityData={cityData} />
+                {path === 'senart' ? (
+                    <LocalLandingSenart cityData={cityData} />
+                ) : (
+                    <LocalLandingPage cityData={cityData} />
+                )}
             </OfferProvider>
         ) : (
             <App />

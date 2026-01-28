@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import { IMAGES } from "../../../data/constants";
 import { ChevronRight, ArrowRight } from "lucide-react";
 import ProductModal from "../../modals/ProductModal";
+import { ProductPromoTrigger, ComboInfoModal, MiniPromoBadge } from "../../promo/PromoCombo";
 
 const ProductsOverview = ({ city, onDevisClick }) => {
     const [selectedProduct, setSelectedProduct] = useState(null);
+    const [showComboModal, setShowComboModal] = useState(false);
 
     // ✅ DONNÉES STRICTEMENT IDENTIQUES À L'ORIGINAL
     const products = [
@@ -102,7 +104,7 @@ const ProductsOverview = ({ city, onDevisClick }) => {
 
     return (
         // Changement Design : Fond Gris Clair (vs Blanc sur Melun)
-        <section className="py-12 md:py-20 bg-slate-50 border-b border-slate-200" id="produits">
+        <section className={`py-12 md:py-20 bg-slate-50 border-b border-slate-200 relative ${showComboModal ? 'z-[9999]' : ''}`} id="produits">
             <div className="container mx-auto px-4 max-w-7xl">
 
                 {/* Header Section : Texte différent pour SEO */}
@@ -140,12 +142,18 @@ const ProductsOverview = ({ city, onDevisClick }) => {
                                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                                 />
 
-                                {/* Badge Positionné différemment (En bas à gauche vs En haut) pour varier le code HTML */}
-                                <div className="absolute bottom-3 left-3 z-20">
-                                    <div className={`text-[10px] font-bold px-3 py-1 rounded-full shadow-md ${i === 0 ? 'bg-orange-600 text-white' : 'bg-white text-slate-900'}`}>
-                                        {p.tag}
+                                {/* Badge Promo ou Standard */}
+                                {(i === 0 || i === 3) ? (
+                                    // MINI BADGE PROMO pour Fenêtres PVC (0) et Volets (3)
+                                    <MiniPromoBadge onClick={() => setShowComboModal(true)} />
+                                ) : (
+                                    // Badge Standard positionné en bas à gauche
+                                    <div className="absolute bottom-3 left-3 z-20">
+                                        <div className={`text-[10px] font-bold px-3 py-1 rounded-full shadow-md bg-white text-slate-900`}>
+                                            {p.tag}
+                                        </div>
                                     </div>
-                                </div>
+                                )}
                             </div>
 
                             <div className="p-6">
@@ -169,6 +177,9 @@ const ProductsOverview = ({ city, onDevisClick }) => {
                         </div>
                     ))}
                 </div>
+
+                {/* Modale Combo Offer */}
+                <ComboInfoModal isOpen={showComboModal} onClose={() => setShowComboModal(false)} />
 
                 <ProductModal
                     isOpen={!!selectedProduct}

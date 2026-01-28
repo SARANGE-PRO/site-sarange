@@ -62,7 +62,7 @@ const ContactBlock = ({ city, phoneLink }) => (
                             {/* Badge Permanent */}
                             <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4 pt-12 pointer-events-none">
                                 <span className="text-white font-bold text-sm flex items-center gap-2">
-                                    <MapPin size={16} className="text-orange-400" /> Atelier & Showroom (77)
+                                    <MapPin size={16} className="text-orange-400" /> Atelier (77)
                                 </span>
                             </div>
                         </div>

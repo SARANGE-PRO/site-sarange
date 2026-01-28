@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import { IMAGES } from "../../../data/constants";
 import { ChevronRight } from "lucide-react";
 import ProductModal from "../../modals/ProductModal";
+import { ProductPromoTrigger, ComboInfoModal, MiniPromoBadge } from "../../promo/PromoCombo";
 
 const ProductsOverview = ({ city, onDevisClick }) => {
     const [selectedProduct, setSelectedProduct] = useState(null);
+    const [showComboModal, setShowComboModal] = useState(false);
 
     const products = [
         {
@@ -101,7 +103,7 @@ const ProductsOverview = ({ city, onDevisClick }) => {
     ];
 
     return (
-        <section className="py-8 md:py-16 bg-white" id="produits">
+        <section className={`py-8 md:py-16 bg-white relative ${showComboModal ? 'z-[9999]' : ''}`} id="produits">
             <div className="container mx-auto px-4 max-w-7xl">
 
                 {/* Header Section */}
@@ -140,12 +142,11 @@ const ProductsOverview = ({ city, onDevisClick }) => {
 
                                 {/* --- GESTION DES BADGES --- */}
                                 {i === 0 ? (
-                                    // BADGE SPÉCIAL POUR LE PVC (Orange, à gauche)
-                                    <div className="absolute top-3 left-3 z-20">
-                                        <div className="bg-orange-500 text-white text-[10px] md:text-xs font-bold px-3 py-1 rounded-full shadow-md">
-                                            🔥 N°1 DES VENTES
-                                        </div>
-                                    </div>
+                                    // MINI BADGE PROMO POUR LE PVC
+                                    <MiniPromoBadge onClick={() => setShowComboModal(true)} />
+                                ) : i === 3 ? (
+                                    // MINI BADGE PROMO POUR LES VOLETS (index 3)
+                                    <MiniPromoBadge onClick={() => setShowComboModal(true)} />
                                 ) : (
                                     // BADGE STANDARD POUR LES AUTRES (Sombre, à droite)
                                     <div className="absolute top-2 right-2 bg-slate-900/90 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider backdrop-blur-sm">
@@ -170,6 +171,9 @@ const ProductsOverview = ({ city, onDevisClick }) => {
                         </div>
                     ))}
                 </div>
+
+                {/* Modale Combo Offer */}
+                <ComboInfoModal isOpen={showComboModal} onClose={() => setShowComboModal(false)} />
 
                 <ProductModal
                     isOpen={!!selectedProduct}

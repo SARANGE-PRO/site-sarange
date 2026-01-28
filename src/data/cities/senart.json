@@ -39,7 +39,16 @@
             "Tigery Village"
         ],
         "localProjects": [],
-        "specificFAQ": []
+        "specificFAQ": [
+            {
+                "q": "Peut-on visiter l'atelier ?",
+                "a": "Oui ! Notre atelier à Combs-la-Ville est ouvert sur rendez-vous. Vous pouvez voir notre espace de fabrication et toucher les matériaux."
+            },
+            {
+                "q": "Livrez-vous le samedi à Sénart ?",
+                "a": "Oui, nous adaptons nos horaires de pose en fonction de vos disponibilités, y compris le samedi."
+            }
+        ]
     },
     "reviews": [
         {

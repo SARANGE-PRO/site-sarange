@@ -60,7 +60,7 @@ const ContactBlock = ({ city, phoneLink }) => (
                             {/* Badge Permanent */}
                             <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4 pt-12 pointer-events-none">
                                 <span className="text-white font-bold text-sm flex items-center gap-2">
-                                    <MapPin size={16} className="text-orange-400" /> Showroom Combs-la-Ville
+                                    <MapPin size={16} className="text-orange-400" /> Atelier Combs-la-Ville
                                 </span>
                             </div>
                         </div>
@@ -89,7 +89,7 @@ const ContactBlock = ({ city, phoneLink }) => (
                                         <Clock size={20} />
                                     </div>
                                     <div className="text-sm w-full">
-                                        <p className="font-bold text-slate-900 mb-1">Ouverture Showroom</p>
+                                        <p className="font-bold text-slate-900 mb-1">Horaires d'ouverture</p>
                                         <div className="grid grid-cols-2 gap-x-2 text-slate-600 text-xs">
                                             <span>Semaine :</span>
                                             <span className="font-bold text-green-600 text-right">08:00 – 17:30</span>

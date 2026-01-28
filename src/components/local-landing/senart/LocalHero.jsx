@@ -2,12 +2,15 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
     Phone,
-    MapPin,
-    Factory,
+    Briefcase,
     ChevronDown,
     Sparkles,
+    Factory,
     CheckCircle2,
-    ArrowRight
+    MapPin,
+    ArrowRight,
+    UserCheck,  // Pour "Pose par nos équipes"
+    BadgeEuro   // Pour "Juste Prix"
 } from "lucide-react";
 import { IMAGES } from "../../../data/constants";
 
@@ -34,14 +37,13 @@ const LocalHero = ({ city = "Sénart", zip = "77", onDevisClick, phoneLink }) =>
     const [showScrollIndicator, setShowScrollIndicator] = useState(true);
     const [heroHeight, setHeroHeight] = useState('100vh');
 
-    // ✅ SEO : Schema.org optimisé pour "LocalBusiness" + Fil d'ariane
     const breadcrumbSchema = {
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
         "itemListElement": [
             { "@type": "ListItem", "position": 1, "name": "SARANGE", "item": "https://sarange.fr/" },
-            { "@type": "ListItem", "position": 2, "name": "Menuisier 77", "item": "https://sarange.fr/villes" },
-            { "@type": "ListItem", "position": 3, "name": `Fenêtres à ${city}`, "item": `https://sarange.fr/villes/${city.toLowerCase()}` }
+            { "@type": "ListItem", "position": 2, "name": "Zones d'Intervention", "item": "https://sarange.fr/villes" },
+            { "@type": "ListItem", "position": 3, "name": city, "item": `https://sarange.fr/villes/${city.toLowerCase()}` }
         ]
     };
 
@@ -74,103 +76,97 @@ const LocalHero = ({ city = "Sénart", zip = "77", onDevisClick, phoneLink }) =>
             <section
                 id="hero"
                 className="relative flex items-center pt-24 pb-12 bg-slate-950 overflow-hidden"
-                style={{ height: heroHeight, minHeight: heroHeight, maxHeight: heroHeight }}
+                style={{ height: heroHeight, minHeight: '600px', maxHeight: heroHeight }}
             >
-                {/* --- FOND OPTIMISÉ --- */}
+                {/* --- FOND --- */}
                 <div className="absolute inset-0 z-0">
                     <img
                         src={IMAGES.hero}
-                        // ✅ SEO : Alt Text riche en mots-clés géolocalisés
-                        alt="Menuiserie Sénart : Atelier de fabrication fenêtres PVC Alu et Vérandas à Combs-la-Ville (77)"
+                        alt={`Menuiserie SARANGE - Intervention à ${city}`}
                         className="w-full h-full object-cover object-center opacity-50"
                         fetchPriority="high"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900/90 to-slate-950/40"></div>
+                    <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900/90 to-slate-950/50"></div>
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent"></div>
-                    <div className="absolute inset-0 z-0 opacity-[0.06] pointer-events-none"
-                        style={{ backgroundImage: 'radial-gradient(circle, #f97316 1px, transparent 1px)', backgroundSize: '40px 40px' }}>
+                    <div className="absolute inset-0 z-0 opacity-[0.08] pointer-events-none"
+                        style={{ backgroundImage: 'radial-gradient(circle, #f97316 1px, transparent 1px)', backgroundSize: '30px 30px' }}>
                     </div>
                 </div>
 
                 <div className="container mx-auto px-4 sm:px-6 relative z-10 grid lg:grid-cols-12 gap-8 lg:gap-16 items-center">
 
-                    {/* --- COLONNE GAUCHE --- */}
+                    {/* --- COLONNE GAUCHE (TEXTE) --- */}
                     <motion.div
                         variants={containerVariants}
                         initial="hidden"
                         animate="visible"
-                        className="lg:col-span-8 text-white space-y-6"
+                        className="lg:col-span-7 xl:col-span-8 text-white space-y-6"
                     >
                         <div className="flex flex-col items-start max-w-5xl">
 
                             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
 
-                            {/* Fil d'ariane */}
                             <motion.div variants={itemVariants} className="flex items-center gap-2 text-[10px] sm:text-xs font-bold text-slate-400 uppercase tracking-widest mb-4 border border-white/10 bg-black/20 px-3 py-1.5 rounded-full backdrop-blur-sm">
                                 <a href="/" className="hover:text-white transition-colors">SARANGE</a>
                                 <span className="text-slate-600">/</span>
-                                <span className="text-orange-500 font-bold">{city} (77)</span>
+                                <span className="text-orange-500 font-bold">{city}</span>
                             </motion.div>
 
-                            {/* ✅ SEO : H2 déguisé en Tagline (Mots clés : Menuiserie, Fabricant, 77) */}
-                            <motion.h2 variants={itemVariants} className="hidden sm:flex text-xs sm:text-sm font-bold text-orange-400 uppercase tracking-[0.2em] mb-2 items-center">
-                                <span className="w-8 h-[2px] bg-orange-500 mr-3 shadow-[0_0_12px_rgba(249,115,22,1)]"></span>
-                                Fabricant-Installateur 77
+                            <motion.h2 variants={itemVariants} className="flex text-xs sm:text-sm font-bold text-orange-400 uppercase tracking-[0.2em] mb-3 items-center">
+                                <span className="w-6 sm:w-8 h-[2px] bg-orange-500 mr-2 sm:mr-3 shadow-[0_0_12px_rgba(249,115,22,1)]"></span>
+                                Fabricant Local • Atelier (77)
                             </motion.h2>
 
-                            {/* ✅ H1 SEO PRINCIPAL : FENÊTRES + LOCALISATION */}
+                            {/* H1 SEO */}
                             <motion.h1
                                 variants={itemVariants}
-                                className="font-black uppercase tracking-tighter leading-none -mt-2 sm:mt-0 flex flex-col"
+                                className="font-black tracking-tight leading-none flex flex-col"
                             >
-                                {/* Ligne 1 : FENÊTRES PVC & ALU */}
                                 <span
-                                    className="bg-clip-text text-transparent bg-gradient-to-br from-white via-slate-100 to-slate-400 drop-shadow-2xl py-1"
-                                    style={{ fontSize: 'clamp(2.5rem, 8vw, 5.5rem)' }}
+                                    className="block bg-clip-text text-transparent bg-gradient-to-br from-white via-slate-100 to-slate-400 drop-shadow-2xl py-1"
+                                    style={{ fontSize: 'clamp(2.2rem, 7vw, 5rem)' }}
                                 >
-                                    FENÊTRES PVC & ALU
+                                    Fenêtres PVC & Aluminium
                                 </span>
 
-                                {/* Ligne 2 : SÉNART + SUR-MESURE */}
                                 <div className="flex flex-wrap items-center gap-3 sm:gap-5 mt-1">
-                                    <span
-                                        className="text-white whitespace-nowrap"
-                                        style={{ fontSize: 'clamp(2.5rem, 8vw, 5.5rem)' }}
-                                    >
-                                        À SÉNART
+                                    <span className="text-white/90 text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight">
+                                        sur mesure à {city}
                                     </span>
 
-                                    {/* Badge "Direct Usine" & "Sur-Mesure" */}
-                                    <span className="relative inline-block group transform -skew-x-6 hover:skew-x-0 transition-transform duration-300 ml-2 mt-1 sm:mt-0">
+                                    <span className="relative inline-block group transform -skew-x-6 hover:skew-x-0 transition-transform duration-300">
                                         <span className="absolute inset-0 bg-gradient-to-r from-orange-500 to-orange-400 rounded-sm shadow-[0_5px_20px_rgba(249,115,22,0.4)]"></span>
-                                        <div className="relative z-10 text-slate-950 px-3 py-1 italic font-black text-sm sm:text-lg lg:text-xl block uppercase leading-none">
-                                            <span>DIRECT USINE</span>
-                                            <span className="block text-[0.7em] opacity-80">SUR-MESURE</span>
-                                        </div>
+                                        <span className="relative z-10 text-slate-950 px-4 py-2 italic font-black text-lg sm:text-xl lg:text-2xl block uppercase">
+                                            Direct Usine
+                                        </span>
                                     </span>
                                 </div>
                             </motion.h1>
 
-                            {/* ✅ SEO : Paragraphe riche qui lie Atelier (Combs) et Zone (Sénart) */}
-                            <motion.p variants={itemVariants} className="text-slate-300 text-sm sm:text-lg max-w-2xl leading-relaxed font-medium">
-                                Votre <strong>atelier de fabrication</strong> est situé à <strong>Combs-la-Ville</strong>.
-                                Nous installons vos menuiseries sans sous-traitance sur toute l'agglomération de Sénart.
-                            </motion.p>
+                            {/* TEXTE GAUCHE */}
+                            <motion.div variants={itemVariants} className="space-y-2 mt-4 mb-6 max-w-2xl">
+                                <p className="text-slate-300 text-sm sm:text-lg font-medium leading-relaxed">
+                                    Menuiserie Générale : Fenêtres, Volets, Portes & Vérandas.
+                                </p>
+                                <p className="text-slate-400 text-sm sm:text-base leading-relaxed">
+                                    Un savoir-faire complet pour une rénovation globale, gérée par un seul interlocuteur local.
+                                </p>
+                            </motion.div>
 
-                            {/* Liste Produits (Vérandas en évidence pour le maillage sémantique) */}
-                            <motion.div variants={itemVariants} className="mt-2 mb-6">
-                                <p className="text-sm sm:text-base font-bold text-slate-200 tracking-wide flex flex-wrap items-center gap-x-5 gap-y-2 uppercase">
-                                    <span className="flex items-center gap-2">
-                                        <CheckCircle2 size={16} className="text-orange-500" /> Vérandas
+                            {/* Liste Produits */}
+                            <motion.div variants={itemVariants} className="mt-2 mb-5">
+                                <p className="text-sm sm:text-base font-bold text-slate-200 tracking-wide flex flex-wrap items-center gap-x-5 gap-y-2">
+                                    <span className="flex items-center gap-2 text-orange-400">
+                                        <CheckCircle2 size={16} className="text-orange-500" /> Fenêtres & Baies
                                     </span>
-                                    <span className="flex items-center gap-2">
+                                    <span className="flex items-center gap-1.5">
                                         <CheckCircle2 size={16} className="text-orange-500" /> Volets
                                     </span>
-                                    <span className="flex items-center gap-2">
+                                    <span className="flex items-center gap-1.5">
                                         <CheckCircle2 size={16} className="text-orange-500" /> Portes
                                     </span>
-                                    <span className="flex items-center gap-2">
-                                        <CheckCircle2 size={16} className="text-orange-500" /> Garages
+                                    <span className="flex items-center gap-1.5">
+                                        <CheckCircle2 size={16} className="text-orange-500" /> Vérandas
                                     </span>
                                 </p>
                             </motion.div>
@@ -183,7 +179,7 @@ const LocalHero = ({ city = "Sénart", zip = "77", onDevisClick, phoneLink }) =>
                                         <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.6)]"></span>
                                     </div>
                                     <span className="text-sm font-bold text-slate-200">
-                                        Certifié <span className="text-green-400 font-black">RGE Qualibat</span>
+                                        <span className="text-green-400 font-black">RGE Qualibat</span> • Fabricant-Installateur
                                     </span>
                                 </div>
                             </motion.div>
@@ -205,66 +201,74 @@ const LocalHero = ({ city = "Sénart", zip = "77", onDevisClick, phoneLink }) =>
                                 href={phoneLink}
                                 className="w-full sm:w-auto px-8 py-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-white font-bold backdrop-blur-sm transition-all text-center flex items-center justify-center gap-2"
                             >
-                                <Phone size={20} /> Appeler l'Atelier
+                                <Phone size={20} /> Conseil & Rendez-vous
                             </a>
                         </motion.div>
                     </motion.div>
 
-                    {/* --- COLONNE DROITE : FOCUS ATELIER (Reassurance Locale) --- */}
+                    {/* --- COLONNE DROITE : CARTE "ARGUMENTS VISUELS" (Refaite) --- */}
                     <motion.div
                         initial={{ opacity: 0, scale: 0.9, y: 30 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         transition={{ delay: 0.8, duration: 0.8 }}
-                        className="hidden lg:flex flex-col items-end lg:col-span-4"
+                        className="hidden lg:flex lg:col-span-5 xl:col-span-4 flex-col items-end justify-center h-full"
                     >
-                        {/* Carte Glassmorphism "ATELIER" */}
-                        <div className="relative bg-slate-900/70 backdrop-blur-2xl border border-white/10 p-8 rounded-2xl shadow-2xl max-w-sm group hover:border-orange-500/40 hover:shadow-[0_0_50px_rgba(249,115,22,0.15)] transition-all duration-500">
+                        {/* Carte Compacte & Structurée */}
+                        <div className="relative bg-slate-900/80 backdrop-blur-2xl border border-white/10 p-6 rounded-2xl shadow-2xl max-w-sm w-full group hover:border-orange-500/40 transition-all duration-500">
 
-                            {/* Glow Effect Orange */}
-                            <div className="absolute -top-10 -right-10 w-32 h-32 bg-orange-500/20 rounded-full blur-3xl group-hover:bg-orange-500/30 transition-colors"></div>
+                            {/* Halo Lumière */}
+                            <div className="absolute -top-10 -right-10 w-24 h-24 bg-orange-500/20 rounded-full blur-3xl group-hover:bg-orange-500/30 transition-colors"></div>
 
-                            <div className="relative flex justify-between items-start mb-4">
-                                <div>
-                                    <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mb-1">Votre Voisin</p>
-                                    <h3 className="text-white font-black text-2xl uppercase leading-none">
-                                        ATELIER
-                                    </h3>
-                                </div>
-                                <Factory className="text-white/10 group-hover:text-orange-500/20 transition-colors" size={48} />
+                            {/* 1. HEADER : TITRE DOMINANT */}
+                            <div className="mb-5 pb-4 border-b border-white/10">
+                                <p className="text-orange-500 text-[10px] font-bold uppercase tracking-widest mb-1.5">
+                                    VOTRE ATELIER LOCAL
+                                </p>
+                                <h3 className="text-white font-black text-2xl leading-none uppercase flex flex-col gap-1">
+                                    <span>À DEUX PAS</span>
+                                    <span className="flex items-center gap-2">
+                                        DE CHEZ VOUS
+                                        <MapPin className="text-orange-500 animate-bounce" size={20} />
+                                    </span>
+                                </h3>
                             </div>
 
-                            <p className="text-slate-300 text-sm leading-relaxed mb-6">
-                                <strong>Circuit Court :</strong> Vos fenêtres sont fabriquées ici, à Combs-la-Ville, et posées par nos salariés.
-                            </p>
-
-                            {/* Adresse Compacte */}
-                            {/* Adresse Compacte (Lien Itinéraire) */}
-                            <a
-                                href="https://www.google.com/maps/dir//SARANGE,+28+Rue+Jean+Rostand,+77380+Combs-la-Ville"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="w-full px-4 py-3 bg-slate-800 border border-slate-600/50 rounded-xl flex items-start gap-3 mb-2 hover:bg-slate-700/50 transition-colors cursor-pointer group/map"
-                            >
-                                <MapPin className="text-orange-500 shrink-0 mt-1" size={18} />
-                                <div>
-                                    <p className="text-white font-bold text-sm group-hover/map:text-orange-400 transition-colors">Combs-la-Ville (77)</p>
-                                    <p className="text-slate-500 text-xs">Zone de l'An 2000</p>
+                            {/* 2. BODY : 3 ARGUMENTS VISUELS (Pills) */}
+                            <div className="space-y-2 mb-6">
+                                {/* Argument 1 */}
+                                <div className="flex items-center gap-3 bg-white/5 border border-white/5 p-2.5 rounded-lg group-hover:bg-white/10 transition-colors">
+                                    <Factory className="text-orange-500 shrink-0" size={18} />
+                                    <span className="font-bold text-white text-sm">Fabrication Interne</span>
                                 </div>
-                                <ArrowRight size={16} className="text-slate-600 ml-auto mt-1 group-hover/map:text-white transition-colors" />
+                                {/* Argument 2 */}
+                                <div className="flex items-center gap-3 bg-white/5 border border-white/5 p-2.5 rounded-lg group-hover:bg-white/10 transition-colors">
+                                    <UserCheck className="text-orange-500 shrink-0" size={18} />
+                                    <span className="font-bold text-white text-sm">Pose par nos équipes</span>
+                                </div>
+                                {/* Argument 3 (Prix mis en valeur) */}
+                                <div className="flex items-center gap-3 bg-gradient-to-r from-green-900/30 to-slate-800 border border-green-500/30 p-2.5 rounded-lg">
+                                    <BadgeEuro className="text-green-400 shrink-0" size={18} />
+                                    <span className="font-bold text-white text-sm">Qualité au juste prix</span>
+                                </div>
+                            </div>
+
+                            {/* 3. FOOTER : ADRESSE DISCRÈTE */}
+                            <a
+                                href="https://maps.google.com/?q=Sarange+Combs-la-Ville"
+                                target="_blank"
+                                rel="noreferrer"
+                                className="flex items-center gap-2 justify-center text-xs text-slate-400 hover:text-white transition-colors cursor-pointer"
+                            >
+                                <MapPin size={14} />
+                                <span>28 Rue Jean Rostand, Combs-la-Ville (77)</span>
+                                <ArrowRight size={12} />
                             </a>
 
-                            {/* Indicateur Ouvert */}
-                            <div className="flex items-center gap-2 mt-2">
-                                <span className="relative flex h-2.5 w-2.5">
-                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
-                                </span>
-                                <span className="text-xs font-bold text-slate-300">Appelez-nous pour prendre rendez-vous</span>
-                            </div>
                         </div>
                     </motion.div>
 
                 </div>
+
             </section>
 
             {/* --- SCROLL INDICATOR --- */}

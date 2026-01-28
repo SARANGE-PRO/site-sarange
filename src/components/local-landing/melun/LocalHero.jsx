@@ -4,7 +4,12 @@ import {
     Phone,
     Briefcase,
     ChevronDown,
-    Sparkles
+    Sparkles,
+    MapPin,
+    Factory,
+    UserCheck,
+    BadgeEuro,
+    ArrowRight
 } from "lucide-react";
 import { IMAGES } from "../../../data/constants";
 
@@ -197,37 +202,68 @@ const LocalHero = ({ city, zip, onDevisClick, phoneLink }) => {
                         </motion.div>
                     </motion.div>
 
-                    {/* --- COLONNE DROITE (Desktop Only) - GLASS CARD --- */}
+                    {/* --- COLONNE DROITE : CARTE ARGUMENTS (Style Sénart + Direct Usine) --- */}
                     <motion.div
                         initial={{ opacity: 0, scale: 0.9, y: 30 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         transition={{ delay: 0.8, duration: 0.8 }}
-                        className="hidden lg:flex flex-col items-end lg:col-span-4"
+                        className="hidden lg:flex lg:col-span-4 flex-col items-end justify-center h-full"
                     >
-                        <div className="relative bg-slate-900/70 backdrop-blur-2xl border border-white/10 p-7 rounded-2xl shadow-2xl max-w-sm group hover:border-orange-500/40 hover:shadow-[0_0_50px_rgba(249,115,22,0.15)] transition-all duration-500">
-                            <div className="absolute -top-10 -right-10 w-32 h-32 bg-orange-500/20 rounded-full blur-3xl group-hover:bg-orange-500/30 transition-colors"></div>
+                        {/* Carte Compacte & Structurée */}
+                        <div className="relative bg-slate-900/80 backdrop-blur-2xl border border-white/10 p-6 rounded-2xl shadow-2xl max-w-sm w-full group hover:border-orange-500/40 transition-all duration-500">
 
-                            <div className="relative flex justify-between items-start mb-2">
-                                <span className="text-transparent bg-clip-text bg-gradient-to-br from-orange-400 via-orange-500 to-orange-600 font-black text-6xl leading-none tracking-tighter">
-                                    100<span className="text-4xl align-top text-orange-500">%</span>
-                                </span>
-                                <Briefcase className="text-white/10 group-hover:text-orange-500/20 transition-colors" size={40} />
+                            {/* Halo Lumière */}
+                            <div className="absolute -top-10 -right-10 w-24 h-24 bg-orange-500/20 rounded-full blur-3xl group-hover:bg-orange-500/30 transition-colors"></div>
+
+                            {/* 1. HEADER : DIRECT USINE Badge + Titre */}
+                            <div className="mb-5 pb-4 border-b border-white/10">
+                                {/* Badge DIRECT USINE mis en avant */}
+                                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gradient-to-r from-orange-500 to-red-500 text-white mb-2">
+                                    <span className="text-[10px] font-black uppercase tracking-widest">⚡ DIRECT USINE</span>
+                                </div>
+                                <p className="text-orange-500 text-[10px] font-bold uppercase tracking-widest mb-1.5">
+                                    FABRICANT LOCAL
+                                </p>
+                                <h3 className="text-white font-black text-2xl leading-none uppercase flex flex-col gap-1">
+                                    <span>À DEUX PAS</span>
+                                    <span className="flex items-center gap-2">
+                                        DE CHEZ VOUS
+                                        <MapPin className="text-orange-500 animate-bounce" size={20} />
+                                    </span>
+                                </h3>
                             </div>
 
-                            <p className="text-white font-black text-lg uppercase tracking-wider mb-2 border-b-2 border-gradient-to-r from-orange-500 to-transparent pb-2 inline-block">
-                                DIRECT USINE
-                            </p>
-                            <p className="text-slate-400 text-sm leading-snug mb-6">
-                                Fabrication à Combs-la-Ville et pose sans sous-traitance chez vous à {city}.
-                            </p>
-
-                            <div className="w-full px-4 py-2.5 bg-slate-800 border border-slate-600/50 rounded-lg flex items-center gap-2">
-                                <span className="relative flex h-2 w-2">
-                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-                                </span>
-                                <span className="text-xs font-bold text-slate-200 uppercase tracking-wide">Zone active : {zip}</span>
+                            {/* 2. BODY : 3 ARGUMENTS VISUELS (Pills) */}
+                            <div className="space-y-2 mb-6">
+                                {/* Argument 1 */}
+                                <div className="flex items-center gap-3 bg-white/5 border border-white/5 p-2.5 rounded-lg group-hover:bg-white/10 transition-colors">
+                                    <Factory className="text-orange-500 shrink-0" size={18} />
+                                    <span className="font-bold text-white text-sm">Fabrication Interne</span>
+                                </div>
+                                {/* Argument 2 */}
+                                <div className="flex items-center gap-3 bg-white/5 border border-white/5 p-2.5 rounded-lg group-hover:bg-white/10 transition-colors">
+                                    <UserCheck className="text-orange-500 shrink-0" size={18} />
+                                    <span className="font-bold text-white text-sm">Pose par nos équipes</span>
+                                </div>
+                                {/* Argument 3 (Prix mis en valeur) */}
+                                <div className="flex items-center gap-3 bg-gradient-to-r from-green-900/30 to-slate-800 border border-green-500/30 p-2.5 rounded-lg">
+                                    <BadgeEuro className="text-green-400 shrink-0" size={18} />
+                                    <span className="font-bold text-white text-sm">Prix Fabricant</span>
+                                </div>
                             </div>
+
+                            {/* 3. FOOTER : ADRESSE DISCRÈTE */}
+                            <a
+                                href="https://maps.google.com/?q=Sarange+Combs-la-Ville"
+                                target="_blank"
+                                rel="noreferrer"
+                                className="flex items-center gap-2 justify-center text-xs text-slate-400 hover:text-white transition-colors cursor-pointer"
+                            >
+                                <MapPin size={14} />
+                                <span>28 Rue Jean Rostand, Combs-la-Ville (77)</span>
+                                <ArrowRight size={12} />
+                            </a>
+
                         </div>
                     </motion.div>
 
