@@ -66,14 +66,66 @@ const LocalLandingSenart = ({ cityData }) => {
             { "@type": "City", name: "Tigery" }
         ],
 
-        // Ce que vous vendez (Pour Google Shopping/Images)
+        // Services catalogue (Structure complète pour éviter erreurs GSC)
         hasOfferCatalog: {
             "@type": "OfferCatalog",
-            name: "Menuiseries Extérieures",
+            name: "Menuiseries PVC et Aluminium",
             itemListElement: [
-                { "@type": "Offer", itemOffered: { "@type": "Product", name: "Fenêtre PVC Sur-mesure" } },
-                { "@type": "Offer", itemOffered: { "@type": "Product", name: "Véranda Aluminium" } },
-                { "@type": "Offer", itemOffered: { "@type": "Product", name: "Volet Roulant Solaire" } }
+                {
+                    "@type": "Product",
+                    name: "Fenêtres PVC à Sénart",
+                    description: "Fenêtres PVC double et triple vitrage Schüco CT 70, fabrication française sur mesure",
+                    image: "https://sarange.fr/assets/windows/pvc-fenetre-2vantaux.webp",
+                    brand: { "@type": "Brand", "name": "Schüco" },
+                    offers: {
+                        "@type": "Offer",
+                        price: "173.60",
+                        priceCurrency: "EUR",
+                        availability: "https://schema.org/InStock",
+                        url: "https://sarange.fr/senart"
+                    }
+                },
+                {
+                    "@type": "Product",
+                    name: "Baies vitrées coulissantes à Sénart",
+                    description: "Baies vitrées coulissantes aluminium 2, 3 ou 4 vantaux, double vitrage isolant",
+                    image: "https://sarange.fr/assets/windows/alu-window.webp",
+                    brand: { "@type": "Brand", "name": "Schüco" },
+                    offers: {
+                        "@type": "Offer",
+                        price: "850.00",
+                        priceCurrency: "EUR",
+                        availability: "https://schema.org/InStock",
+                        url: "https://sarange.fr/senart"
+                    }
+                },
+                {
+                    "@type": "Product",
+                    name: "Volets roulants à Sénart",
+                    description: "Volets roulants aluminium isolés, motorisation Somfy filaire ou solaire",
+                    image: "https://sarange.fr/assets/shutters/volet-solaire.webp",
+                    brand: { "@type": "Brand", "name": "Somfy" },
+                    offers: {
+                        "@type": "Offer",
+                        price: "250.00",
+                        priceCurrency: "EUR",
+                        availability: "https://schema.org/InStock",
+                        url: "https://sarange.fr/senart"
+                    }
+                },
+                {
+                    "@type": "Product",
+                    name: "Portes d'entrée à Sénart",
+                    description: "Portes d'entrée PVC/Aluminium sécurisées, serrure multipoints, isolation A+",
+                    image: "https://sarange.fr/assets/doors/porte.webp",
+                    offers: {
+                        "@type": "Offer",
+                        price: "1407.60",
+                        priceCurrency: "EUR",
+                        availability: "https://schema.org/InStock",
+                        url: "https://sarange.fr/senart"
+                    }
+                }
             ]
         }
     }), []);

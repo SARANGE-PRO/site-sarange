@@ -134,8 +134,8 @@ const LocalLandingMelun = ({ cityData }) => {
             itemListElement: [
                 {
                     "@type": "Product",
-                    name: `Fenêtres PVC sur mesure à ${name}`,
-                    description: "Fenêtres PVC double et triple vitrage Schüco CT 70, fabrication française",
+                    name: `Fenêtres PVC à ${name}`,
+                    description: "Fenêtres PVC double et triple vitrage Schüco CT 70, fabrication française sur mesure",
                     image: "https://sarange.fr/assets/windows/pvc-fenetre-2vantaux.webp",
                     brand: { "@type": "Brand", "name": "Schüco" },
                     offers: {
@@ -148,8 +148,8 @@ const LocalLandingMelun = ({ cityData }) => {
                 },
                 {
                     "@type": "Product",
-                    name: `Baies vitrées aluminium à ${name}`,
-                    description: "Baies coulissantes et fixes en aluminium Schüco",
+                    name: `Baies vitrées coulissantes à ${name}`,
+                    description: "Baies vitrées coulissantes aluminium 2, 3 ou 4 vantaux, double vitrage isolant",
                     image: "https://sarange.fr/assets/windows/alu-window.webp",
                     brand: { "@type": "Brand", "name": "Schüco" },
                     offers: {
@@ -162,8 +162,8 @@ const LocalLandingMelun = ({ cityData }) => {
                 },
                 {
                     "@type": "Product",
-                    name: `Volets roulants motorisés à ${name}`,
-                    description: "Volets roulants aluminium isolés, motorisation Somfy",
+                    name: `Volets roulants à ${name}`,
+                    description: "Volets roulants aluminium isolés, motorisation Somfy filaire ou solaire",
                     image: "https://sarange.fr/assets/shutters/volet-solaire.webp",
                     brand: { "@type": "Brand", "name": "Somfy" },
                     offers: {
@@ -176,8 +176,8 @@ const LocalLandingMelun = ({ cityData }) => {
                 },
                 {
                     "@type": "Product",
-                    name: `Portes d'entrée PVC & Alu à ${name}`,
-                    description: "Portes d'entrée sécurisées, serrure multipoints, isolation A+",
+                    name: `Portes d'entrée à ${name}`,
+                    description: "Portes d'entrée PVC/Aluminium sécurisées, serrure multipoints, isolation A+",
                     image: "https://sarange.fr/assets/doors/porte.webp",
                     offers: {
                         "@type": "Offer",
