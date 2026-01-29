@@ -93,7 +93,7 @@ const Hero = ({ onOpenAides, onOpenIntervention }) => {
             alt="Atelier de fabrication SARANGE - Menuiserie sur-mesure Combs-la-Ville"
             className="w-full h-full object-cover object-center opacity-60"
             style={{ transform: 'translate3d(0, 0, 0)', willChange: 'auto' }}
-            fetchPriority="high"
+            fetchpriority="high"
           />
           <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900/90 to-slate-950/50"></div>
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent"></div>
