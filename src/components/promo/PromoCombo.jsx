@@ -19,15 +19,15 @@ export const ProductPromoTrigger = ({ onClick }) => {
                 <div className="bg-orange-100 p-1.5 rounded-full text-orange-600 group-hover:text-white group-hover:bg-orange-500 transition-colors">
                     <Tag size={16} />
                 </div>
-                <div className="flex flex-col items-start leading-none">
+                <div className="flex flex-col items-start leading-none text-left">
                     <span className="text-[10px] text-orange-500 font-bold uppercase tracking-wider mb-0.5">Offre Duo</span>
                     <span className="text-sm font-black text-slate-800 group-hover:text-orange-600 transition-colors">
-                        Pack Fenêtre + Volet
+                        Pack Fenêtre PVC + Volet
                     </span>
                 </div>
             </div>
-            <div className="bg-red-500 text-white text-[11px] font-bold px-2.5 py-1 rounded-full shadow-sm animate-pulse">
-                -20%
+            <div className="bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-sm animate-pulse text-center leading-tight">
+                -20%<br /><span className="text-[8px] font-medium opacity-90">sur fenêtre</span>
             </div>
         </motion.button>
     );
@@ -46,7 +46,7 @@ export const MiniPromoBadge = ({ onClick }) => {
         >
             <Percent size={12} className="fill-current" />
             <span className="text-[10px] font-bold uppercase tracking-wide">
-                -20% Combo
+                -20% Fenêtre PVC
             </span>
             <Info size={10} className="ml-0.5 opacity-80" />
         </motion.button>
@@ -57,6 +57,8 @@ export const MiniPromoBadge = ({ onClick }) => {
 // 3. LA MODALE HARMONISÉE (Utilise Portal pour être au-dessus de tout)
 // ==============================================================================
 export const ComboInfoModal = ({ isOpen, onClose }) => {
+    if (typeof document === 'undefined') return null; // Sécurité SSR
+
     return createPortal(
         <AnimatePresence>
             {isOpen && (
@@ -68,7 +70,7 @@ export const ComboInfoModal = ({ isOpen, onClose }) => {
                         className="bg-white rounded-3xl w-full max-w-xl overflow-hidden flex flex-col shadow-2xl relative"
                         onClick={e => e.stopPropagation()}
                     >
-                        {/* Header Image / Titre - Style Identique PVCProductModal */}
+                        {/* Header Image / Titre */}
                         <div className="bg-slate-900 text-white pt-8 pb-6 px-8 shrink-0 relative overflow-hidden">
                             <button onClick={onClose} className="absolute top-4 right-4 p-2 bg-white/10 hover:bg-white/20 rounded-full transition-colors z-50">
                                 <X size={24} className="text-white" />
@@ -84,7 +86,7 @@ export const ComboInfoModal = ({ isOpen, onClose }) => {
                                 <p className="text-orange-200 text-lg font-medium">Équipez-vous malin</p>
 
                                 <p className="text-slate-300 text-sm mt-4 leading-relaxed max-w-sm">
-                                    Pourquoi payer plein tarif ? En groupant vos fenêtres et vos volets, vous débloquez une remise immédiate.
+                                    Pourquoi payer plein tarif ? En groupant vos fenêtres PVC et vos volets, vous débloquez une remise immédiate.
                                 </p>
                             </div>
 
@@ -102,10 +104,11 @@ export const ComboInfoModal = ({ isOpen, onClose }) => {
                                         <div className="absolute -top-2 -right-2 bg-slate-800 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full">1x</div>
                                         <Columns className="text-slate-500" size={28} />
                                     </div>
-                                    <span className="text-[10px] font-bold text-slate-500 uppercase">Fenêtre</span>
+                                    <span className="text-[10px] font-bold text-slate-700 uppercase">Fenêtre</span>
+                                    <span className="text-[9px] font-bold text-orange-600 bg-orange-100 px-1.5 py-0.5 rounded-full">PVC Blanc</span>
                                 </div>
 
-                                <Plus size={20} className="text-slate-300" />
+                                <Plus size={20} className="text-slate-300 mb-6" />
 
                                 <div className="flex flex-col items-center gap-1">
                                     <div className="bg-white p-3 rounded-xl border border-slate-200 shadow-sm w-16 h-16 flex items-center justify-center relative">
@@ -113,15 +116,17 @@ export const ComboInfoModal = ({ isOpen, onClose }) => {
                                         <Blinds className="text-slate-500" size={28} />
                                     </div>
                                     <span className="text-[10px] font-bold text-slate-500 uppercase">Volet</span>
+                                    <span className="text-[9px] font-medium text-slate-400 px-1.5 py-0.5">&nbsp;</span>
                                 </div>
 
-                                <ArrowRight size={20} className="text-orange-500" />
+                                <ArrowRight size={20} className="text-orange-500 mb-6" />
 
                                 <div className="flex flex-col items-center gap-1">
                                     <div className="bg-gradient-to-br from-orange-500 to-red-600 text-white p-2 rounded-xl shadow-lg w-16 h-16 flex flex-col items-center justify-center border-4 border-white ring-1 ring-slate-100 transform scale-110">
                                         <span className="text-xl font-black">-20%</span>
-                                        <span className="text-[7px] font-bold uppercase opacity-90">Sur Fenêtre</span>
                                     </div>
+                                    <span className="text-[9px] font-bold text-red-600 uppercase mt-1">Sur la fenêtre</span>
+                                    <span className="text-[8px] font-bold text-slate-500">PVC Blanc uniquement</span>
                                 </div>
                             </div>
 
@@ -138,11 +143,11 @@ export const ComboInfoModal = ({ isOpen, onClose }) => {
                                     </li>
                                     <li className="flex items-start gap-2">
                                         <CheckCircle2 size={16} className="text-blue-600 shrink-0 mt-0.5" />
-                                        <span>Valable sur toute la gamme <strong>PVC Blanc</strong>.</span>
+                                        <span>Valable exclusivement sur la gamme <strong>PVC Blanc</strong> (hors couleur/alu).</span>
                                     </li>
                                     <li className="flex items-start gap-2">
                                         <CheckCircle2 size={16} className="text-blue-600 shrink-0 mt-0.5" />
-                                        <span className="opacity-80">Exemple : 3 fenêtres + 2 volets = 2 remises de 20% appliquées.</span>
+                                        <span className="opacity-80">Exemple : 3 fenêtres PVC blanc + 2 volets = 2 remises de 20% appliquées sur les fenêtres.</span>
                                     </li>
                                 </ul>
                             </div>
@@ -196,7 +201,7 @@ export const DiscountBadge = ({ count }) => {
                     Offre Combo Validée {count > 1 ? `(x${count})` : ''}
                 </span>
                 <span className="text-xs font-medium text-slate-600">
-                    La remise de <strong className="text-green-700">-20%</strong> sera appliquée au devis.
+                    La remise de <strong className="text-green-700">-20%</strong> sera appliquée au devis (sur fenêtres PVC Blanc).
                 </span>
             </div>
         </motion.div>

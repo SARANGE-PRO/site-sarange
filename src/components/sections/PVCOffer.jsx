@@ -237,9 +237,7 @@ const PVCOffer = ({ onOpenAides }) => {
                 </div>
 
                 {/* Badge Offre Combo */}
-                {activeTab === 'fenetre' && (
-                  <ProductPromoTrigger onClick={() => setShowComboModal(true)} />
-                )}
+                <ProductPromoTrigger onClick={() => setShowComboModal(true)} />
               </div>
 
               {/* Footer Actions */}

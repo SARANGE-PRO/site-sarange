@@ -194,7 +194,7 @@ const ContactForm = () => {
 
           <AnimatePresence mode="wait">
 
-            {/* --- ÉCRAN DE SUCCÈS --- */}
+            {/* --- ÉCRAN DE SUCCÈS - ADAPTÉ AU MODE --- */}
             {status === 'success' ? (
               <motion.div
                 key="success"
@@ -203,61 +203,122 @@ const ContactForm = () => {
                 exit={{ opacity: 0 }}
                 className="absolute inset-0 z-50 bg-white flex flex-col items-center justify-center p-6 sm:p-12 text-center"
               >
+                {/* Icône et animation selon le mode */}
                 <motion.div
                   initial={{ scale: 0, rotate: -180 }}
                   animate={{ scale: 1, rotate: 0 }}
                   transition={{ type: "spring", stiffness: 200, damping: 15 }}
-                  className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mb-6 shadow-sm"
+                  className={`w-24 h-24 rounded-full flex items-center justify-center mb-6 shadow-xl ${formMode === 'quick'
+                    ? 'bg-gradient-to-br from-orange-400 to-orange-600 text-white shadow-orange-200'
+                    : 'bg-green-100 text-green-600'
+                    }`}
                 >
-                  <CheckCircle2 size={48} className="text-green-600" strokeWidth={3} />
+                  {formMode === 'quick' ? (
+                    <Phone size={40} fill="currentColor" className="text-white" strokeWidth={2} />
+                  ) : (
+                    <CheckCircle2 size={48} className="text-green-600" strokeWidth={3} />
+                  )}
                 </motion.div>
 
-                <h2 className="text-3xl font-black text-slate-900 mb-2">Demande Reçue !</h2>
+                {/* Titre selon le mode */}
+                <h2 className="text-3xl font-black text-slate-900 mb-2">
+                  {formMode === 'quick' ? 'C\'est tout bon !' : 'Demande Reçue !'}
+                </h2>
                 <p className="text-slate-500 max-w-lg text-lg mb-8 leading-relaxed">
-                  Merci <strong>{formData.name}</strong>. Un technicien a bien reçu votre demande.
+                  {formMode === 'quick' ? (
+                    <>
+                      Merci <strong>{formData.name}</strong>, demande transmise.
+                    </>
+                  ) : (
+                    <>
+                      Merci <strong>{formData.name}</strong>. Un technicien a bien reçu votre demande.
+                    </>
+                  )}
                 </p>
 
-                <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100 w-full max-w-md mb-8 relative overflow-hidden">
-                  <div className="absolute left-[29px] top-8 bottom-8 w-0.5 bg-slate-200"></div>
+                {/* Timeline différente selon le mode */}
+                {formMode === 'quick' ? (
+                  // MODE QUICK - Design Premium Card
+                  <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-xl shadow-slate-200/60 w-full max-w-[300px] mx-auto mb-8 relative overflow-hidden group">
+                    {/* Décoration d'arrière-plan */}
+                    <div className="absolute -right-10 -top-10 w-32 h-32 bg-orange-50 rounded-full blur-3xl opacity-60"></div>
+                    <div className="absolute -left-10 -bottom-10 w-32 h-32 bg-slate-50 rounded-full blur-3xl opacity-60"></div>
 
-                  <div className="space-y-6 relative z-10">
-                    <div className="flex items-start text-left">
-                      <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 shrink-0 mr-4 border-2 border-white shadow-sm">
-                        <ClipboardCheck size={16} />
+                    <div className="relative z-10 space-y-4">
+                      {/* Numéro confirmé */}
+                      <div className="bg-slate-50 p-3 rounded-xl border border-slate-100 text-left relative overflow-hidden">
+                        <div className="absolute inset-0 bg-white/50 backdrop-blur-[1px]"></div>
+                        <div className="relative z-10">
+                          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">Rappel sur le numéro</p>
+                          <div className="flex items-center justify-between gap-2">
+                            <span className="text-lg font-black text-slate-800 tracking-tight truncate">{formData.phone}</span>
+                            <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center text-white shadow-lg shadow-green-200 animate-pulse shrink-0">
+                              <CheckCircle2 size={12} strokeWidth={3} />
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                      <div>
-                        <p className="font-bold text-slate-900 text-sm">Dossier enregistré</p>
-                        <p className="text-xs text-slate-500 mt-0.5">
-                          Vos dimensions ont été enregistrées.
+
+                      {/* Statut - Compact */}
+                      <div className="flex items-center gap-2.5 text-left bg-orange-50/50 p-2 rounded-lg border border-orange-100/50">
+                        <div className="relative shrink-0">
+                          <div className="w-2.5 h-2.5 bg-orange-500 rounded-full animate-ping absolute opacity-75"></div>
+                          <div className="w-2.5 h-2.5 bg-orange-500 rounded-full relative"></div>
+                        </div>
+                        <p className="text-xs font-bold text-slate-700 leading-tight">
+                          En attente d'un conseiller...
                         </p>
                       </div>
-                    </div>
 
-                    <div className="flex items-start text-left">
-                      <div className="w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center text-orange-600 shrink-0 mr-4 border-2 border-white shadow-sm">
-                        <Calculator size={16} />
-                      </div>
-                      <div>
-                        <p className="font-bold text-slate-900 text-sm">Étude & Chiffrage</p>
-                        <p className="text-xs text-slate-500 mt-0.5">
-                          Analyse technique en cours.
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="flex items-start text-left">
-                      <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center text-green-600 shrink-0 mr-4 border-2 border-white shadow-sm">
-                        <Mail size={16} />
-                      </div>
-                      <div>
-                        <p className="font-bold text-slate-900 text-sm">Envoi du devis</p>
-                        <p className="text-xs text-slate-500 mt-0.5">
-                          Sous 24 à 48h ouvrées.
-                        </p>
+                      <div className="text-[10px] text-slate-400 pt-3 border-t border-slate-100">
+                        Gardez votre téléphone à portée !
                       </div>
                     </div>
                   </div>
-                </div>
+                ) : (
+                  // MODE CONFIG - Timeline complète
+                  <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100 w-full max-w-md mb-8 relative overflow-hidden">
+                    <div className="absolute left-[29px] top-8 bottom-8 w-0.5 bg-slate-200"></div>
+
+                    <div className="space-y-6 relative z-10">
+                      <div className="flex items-start text-left">
+                        <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center text-green-600 shrink-0 mr-4 border-2 border-white shadow-sm">
+                          <CheckCircle2 size={16} />
+                        </div>
+                        <div>
+                          <p className="font-bold text-slate-900 text-sm">Dossier enregistré</p>
+                          <p className="text-xs text-slate-500 mt-0.5">
+                            Vos dimensions ont été enregistrées.
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start text-left">
+                        <div className="w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center text-orange-600 shrink-0 mr-4 border-2 border-white shadow-sm">
+                          <Calculator size={16} />
+                        </div>
+                        <div>
+                          <p className="font-bold text-slate-900 text-sm">Étude & Chiffrage</p>
+                          <p className="text-xs text-slate-500 mt-0.5">
+                            Analyse technique en cours.
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start text-left">
+                        <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 shrink-0 mr-4 border-2 border-white shadow-sm">
+                          <Mail size={16} />
+                        </div>
+                        <div>
+                          <p className="font-bold text-slate-900 text-sm">Envoi du devis</p>
+                          <p className="text-xs text-slate-500 mt-0.5">
+                            Sous 24 à 48h ouvrées.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
 
                 <button
                   onClick={resetForm}
@@ -280,32 +341,77 @@ const ContactForm = () => {
                 <form onSubmit={handleSubmit} className="p-4 sm:p-6 space-y-4">
                   <input type="text" name="robot_check" style={{ display: 'none' }} tabIndex="-1" autoComplete="off" />
 
-                  {/* 🆕 MODE SWITCHER */}
+                  {/* 🆕 MODE SWITCHER - Mobile Friendly */}
                   <div className="space-y-3">
                     <p className="text-center text-sm text-slate-600 leading-relaxed">
-                      <strong>Deux options :</strong> laissez juste vos coordonnées ou utilisez notre configurateur en ligne pour un devis sous 24h.
+                      <strong>Choisissez votre option :</strong>
                     </p>
 
-                    <div className="flex border-2 border-slate-200 rounded-xl overflow-hidden bg-white shadow-sm">
+                    <div className="flex flex-col gap-3">
+                      {/* Option 1 : Coordonnées simples */}
                       <button
                         type="button"
                         onClick={() => setFormMode('quick')}
-                        className={`flex-1 py-3 sm:py-4 font-bold text-sm sm:text-base transition-all flex items-center justify-center gap-2 ${formMode === 'quick'
-                          ? 'bg-orange-500 text-white shadow-lg'
-                          : 'bg-white text-slate-600 hover:bg-slate-50'
+                        className={`relative w-full p-4 rounded-xl border-2 transition-all duration-200 text-left ${formMode === 'quick'
+                          ? 'border-orange-500 bg-orange-50 shadow-lg ring-2 ring-orange-200'
+                          : 'border-slate-200 bg-white hover:border-slate-300 hover:shadow-md'
                           }`}
                       >
-                        <Phone size={18} /> Juste mes coordonnées
+                        <div className="flex items-start gap-4">
+                          <div className={`flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center ${formMode === 'quick' ? 'bg-orange-500 text-white' : 'bg-slate-100 text-slate-500'}`}>
+                            <Phone size={22} />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className={`font-bold text-base ${formMode === 'quick' ? 'text-orange-600' : 'text-slate-700'}`}>
+                              Juste mes coordonnées
+                            </p>
+                            <p className="text-sm text-slate-500 mt-0.5">
+                              On vous rappelle rapidement
+                            </p>
+                          </div>
+                          {formMode === 'quick' && (
+                            <div className="flex-shrink-0 w-6 h-6 rounded-full bg-orange-500 flex items-center justify-center">
+                              <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                              </svg>
+                            </div>
+                          )}
+                        </div>
                       </button>
+
+                      {/* Option 2 : Configurateur */}
                       <button
                         type="button"
                         onClick={() => setFormMode('config')}
-                        className={`flex-1 py-3 sm:py-4 font-bold text-sm sm:text-base transition-all flex items-center justify-center gap-2 ${formMode === 'config'
-                          ? 'bg-orange-500 text-white shadow-lg'
-                          : 'bg-white text-slate-600 hover:bg-slate-50'
+                        className={`relative w-full p-4 rounded-xl border-2 transition-all duration-200 text-left ${formMode === 'config'
+                          ? 'border-orange-500 bg-orange-100 shadow-xl ring-2 ring-orange-300 scale-[1.02]'
+                          : 'border-orange-100 bg-orange-50/50 hover:bg-orange-50 hover:border-orange-200 hover:shadow-lg hover:scale-[1.01]'
                           }`}
                       >
-                        <Zap size={18} /> Configurateur en ligne - Devis sous 24h
+                        <div className="flex items-start gap-4">
+                          <div className={`flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center ${formMode === 'config' ? 'bg-orange-500 text-white' : 'bg-slate-100 text-slate-500'}`}>
+                            <Zap size={22} />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className={`font-bold text-base ${formMode === 'config' ? 'text-orange-600' : 'text-slate-700'}`}>
+                              Configurateur en ligne
+                            </p>
+                            <p className="text-sm text-slate-500 mt-0.5">
+                              Devis personnalisé sous 24h
+                            </p>
+                          </div>
+                          {formMode === 'config' && (
+                            <div className="flex-shrink-0 w-6 h-6 rounded-full bg-orange-500 flex items-center justify-center">
+                              <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                              </svg>
+                            </div>
+                          )}
+                        </div>
+                        {/* Badge recommandé */}
+                        <span className="absolute -top-2 right-3 px-2 py-0.5 bg-orange-500 text-white text-xs font-bold rounded-full shadow-sm">
+                          Recommandé
+                        </span>
                       </button>
                     </div>
                   </div>
@@ -359,7 +465,7 @@ const ContactForm = () => {
                           onChange={(val) => handleChange('address', val)}
                           onSelect={handleAddressSelect}
                           placeholder="Rechercher votre adresse"
-                          required={true}
+                          required={false}
                         />
                       </div>
 

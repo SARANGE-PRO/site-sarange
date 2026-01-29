@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Plus, Palette, Info, Smartphone, CheckCircle, ArrowRight, AlertCircle } from 'lucide-react';
+import { X, Plus, Palette, Info, Smartphone, CheckCircle, ArrowRight, AlertCircle, Sun, Wifi, Power, Hand } from 'lucide-react';
 import { WindowIcons } from '../../components/icons/WindowIcons';
 import ConfigSection from './ConfigSection';
 import MeasurementGuideModal from './MeasurementGuideModal';
@@ -42,7 +42,6 @@ const ProductConfigurator = ({ isOpen, onClose, productType, onAdd }) => {
     if (!isOpen || !productType) return null;
 
     // --- 3. LOGIQUE COULEURS (PVC vs ALU) ---
-    // 📍 MODIFICATION : Gestion stricte des couleurs selon la demande
     const renderColorSection = () => {
         if (data.subtype === 'Fenêtre de toit (VELUX)' || data.subtype === 'Fenêtre Bois') return null;
 
@@ -53,14 +52,14 @@ const ProductConfigurator = ({ isOpen, onClose, productType, onAdd }) => {
             { label: 'Chêne Doré Ext / Blanc Int', value: 'Bicolore Chêne Doré', hex: 'linear-gradient(135deg, #B45F06 50%, #ffffff 50%)', border: 'border-transparent' },
         ];
 
-        // 📍 NOUVEAU : Couleurs spécifiques ALU demandées
+        // Couleurs spécifiques ALU demandées
         const colorsAluWindows = [
             { label: 'Gris Anthracite (7016)', value: 'Gris 7016', hex: '#374151', border: 'border-transparent' },
             { label: 'Blanc', value: 'Blanc', hex: '#FFFFFF', border: 'border-slate-200' },
-            { label: 'Anodisé', value: 'Anodisé', hex: '#C0C0C0', border: 'border-slate-200' }, // Ajout Anodisé
+            { label: 'Anodisé', value: 'Anodisé', hex: '#C0C0C0', border: 'border-slate-200' },
         ];
 
-        // Couleurs Alu pour Baies/Garage (si différent, sinon on peut unifier)
+        // Couleurs Alu pour Baies/Garage
         const colorsAluStandard = [
             { label: 'Blanc', value: 'Blanc', hex: '#FFFFFF', border: 'border-slate-200' },
             { label: 'Gris Anthracite (7016)', value: 'Gris 7016', hex: '#374151', border: 'border-transparent' },
@@ -86,7 +85,6 @@ const ProductConfigurator = ({ isOpen, onClose, productType, onAdd }) => {
         } else if (data.material === 'Mixte PVC/Alu') {
             activeColors = colorsMixte;
         } else if (productType.id === 'fenetre' && data.material === 'Aluminium') {
-            // 📍 Utilisation de la palette spécifique fenêtre ALU
             activeColors = colorsAluWindows;
         } else if (data.material === 'Aluminium' || productType.id === 'baie' || productType.id === 'garage') {
             activeColors = colorsAluStandard;
@@ -110,7 +108,6 @@ const ProductConfigurator = ({ isOpen, onClose, productType, onAdd }) => {
                             </span>
                         </button>
                     ))}
-                    {/* Bouton Autre RAL toujours présent pour ALU */}
                     <button
                         onClick={() => setData({ ...data, color: 'Autre' })}
                         className={`flex flex-col items-center justify-center p-3 border border-dashed rounded-xl transition-all h-24 ${data.color === 'Autre'
@@ -156,7 +153,6 @@ const ProductConfigurator = ({ isOpen, onClose, productType, onAdd }) => {
 
             return (
                 <>
-                    {/* 📍 NOUVEAU : SÉLECTEUR MATÉRIAU EXPLICITE (PVC vs ALU) */}
                     <ConfigSection title="1️⃣ Matériau">
                         <div className="flex bg-slate-100 p-1 rounded-xl">
                             {['PVC', 'Aluminium'].map((mat) => (
@@ -166,7 +162,6 @@ const ProductConfigurator = ({ isOpen, onClose, productType, onAdd }) => {
                                         setData({
                                             ...data,
                                             material: mat,
-                                            // Reset couleur si on change de matériau pour éviter incohérence
                                             color: mat === 'Aluminium' ? 'Gris 7016' : 'Blanc'
                                         });
                                     }}
@@ -200,7 +195,6 @@ const ProductConfigurator = ({ isOpen, onClose, productType, onAdd }) => {
                         </div>
                     </ConfigSection>
 
-                    {/* Options : Oscillo / Grille */}
                     <div className="mb-8 space-y-3">
                         {(data.type === 'Fenêtre 1 vantail' || data.type === 'Fenêtre 2 vantaux') && (
                             <label className="flex items-center justify-between cursor-pointer bg-white p-4 rounded-xl border border-slate-200 hover:border-slate-300 transition-colors shadow-sm">
@@ -323,51 +317,96 @@ const ProductConfigurator = ({ isOpen, onClose, productType, onAdd }) => {
 
         // --- CAS 4 : VOLET ROULANT ---
         if (productType.id === 'volet') {
+            // Liste des motorisations avec icônes
+            const motors = [
+                { id: 'Moteur Radio', label: 'Radio', sub: 'Télécommande', icon: Wifi },
+                { id: 'Moteur Filaire', label: 'Filaire', sub: 'Interrupteur', icon: Power },
+                { id: 'Moteur Solaire', label: 'Solaire', sub: '100% Autonome', icon: Sun },
+                { id: 'Manuel', label: 'Manuel', sub: 'Manivelle', icon: Hand },
+            ];
+
+            // Récupère la motorisation actuelle depuis les options
+            const currentMotor = data.options.find(o => ['Moteur Solaire', 'Moteur Radio', 'Moteur Filaire', 'Manuel'].includes(o));
+
+            // Liste complète des configurations avec descriptions
+            const allConfigs = [
+                { id: 'RÉNOVATION', label: 'RÉNOVATION', sub: 'Coffre extérieur (pan coupé ou rond)' },
+                { id: 'BLOC-BAIE', label: 'BLOC-BAIE', sub: 'Je change tout (Fenêtre + Volet).' },
+                { id: 'TRADITIONNEL', label: 'TRADITIONNEL', sub: "J'ai déjà un coffre (bois ou mur)." },
+                { id: 'INVISIBLE (ITE)', label: 'INVISIBLE (ITE)', sub: "Pour isolation par l'extérieur." },
+            ];
+
+            // Filtre les configurations : si Solaire, uniquement RÉNOVATION
+            const configs = currentMotor === 'Moteur Solaire'
+                ? allConfigs.filter(c => c.id === 'RÉNOVATION')
+                : allConfigs;
+
             return (
-                <ConfigSection title="2️⃣ Configuration Volet">
-                    <div className="grid grid-cols-1 gap-3 mb-6">
-                        {['Rénovation (Coffre extérieur)', 'Traditionnel (Dans coffre existant)', 'Monobloc (Avec fenêtre)'].map(t => (
-                            <button key={t} onClick={() => setData({ ...data, type: t })}
-                                className={`p-4 text-left text-sm font-bold border rounded-xl transition-all ${data.type === t ? 'bg-slate-900 text-white border-slate-900' : 'bg-white text-slate-600 border-slate-200'
-                                    }`}>
-                                {t}
-                            </button>
-                        ))}
-                    </div>
+                <>
+                    {/* SECTION MOTORISATION (Au-dessus) */}
+                    <ConfigSection title="2️⃣ Motorisation">
+                        <div className="grid grid-cols-2 gap-3">
+                            {motors.map((motor) => {
+                                const isSelected = currentMotor === motor.id;
+                                return (
+                                    <button
+                                        key={motor.id}
+                                        onClick={() => {
+                                            // Enlever les anciennes motorisations
+                                            const newOpts = data.options.filter(o => !['Moteur Solaire', 'Moteur Radio', 'Moteur Filaire', 'Manuel'].includes(o));
+                                            // Ajouter la nouvelle
+                                            setData({ ...data, options: [...newOpts, motor.id] });
+                                        }}
+                                        className={`flex flex-col items-center justify-center p-3 border rounded-xl transition-all h-24 ${isSelected
+                                            ? 'ring-2 ring-orange-500 bg-orange-50/50 border-orange-500 shadow-sm'
+                                            : 'bg-white hover:bg-slate-50 border-slate-200'
+                                            }`}
+                                    >
+                                        <motor.icon className={`w-6 h-6 mb-2 ${isSelected ? 'text-orange-600' : 'text-slate-400'}`} />
+                                        <span className={`text-xs font-bold text-center leading-tight ${isSelected ? 'text-orange-900' : 'text-slate-700'}`}>
+                                            {motor.label}
+                                        </span>
+                                        <span className="text-[10px] text-slate-500 mt-1">{motor.sub}</span>
+                                    </button>
+                                );
+                            })}
+                        </div>
 
-                    <label className="block text-xs font-bold text-slate-500 uppercase mb-2">Motorisation</label>
-                    <div className="relative">
-                        <select
-                            className="w-full p-4 border border-slate-300 rounded-xl bg-white text-slate-900 appearance-none focus:ring-2 focus:ring-orange-500 outline-none"
-                            onChange={e => {
-                                const newOpts = data.options.filter(o => !o.startsWith('Moteur'));
-                                if (e.target.value) setData({ ...data, options: [...newOpts, e.target.value] });
-                            }}
-                        >
-                            <option value="">Choisir une motorisation...</option>
-                            <option value="Moteur Solaire">☀️ Solaire (Sans fil, autonome)</option>
-                            <option value="Moteur Radio">📡 Radio (Télécommande)</option>
-                            <option value="Moteur Filaire">🔌 Filaire (Interrupteur)</option>
-                            <option value="Manuel">✋ Manuel (Sangle/Manivelle)</option>
-                        </select>
-                        <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none text-slate-500">▼</div>
-                    </div>
+                        {/* Option Domotique */}
+                        {(currentMotor === 'Moteur Radio' || currentMotor === 'Moteur Solaire') && (
+                            <label className="flex items-center space-x-3 cursor-pointer bg-blue-50 p-4 rounded-xl border border-blue-100 mt-4">
+                                <input type="checkbox" className="w-5 h-5 rounded text-blue-600 focus:ring-blue-500"
+                                    onChange={e => {
+                                        const newOpts = e.target.checked ? [...data.options, 'Domotique Connectée'] : data.options.filter(o => o !== 'Domotique Connectée');
+                                        setData({ ...data, options: newOpts });
+                                    }}
+                                />
+                                <div className="flex items-center text-blue-800 font-bold text-sm">
+                                    <Smartphone size={18} className="mr-2" />
+                                    Option Domotique (App dédiée)
+                                </div>
+                            </label>
+                        )}
+                    </ConfigSection>
 
-                    {(data.options.includes('Moteur Radio') || data.options.includes('Moteur Solaire')) && (
-                        <label className="flex items-center space-x-3 cursor-pointer bg-blue-50 p-4 rounded-xl border border-blue-100 mt-4">
-                            <input type="checkbox" className="w-5 h-5 rounded text-blue-600 focus:ring-blue-500"
-                                onChange={e => {
-                                    const newOpts = e.target.checked ? [...data.options, 'Domotique Connectée'] : data.options.filter(o => o !== 'Domotique Connectée');
-                                    setData({ ...data, options: newOpts });
-                                }}
-                            />
-                            <div className="flex items-center text-blue-800 font-bold text-sm">
-                                <Smartphone size={18} className="mr-2" />
-                                Option Domotique (App dédiée)
-                            </div>
-                        </label>
-                    )}
-                </ConfigSection>
+                    {/* SECTION CONFIGURATION (En-dessous) */}
+                    <ConfigSection title="3️⃣ Type de Configuration">
+                        <div className="grid grid-cols-1 gap-3">
+                            {configs.map(conf => (
+                                <button key={conf.id} onClick={() => setData({ ...data, type: conf.id })}
+                                    className={`p-4 text-left border rounded-xl transition-all flex flex-col justify-center ${data.type === conf.id
+                                        ? 'bg-slate-900 text-white border-slate-900 shadow-md'
+                                        : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
+                                        }`}>
+                                    <span className="font-bold text-sm mb-0.5">{conf.label}</span>
+                                    <span className={`text-xs ${data.type === conf.id ? 'text-slate-300' : 'text-slate-400'}`}>
+                                        {conf.sub}
+                                    </span>
+                                </button>
+                            ))}
+                        </div>
+                    </ConfigSection>
+                </>
             );
         }
 
