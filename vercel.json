@@ -1,8 +1,16 @@
 {
     "rewrites": [
         {
+            "source": "/melun",
+            "destination": "/melun/index.html"
+        },
+        {
+            "source": "/senart",
+            "destination": "/senart/index.html"
+        },
+        {
             "source": "/(.*)",
-            "destination": "/"
+            "destination": "/index.html"
         }
     ]
 }
