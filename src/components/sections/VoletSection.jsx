@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { Sun, Zap, Check, ChevronRight, Thermometer, ShieldCheck, Palette, Layers, Info, Signal, Power } from 'lucide-react';
 import { IMAGES } from '../../data/constants';
 import CTATrustBadges from '../ui/CTATrustBadges';
@@ -6,30 +6,10 @@ import { MiniPromoBadge, ComboInfoModal } from '../promo/PromoCombo';
 
 const VoletSection = () => {
     const [selectedMotor, setSelectedMotor] = useState('radio');
-    const [isAutoPlaying, setIsAutoPlaying] = useState(true);
-    const [isHovering, setIsHovering] = useState(false);
     const [showComboModal, setShowComboModal] = useState(false);
     const containerRef = useRef(null);
 
-    // Autoplay logic
-    useEffect(() => {
-        if (!isAutoPlaying || isHovering) return;
 
-        const interval = setInterval(() => {
-            setSelectedMotor(current => {
-                if (current === 'radio') return 'solaire';
-                if (current === 'solaire') return 'filaire';
-                return 'radio';
-            });
-        }, 3000);
-
-        return () => clearInterval(interval);
-    }, [isAutoPlaying, isHovering]);
-
-    const handleSelect = (id) => {
-        setIsAutoPlaying(false);
-        setSelectedMotor(id);
-    };
 
     return (
         <section
@@ -59,8 +39,6 @@ const VoletSection = () => {
                 {/* Main Card */}
                 <div
                     className="bg-white rounded-2xl md:rounded-[2rem] shadow-xl overflow-hidden border border-secondary-100 w-full mx-auto max-w-6xl flex flex-col lg:flex-row"
-                    onMouseEnter={() => setIsHovering(true)}
-                    onMouseLeave={() => setIsHovering(false)}
                     ref={containerRef}
                 >
 
@@ -83,46 +61,32 @@ const VoletSection = () => {
 
 
 
-                            {/* Auto indicator (Top Right) */}
-                            {isAutoPlaying && !isHovering && (
-                                <div className="absolute top-4 right-4 flex items-center gap-2 bg-secondary-900/60 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10 shadow-lg z-20">
-                                    <span className="relative flex h-2 w-2">
-                                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-400 opacity-75"></span>
-                                        <span className="relative inline-flex rounded-full h-2 w-2 bg-primary-500"></span>
-                                    </span>
-                                    <span className="text-[10px] font-bold text-white tracking-wide uppercase">Démo</span>
-                                </div>
-                            )}
 
-                            {/* Navigation Arrows (Desktop Only) */}
-                            <div className="hidden lg:flex justify-between absolute inset-0 items-center px-4 pointer-events-none">
-                                <button
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        setIsAutoPlaying(false);
-                                        const motors = ['radio', 'solaire', 'filaire'];
-                                        const currentIndex = motors.indexOf(selectedMotor);
-                                        const prevIndex = currentIndex === 0 ? motors.length - 1 : currentIndex - 1;
-                                        setSelectedMotor(motors[prevIndex]);
-                                    }}
-                                    className="w-10 h-10 bg-white/10 hover:bg-white/90 backdrop-blur rounded-full flex items-center justify-center text-white hover:text-secondary-900 transition-all pointer-events-auto cursor-pointer"
-                                >
-                                    <ChevronRight size={20} className="rotate-180" />
-                                </button>
-                                <button
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        setIsAutoPlaying(false);
-                                        const motors = ['radio', 'solaire', 'filaire'];
-                                        const currentIndex = motors.indexOf(selectedMotor);
-                                        const nextIndex = (currentIndex + 1) % motors.length;
-                                        setSelectedMotor(motors[nextIndex]);
-                                    }}
-                                    className="w-10 h-10 bg-white/10 hover:bg-white/90 backdrop-blur rounded-full flex items-center justify-center text-white hover:text-secondary-900 transition-all pointer-events-auto cursor-pointer"
-                                >
-                                    <ChevronRight size={20} />
-                                </button>
-                            </div>
+                            {/* Navigation Arrows */}
+                            <button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    const motors = ['radio', 'solaire', 'filaire'];
+                                    const currentIndex = motors.indexOf(selectedMotor);
+                                    const prevIndex = currentIndex === 0 ? motors.length - 1 : currentIndex - 1;
+                                    setSelectedMotor(motors[prevIndex]);
+                                }}
+                                className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 bg-white/80 hover:bg-white backdrop-blur rounded-full flex items-center justify-center text-slate-900 transition-all z-30 shadow-lg active:scale-95"
+                            >
+                                <ChevronRight size={20} className="rotate-180" />
+                            </button>
+                            <button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    const motors = ['radio', 'solaire', 'filaire'];
+                                    const currentIndex = motors.indexOf(selectedMotor);
+                                    const nextIndex = (currentIndex + 1) % motors.length;
+                                    setSelectedMotor(motors[nextIndex]);
+                                }}
+                                className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 bg-white/80 hover:bg-white backdrop-blur rounded-full flex items-center justify-center text-slate-900 transition-all z-30 shadow-lg active:scale-95"
+                            >
+                                <ChevronRight size={20} />
+                            </button>
                         </div>
 
                         {/* "Grey Card" / Advantages Bar */}
@@ -172,7 +136,7 @@ const VoletSection = () => {
                                         'Compatible Smartbox & Smartphone'
                                     ]}
                                     isSelected={selectedMotor === 'radio'}
-                                    onSelect={handleSelect}
+                                    onSelect={() => setSelectedMotor('radio')}
                                     colorScheme="orange"
                                 />
 
@@ -190,7 +154,7 @@ const VoletSection = () => {
                                         'Compatible Domotique'
                                     ]}
                                     isSelected={selectedMotor === 'solaire'}
-                                    onSelect={handleSelect}
+                                    onSelect={() => setSelectedMotor('solaire')}
                                     colorScheme="green"
                                 />
 
@@ -208,7 +172,7 @@ const VoletSection = () => {
                                         'Entretien minimal'
                                     ]}
                                     isSelected={selectedMotor === 'filaire'}
-                                    onSelect={handleSelect}
+                                    onSelect={() => setSelectedMotor('filaire')}
                                     colorScheme="blue"
                                 />
                             </div>

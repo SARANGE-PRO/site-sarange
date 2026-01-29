@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import {
   ShieldCheck,
@@ -27,8 +27,6 @@ const PVCOffer = ({ onOpenAides }) => {
   });
   const [showModal, setShowModal] = useState(false);
   const [showComboModal, setShowComboModal] = useState(false);
-  const [isHovering, setIsHovering] = useState(false);
-  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
   // Liste de toutes les images dans l'ordre de défilement
   const WINDOW_IMAGES = [
@@ -96,21 +94,7 @@ const PVCOffer = ({ onOpenAides }) => {
     }
   };
 
-  // Auto-rotation logic
-  useEffect(() => {
-    if (!isAutoPlaying || isHovering) return;
 
-    const interval = setInterval(() => {
-      setCurrentImageIndex(current => {
-        const nextIndex = (current + 1) % WINDOW_IMAGES.length;
-        const newTabKey = WINDOW_IMAGES[nextIndex].tabKey;
-        setConfig(prev => ({ ...prev, ...TABS[newTabKey].defaultConfig }));
-        return nextIndex;
-      });
-    }, 3500);
-
-    return () => clearInterval(interval);
-  }, [isAutoPlaying, isHovering]);
 
   // Récupère l'onglet actif
   const activeTab = WINDOW_IMAGES[currentImageIndex].tabKey;
@@ -155,8 +139,6 @@ const PVCOffer = ({ onOpenAides }) => {
         {/* --- MAIN CARD --- */}
         <div
           className="bg-white rounded-xl md:rounded-3xl shadow-xl overflow-hidden border border-slate-100 flex flex-col lg:flex-row lg:h-[700px] group cursor-pointer"
-          onMouseEnter={() => setIsHovering(true)}
-          onMouseLeave={() => setIsHovering(false)}
         >
 
           {/* ZONE IMAGE (Taille augmentée sur mobile pour bien voir le produit) */}
@@ -185,14 +167,14 @@ const PVCOffer = ({ onOpenAides }) => {
 
             {/* Navigation Arrows */}
             <button
-              onClick={(e) => { e.stopPropagation(); setIsAutoPlaying(false); setCurrentImageIndex(prev => prev === 0 ? WINDOW_IMAGES.length - 1 : prev - 1); }}
-              className="hidden lg:flex absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/20 hover:bg-white/90 backdrop-blur rounded-full items-center justify-center text-white hover:text-slate-900 transition-all z-20"
+              onClick={(e) => { e.stopPropagation(); setCurrentImageIndex(prev => prev === 0 ? WINDOW_IMAGES.length - 1 : prev - 1); }}
+              className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 bg-white/80 hover:bg-white backdrop-blur rounded-full flex items-center justify-center text-slate-900 transition-all z-30 shadow-lg active:scale-95"
             >
               <ChevronRight size={24} className="rotate-180" />
             </button>
             <button
-              onClick={(e) => { e.stopPropagation(); setIsAutoPlaying(false); setCurrentImageIndex(prev => (prev + 1) % WINDOW_IMAGES.length); }}
-              className="hidden lg:flex absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/20 hover:bg-white/90 backdrop-blur rounded-full items-center justify-center text-white hover:text-slate-900 transition-all z-20"
+              onClick={(e) => { e.stopPropagation(); setCurrentImageIndex(prev => (prev + 1) % WINDOW_IMAGES.length); }}
+              className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 bg-white/80 hover:bg-white backdrop-blur rounded-full flex items-center justify-center text-slate-900 transition-all z-30 shadow-lg active:scale-95"
             >
               <ChevronRight size={24} />
             </button>
@@ -214,7 +196,6 @@ const PVCOffer = ({ onOpenAides }) => {
                   <button
                     key={tab.id}
                     onClick={() => {
-                      setIsAutoPlaying(false);
                       const firstImageOfTab = WINDOW_IMAGES.findIndex(img => img.tabKey === tab.id);
                       if (firstImageOfTab !== -1) setCurrentImageIndex(firstImageOfTab);
                       setConfig(prev => ({ ...prev, ...tab.defaultConfig }));
