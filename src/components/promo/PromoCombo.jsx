@@ -1,6 +1,6 @@
 import React from "react";
 import { createPortal } from "react-dom";
-import { Plus, ArrowRight, Info, CheckCircle2, AppWindow, Blinds, X, Percent, Tag, ShieldCheck, Zap } from "lucide-react";
+import { Plus, ArrowRight, Info, CheckCircle2, Columns, Blinds, X, Percent, Tag, ShieldCheck, Zap } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 // ==============================================================================
@@ -100,7 +100,7 @@ export const ComboInfoModal = ({ isOpen, onClose }) => {
                                 <div className="flex flex-col items-center gap-1">
                                     <div className="bg-white p-3 rounded-xl border border-slate-200 shadow-sm w-16 h-16 flex items-center justify-center relative">
                                         <div className="absolute -top-2 -right-2 bg-slate-800 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full">1x</div>
-                                        <AppWindow className="text-slate-500" size={28} />
+                                        <Columns className="text-slate-500" size={28} />
                                     </div>
                                     <span className="text-[10px] font-bold text-slate-500 uppercase">Fenêtre</span>
                                 </div>
