@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import {
   ShieldCheck,
   Thermometer,
@@ -290,7 +291,7 @@ const PVCOffer = ({ onOpenAides }) => {
         </div>
 
         {/* --- MODAL FICHE TECHNIQUE --- */}
-        {showModal && (
+        {showModal && createPortal(
           <div className="fixed inset-0 z-[9998] flex items-center justify-center p-4">
             <div
               className="absolute inset-0 bg-slate-900/60 backdrop-blur-md transition-opacity"
@@ -417,7 +418,8 @@ const PVCOffer = ({ onOpenAides }) => {
               </div>
 
             </div>
-          </div>
+          </div>,
+          document.body
         )}
 
         {/* Modale Offre Combo */}
