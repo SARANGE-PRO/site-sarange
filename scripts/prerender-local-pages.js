@@ -110,17 +110,12 @@ function prerenderLocalPages() {
             );
         }
 
-        // Create directory for the page
-        const pageDir = path.join(distPath, page.slug);
-        if (!fs.existsSync(pageDir)) {
-            fs.mkdirSync(pageDir, { recursive: true });
-        }
-
-        // Write the prerendered HTML
-        const outputPath = path.join(pageDir, 'index.html');
+        // Write the prerendered HTML directly as a file (e.g. dist/melun.html)
+        // This avoids directory trailing slash redirects (308) on Vercel
+        const outputPath = path.join(distPath, `${page.slug}.html`);
         fs.writeFileSync(outputPath, pageHTML, 'utf-8');
 
-        console.log(`   ✅ Created: ${page.slug}/index.html`);
+        console.log(`   ✅ Created: ${page.slug}.html`);
         console.log(`   📝 Title: ${page.title}`);
         console.log(`   🔗 Canonical: ${canonicalURL}\n`);
     });
@@ -128,7 +123,7 @@ function prerenderLocalPages() {
     console.log('✨ Prerendering complete!\n');
     console.log('📁 Generated files:');
     LOCAL_PAGES.forEach(page => {
-        console.log(`   - dist/${page.slug}/index.html`);
+        console.log(`   - dist/${page.slug}.html`);
     });
 }
 
